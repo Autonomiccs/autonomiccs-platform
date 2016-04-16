@@ -100,5 +100,6 @@
 		<module>autonomic-allocation-algorithms</module>
 		<module>autonomic-administration-algorithms</module>
 		<module>autonomic-plugin-common</module>
+		<module>wakeonlan-service</module>
 	</modules>
 </project>
