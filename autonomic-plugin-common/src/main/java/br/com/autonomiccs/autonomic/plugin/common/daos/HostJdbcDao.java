@@ -13,7 +13,7 @@ import com.cloud.hypervisor.Hypervisor;
 import com.cloud.hypervisor.Hypervisor.HypervisorType;
 import com.cloud.resource.ResourceState;
 
-import br.com.autonomiccs.autonomic.plugin.common.enums.HostConsolidationStatus;
+import br.com.autonomiccs.autonomic.plugin.common.enums.HostAdministrationStatus;
 import br.com.autonomiccs.autonomic.plugin.common.enums.StartType;
 
 /**
@@ -27,12 +27,12 @@ public class HostJdbcDao extends JdbcDaoSupport {
     private String sqlGetStatus = "SELECT status FROM host WHERE id=?;";
     private String sqlGetResourceState = "SELECT resource_state FROM host WHERE id=?;";
 
-    public HostConsolidationStatus getConsolidationStatus(long hostId) {
+    public HostAdministrationStatus getConsolidationStatus(long hostId) {
         String hostConsolidationStatusAsAtring = getJdbcTemplate().queryForObject(sqlGetConsolidationStatus, String.class, hostId);
         if (StringUtils.isBlank(hostConsolidationStatusAsAtring)) {
             return null;
         }
-        return HostConsolidationStatus.valueOf(hostConsolidationStatusAsAtring);
+        return HostAdministrationStatus.valueOf(hostConsolidationStatusAsAtring);
     }
 
     /**
@@ -41,7 +41,7 @@ public class HostJdbcDao extends JdbcDaoSupport {
      * @param hostConsolidationStatus
      * @param hostId
      */
-    public void setConsolidationStatus(HostConsolidationStatus hostConsolidationStatus, long hostId) {
+    public void setConsolidationStatus(HostAdministrationStatus hostConsolidationStatus, long hostId) {
         Object[] args = {ObjectUtils.toString(hostConsolidationStatus), hostId};
         getJdbcTemplate().update(sqlSetConsolidationStatus, args);
     }

@@ -1,0 +1,82 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:task="http://www.springframework.org/schema/task"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd 
+	 	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd
+	 	http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.2.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.2.xsd
+		http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.2.xsd ">
+	
+	<context:annotation-config />
+	<context:mbean-export />
+
+	<!-- enable annotation scan for our plugin package -->
+	<context:component-scan base-package="br.com.autonomiccs" />
+
+		<!-- enable task executor -->
+	<task:scheduler id="taskScheduler"/>
+    <task:executor id="taskExecutor" pool-size="1" queue-capacity="1" />
+    <task:annotation-driven executor="taskExecutor" scheduler="taskScheduler"/>
+    
+	<context:property-placeholder properties-ref="db.properties" />
+
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+		<property name="url" value="jdbc:mysql://${db.cloud.host}:${db.cloud.port}/${db.cloud.name}" />
+		<property name="username" value="${db.cloud.username}" />
+		<property name="password" value="${db.cloud.password}" />
+		<property name="maxActive" value="10" />
+		<property name="initialSize" value="1" />
+		<property name="maxIdle" value="5" />
+		<property name="minIdle" value="1" />
+		<property name="testWhileIdle" value="true" />
+		<property name="testOnBorrow" value="true" />
+		<property name="validationQuery" value="select 1" />
+		<property name="timeBetweenEvictionRunsMillis" value="5000" />
+		<property name="minEvictableIdleTimeMillis" value="60000" />
+	</bean>
+	
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	
+	<!-- Enable @transactional -->
+	<tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true"/>
+	
+	<!-- configuração de transação por AOP. Configurar para toda transação por 
+		padrão ser read-only -->
+	<tx:advice id="txAdvice" transaction-manager="transactionManager">
+		<tx:attributes>
+			<tx:method name="*" read-only="true" />
+		</tx:attributes>
+	</tx:advice>
+	<aop:config>
+		<aop:pointcut id="configuracaoTransacao" expression="execution(* br.ufsc.lrg..service..*.*(..))" />
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="configuracaoTransacao" />
+	</aop:config>
+	
+	<!-- Our beans -->
+	<bean id="absctractDao" abstract="true">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+				
+	<bean class="br.com.autonomiccs.autonomic.plugin.common.daos.HostJdbcDao" parent="absctractDao" />
+	<bean class="br.com.autonomiccs.autonomic.plugin.common.daos.ClusterJdbcDao" parent="absctractDao" />
+	<bean class="br.com.autonomiccs.autonomic.plugin.common.daos.configurations.ConfigureDatabaseDao" parent="absctractDao"/>
+	<bean class="br.com.autonomiccs.autonomic.plugin.common.daos.AutonomiccsSystemVmTemplateJdbcDao" parent="absctractDao" />
+	<bean class="br.com.autonomiccs.autonomic.plugin.common.daos.ClusterJdbcDao" parent="absctractDao" />
+    <bean class="br.com.autonomiccs.autonomic.plugin.common.daos.AutonomiccsSystemVmJdbcDao" parent="absctractDao"/>
+    
+	<bean id="autonomiccsSystemVmsTemplateUrlBase" class="java.lang.String">
+		<constructor-arg value="http://autonomiccs.com.br/systemVmsTemplate" />
+	</bean>
+	<bean id="systemVmTemplateVersion" class="java.lang.String">
+		<constructor-arg value="1.0" />
+	</bean>
+	
+</beans>

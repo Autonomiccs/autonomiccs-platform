@@ -6,9 +6,9 @@ import org.springframework.jdbc.core.support.JdbcDaoSupport;
 import br.com.autonomiccs.autonomic.plugin.common.enums.SystemVmType;
 
 /**
- * This class is intended to deal with operations regarding the clever clouds system VMs.
+ * This class is intended to deal with operations regarding the Autonomiccs system VMs.
  */
-public class CleverCloudSystemVmJdbcDao extends JdbcDaoSupport {
+public class AutonomiccsSystemVmJdbcDao extends JdbcDaoSupport {
 
     private String sqlGetStartHostServiceVmIdFromPod = "select id from vm_instance where removed is null and pod_id  = ? and account_id = 1 and instance_name like ? ";
 

@@ -11,15 +11,15 @@ import com.cloud.vm.VMInstanceVO;
 @Entity
 @SuppressWarnings("serial")
 @PrimaryKeyJoinColumn(name = "id")
-@DiscriminatorValue(value = "CleverCloudsVm")
-public class CleverCloudsSystemVm extends VMInstanceVO {
+@DiscriminatorValue(value = "AutonomiccsSystemVm")
+public class AutonomiccsSystemVm extends VMInstanceVO {
 
-    public CleverCloudsSystemVm(long id, long serviceOfferingId, String name, long templateId, HypervisorType hypervisorType, long guestOSId, long dataCenterId, long domainId,
+    public AutonomiccsSystemVm(long id, long serviceOfferingId, String name, long templateId, HypervisorType hypervisorType, long guestOSId, long dataCenterId, long domainId,
             long accountId, long userId, boolean haEnabled) {
         super(id, serviceOfferingId, name, name, Type.Instance, templateId, hypervisorType, guestOSId, domainId, accountId, userId, haEnabled);
     }
 
-    protected CleverCloudsSystemVm() {
+    protected AutonomiccsSystemVm() {
         super();
     }
 

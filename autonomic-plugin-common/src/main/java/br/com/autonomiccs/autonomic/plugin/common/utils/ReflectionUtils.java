@@ -14,7 +14,7 @@ public class ReflectionUtils {
         try {
             declaredField.set(registerTemplateCmd, value);
         } catch (IllegalArgumentException | IllegalAccessException e) {
-            throw new RuntimeException("Could not register Clever Clouds System VM templates.", e);
+            throw new RuntimeException("Could not register Autonomiccs System VM templates.", e);
         }
     }
 

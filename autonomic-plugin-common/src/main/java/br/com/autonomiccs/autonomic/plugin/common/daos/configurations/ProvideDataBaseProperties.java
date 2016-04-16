@@ -8,10 +8,10 @@ import org.springframework.context.annotation.Configuration;
 import com.cloud.utils.db.DbProperties;
 
 /**
- * Configure data base properties.
+ * Provide database.properties files to be accessible to the Autonomiccs plugins application context
  */
 @Configuration
-public class ConfigureDataBaseProperties {
+public class ProvideDataBaseProperties {
 
     @Bean(name = "db.properties")
     public Properties getPropertiesFileFromApacheCloudStack() {

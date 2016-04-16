@@ -5,7 +5,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.cloudstack.api.command.user.template.RegisterTemplateCmd;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -17,20 +18,20 @@ import com.cloud.template.TemplateApiService;
 import com.cloud.user.AccountService;
 
 import br.com.autonomiccs.autonomic.plugin.common.services.AutonomicClusterManagementHeuristicService;
-import br.com.autonomiccs.autonomic.plugin.common.services.CleverCloudSystemVmTemplateService;
+import br.com.autonomiccs.autonomic.plugin.common.services.AutonomiccsVmTemplateService;
 import br.com.autonomiccs.autonomic.plugin.common.services.GuestOsService;
 import br.com.autonomiccs.autonomic.plugin.common.services.HostService;
 import br.com.autonomiccs.autonomic.plugin.common.utils.NotifySmartAcsStartUpUtils;
 import br.com.autonomiccs.autonomic.plugin.common.utils.ReflectionUtils;
 
 /**
-* This class is intended to manage the register of Clever Clouds' SystemVMs templates.
+* This class is intended to manage the register of Autonomiccs' SystemVMs templates.
 * The template (or future updates to it) will be registered at boot time using the normal flow of ACS template register.
 * Additionally, this class will monitor the addition of clusters of new hypervisors and download new templates if needed.
 **/
 @Component
-public class CleverCloudSystemVirtualMachinesTemplateRegister implements InitializingBean {
-    private final Logger logger = Logger.getLogger(getClass());
+public class AutonomiccsSystemVirtualMachinesTemplateRegister implements InitializingBean {
+    private final Logger logger = LoggerFactory.getLogger(getClass());
 
     private static final long ONE_MINUTE_IN_MILLISECONDS = 60000;
     private static final int NUMBER_OF_MINUTES_BETWEEN_REGISTRATION_OF_TEMPLATES = 10;
@@ -45,7 +46,7 @@ public class CleverCloudSystemVirtualMachinesTemplateRegister implements Initial
     private HostService hostService;
 
     @Autowired
-    private CleverCloudSystemVmTemplateService cleverCloudSystemVmTemplateService;
+    private AutonomiccsVmTemplateService autonomiccsSystemVmTemplateService;
 
     @Autowired
     private AutonomicClusterManagementHeuristicService autonomicManagementHeuristicService;
@@ -72,7 +73,7 @@ public class CleverCloudSystemVirtualMachinesTemplateRegister implements Initial
     private String guestOsName = "Debian GNU/Linux 7(64-bit)";
 
     /**
-     * This method constantly checks if there is the need to download a Clever Cloud system template for the current hypervisors of the environment.
+     * This method constantly checks if there is the need to download a Autonomiccs system template for the current hypervisors of the environment.
      * The initial delay is configure for 1 minute after the application startup.
      * The interval between the execution of the {@link #registerTemplatesIfNeeded()}, that time is controlled by {@link #NUMBER_OF_MINUTES_BETWEEN_REGISTRATION_OF_TEMPLATES}
      */
@@ -83,31 +84,31 @@ public class CleverCloudSystemVirtualMachinesTemplateRegister implements Initial
         }
         List<HypervisorType> allHypervisorsTypeInCloud = hostService.getAllHypervisorsTypeInCloud();
         for (HypervisorType hypervisorType : allHypervisorsTypeInCloud) {
-            if (!cleverCloudSystemVmTemplateService.isTemplateRegisteredForHypervisor(hypervisorType)) {
+            if (!autonomiccsSystemVmTemplateService.isTemplateRegisteredForHypervisor(hypervisorType)) {
                 RegisterTemplateCmd templateCommandForHypervisor = createRegisterTemplateCommandForHypervisor(hypervisorType);
                 try {
                     templateService.registerTemplate(templateCommandForHypervisor);
                 } catch (Exception e) {
-                    logger.error("Error while registering a clever cloud system vm. ", e);
+                    logger.error("Error while registering a Autonomiccs system vm. ", e);
                 }
             }
         }
     }
 
     /**
-     * It creates and returns a {@link RegisterTemplateCmd} that aims to register the Clever Clouds SystemVms Template.
+     * It creates and returns a {@link RegisterTemplateCmd} that aims to register the Autonomiccs SystemVms Template.
      * It will always register the template for all available zones, setting the {@link RegisterTemplateCmd#getZoneId()} attribute to {@link #allAvailableZoneMagicNumber}.
      * @return {@link RegisterTemplateCmd}
      */
     private RegisterTemplateCmd createRegisterTemplateCommandForHypervisor(HypervisorType hypervisor) {
         RegisterTemplateCmd registerTemplateCmd = new RegisterTemplateCmd();
-        reflectionUtils.setFieldIntoObject(registerTemplateCmd, "displayText", cleverCloudSystemVmTemplateService.getCleverCloudsSystemVmTemplateDisplayText(hypervisor));
+        reflectionUtils.setFieldIntoObject(registerTemplateCmd, "displayText", autonomiccsSystemVmTemplateService.getAutonomiccsSystemVmTemplateDisplayText(hypervisor));
         reflectionUtils.setFieldIntoObject(registerTemplateCmd, "format", getSupportedImageFormat(hypervisor));
         reflectionUtils.setFieldIntoObject(registerTemplateCmd, "hypervisor", hypervisor.name());
-        reflectionUtils.setFieldIntoObject(registerTemplateCmd, "templateName", cleverCloudSystemVmTemplateService.getCleverCloudSystemVmTemplateName(hypervisor));
+        reflectionUtils.setFieldIntoObject(registerTemplateCmd, "templateName", autonomiccsSystemVmTemplateService.getAutonomiccsSystemVmTemplateName(hypervisor));
         reflectionUtils.setFieldIntoObject(registerTemplateCmd, "osTypeId", guestOsService.getGuestOsUuid(guestOsName));
         reflectionUtils.setFieldIntoObject(registerTemplateCmd, "zoneId", allAvailableZoneMagicNumber);
-        reflectionUtils.setFieldIntoObject(registerTemplateCmd, "url", cleverCloudSystemVmTemplateService.getSystemVmTemplateUrl(hypervisor));
+        reflectionUtils.setFieldIntoObject(registerTemplateCmd, "url", autonomiccsSystemVmTemplateService.getSystemVmTemplateUrl(hypervisor));
         reflectionUtils.setFieldIntoObject(registerTemplateCmd, "accountName", "system");
         reflectionUtils.setFieldIntoObject(registerTemplateCmd, "domainId", systemAccountDomainId);
         reflectionUtils.setFieldIntoObject(registerTemplateCmd, "projectId", null);
@@ -140,7 +141,7 @@ public class CleverCloudSystemVirtualMachinesTemplateRegister implements Initial
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        logger.info("Clever Clouds system VMs templates register initialized.");
+        logger.info("Autonomiccs system VMs templates register initialized.");
         notifySmartAcsStartUpUtils.sendModuleStartUp(getClass());
     }
 }

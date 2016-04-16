@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import com.cloud.vm.NicVO;
 import com.cloud.vm.dao.NicDao;
 
-import br.com.autonomiccs.autonomic.plugin.common.daos.CleverCloudSystemVmJdbcDao;
+import br.com.autonomiccs.autonomic.plugin.common.daos.AutonomiccsSystemVmJdbcDao;
 import br.com.autonomiccs.autonomic.plugin.common.enums.SystemVmType;
 import br.com.autonomiccs.autonomic.plugin.common.utils.HostUtils;
 
@@ -24,7 +24,7 @@ public class StartHostSystemVmService {
     private static final String RESERVER_NAME = "PodBasedNetworkGuru";
 
     @Autowired
-    private CleverCloudSystemVmJdbcDao cleverCloudSystemVmJdbcDao;
+    private AutonomiccsSystemVmJdbcDao autonomiccsSystemVmJdbcDao;
 
     @Autowired
     private NicDao nicDao;
@@ -45,13 +45,13 @@ public class StartHostSystemVmService {
 
     /**
      * Checks if there is a start host system Vm on the given pod.
-     * It uses the {@link CleverCloudSystemVmJdbcDao#getStartHostServiceVmIdFromPod(Long, SystemVmType)} method.
+     * It uses the {@link AutonomiccsSystemVmJdbcDao#getStartHostServiceVmIdFromPod(Long, SystemVmType)} method.
      *
      * @param podId
      * @return the id of the start host service system vm.
      */
     public Long getStartHostServiceVmIdFromPod(Long podId) {
-        return cleverCloudSystemVmJdbcDao.getStartHostServiceVmIdFromPod(podId, SystemVmType.ClusterManagerStartHostService);
+        return autonomiccsSystemVmJdbcDao.getStartHostServiceVmIdFromPod(podId, SystemVmType.ClusterManagerStartHostService);
     }
 
     public boolean isStartHostServiceVmRunningOnPod(Long podId) {

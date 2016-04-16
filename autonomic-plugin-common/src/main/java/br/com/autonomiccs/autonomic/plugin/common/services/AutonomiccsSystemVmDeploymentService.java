@@ -9,7 +9,8 @@ import java.util.Map;
 
 import org.apache.cloudstack.engine.orchestration.service.NetworkOrchestrationService;
 import org.apache.cloudstack.framework.config.dao.ConfigurationDao;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -38,32 +39,32 @@ import com.cloud.utils.exception.CloudRuntimeException;
 import com.cloud.vm.NicProfile;
 import com.cloud.vm.VirtualMachineManager;
 
-import br.com.autonomiccs.autonomic.plugin.common.daos.CleverCloudSystemVmDao;
+import br.com.autonomiccs.autonomic.plugin.common.daos.AutonomiccsSystemVmDao;
 import br.com.autonomiccs.autonomic.plugin.common.enums.SystemVmType;
-import br.com.autonomiccs.autonomic.plugin.common.pojos.CleverCloudsSystemVm;
+import br.com.autonomiccs.autonomic.plugin.common.pojos.AutonomiccsSystemVm;
 import br.com.autonomiccs.autonomic.plugin.common.utils.HostUtils;
 import br.com.autonomiccs.autonomic.plugin.common.utils.SshUtils;
 import br.com.autonomiccs.autonomic.plugin.common.utils.ThreadUtils;
 
 /**
- * This class is used to deploy and manage clever cloud system VMs.
+ * This class is used to deploy and manage Autonomiccs system VMs.
  */
 @Service
-public class CleverCloudSystemVmDeploymentService implements InitializingBean {
+public class AutonomiccsSystemVmDeploymentService implements InitializingBean {
 
-    private final Logger logger = Logger.getLogger(getClass());
+    private final Logger logger = LoggerFactory.getLogger(getClass());
     private final String commandToInstallOpenJDK7 = "aptitude -y install openjdk-7-jdk";
 
-    private ServiceOfferingVO cleverCloudsSystemVmServiceOffering;
+    private ServiceOfferingVO autonomiccsSystemVmServiceOffering;
 
     @Autowired
     private SshUtils sshUtils;
 
     @Autowired
-    private CleverCloudSystemVmTemplateService cleverCloudSystemVmTemplateService;
+    private AutonomiccsVmTemplateService autonomiccsSystemVmTemplateService;
 
     @Autowired
-    private CleverCloudSystemVmDao cleverCloudSystemVmDao;
+    private AutonomiccsSystemVmDao autonomiccsSystemVmDao;
 
     @Autowired
     private HostService hostService;
@@ -93,7 +94,7 @@ public class CleverCloudSystemVmDeploymentService implements InitializingBean {
     private VirtualMachineManager virtualMachineManager;
 
     @Autowired
-    private CleverCloudsServiceOfferingService cleverCloudsServiceOfferingService;
+    private AutonomiccsServiceOfferingService autonomiccsServiceOfferingService;
 
     @Autowired
     private HostUtils hostUtils;
@@ -109,10 +110,10 @@ public class CleverCloudSystemVmDeploymentService implements InitializingBean {
      *            in which the VM is being deployed
      * @param systemVmType
      *            type of vm being deployed
-     * @return {@link CleverCloudsSystemVm} that represents the deployed VM
+     * @return {@link AutonomiccsSystemVm} that represents the deployed VM
      */
-    public CleverCloudsSystemVm deploySystemVmWithJAVA(Long hostId, SystemVmType systemVmType) {
-        CleverCloudsSystemVm vmInstance = deploySystemVm(hostId, systemVmType);
+    public AutonomiccsSystemVm deploySystemVmWithJAVA(Long hostId, SystemVmType systemVmType) {
+        AutonomiccsSystemVm vmInstance = deploySystemVm(hostId, systemVmType);
         String managementIp = vmInstance.getManagementIpAddress();
         sshUtils.executeCommandOnHostViaSsh(managementIp, "aptitude update");
         sshUtils.executeCommandOnHostViaSsh(managementIp, commandToInstallOpenJDK7);
@@ -120,7 +121,7 @@ public class CleverCloudSystemVmDeploymentService implements InitializingBean {
     }
 
     /**
-     * It deployed a clever clouds system VM into the provided host. We will
+     * It deployed an Autonomiccs system VM into the provided host. We will
      * discover the template based on the hypervisor type of the host. The
      * prefix that has to be informed is used to mark the type of agent that is
      * being deployed.
@@ -130,25 +131,25 @@ public class CleverCloudSystemVmDeploymentService implements InitializingBean {
      *            in which the VM is being deployed
      * @param systemVmType
      *            type of vm being deployed
-     * @return {@link CleverCloudsSystemVm} that represents the deployed VM
+     * @return {@link AutonomiccsSystemVm} that represents the deployed VM
      */
-    public CleverCloudsSystemVm deploySystemVm(Long hostId, SystemVmType systemVmType) {
+    public AutonomiccsSystemVm deploySystemVm(Long hostId, SystemVmType systemVmType) {
         HostVO host = hostService.findHostById(hostId);
         if (host == null) {
             throw new RuntimeException(String.format("Could not find a host with the provieded id [%d]", hostId));
         }
-        if (!cleverCloudSystemVmTemplateService.isTemplateRegisteredAndReadyForHypervisor(host.getHypervisorType())) {
-            throw new RuntimeException(String.format("There is no Clever cloud system VM for hypervisor [%s], so we do not deploy a system Vm for it.", host.getHypervisorType()));
+        if (!autonomiccsSystemVmTemplateService.isTemplateRegisteredAndReadyForHypervisor(host.getHypervisorType())) {
+            throw new RuntimeException(String.format("There is no Autonomiccs system VM for hypervisor [%s], so we do not deploy a system Vm for it.", host.getHypervisorType()));
         }
-        VMTemplateVO systemVmTemplate = cleverCloudSystemVmTemplateService.findCleverCloudSystemVmTemplate(host.getHypervisorType());
+        VMTemplateVO systemVmTemplate = autonomiccsSystemVmTemplateService.findAutonomiccsSystemVmTemplate(host.getHypervisorType());
         if (systemVmTemplate == null) {
             throw new RuntimeException(String.format("Could not find a System VM template for the host hypervisors [%s]", host.getHypervisorType()));
         }
 
         Account systemAcct = accountManager.getSystemAccount();
 
-        long id = cleverCloudSystemVmDao.getNextInSequence(Long.class, "id");
-        String name = createCleverCloudSystemVmNameForType(id, systemVmType, getVirtualMachineInstanceSuffix());
+        long id = autonomiccsSystemVmDao.getNextInSequence(Long.class, "id");
+        String name = createAutonomiccsSystemVmNameForType(id, systemVmType, getVirtualMachineInstanceSuffix());
 
         long dataCenterId = host.getDataCenterId();
         DataCenterDeployment plan = new DataCenterDeployment(dataCenterId, host.getPodId(), host.getClusterId(), host.getId(), null, null);
@@ -167,38 +168,38 @@ public class CleverCloudSystemVmDeploymentService implements InitializingBean {
             networks.put(networkManager.setupNetwork(systemAcct, offering, plan, null, null, false).get(0), new ArrayList<NicProfile>());
         }
 
-        CleverCloudsSystemVm cleverCloudsSystemVm = new CleverCloudsSystemVm(id, cleverCloudsSystemVmServiceOffering.getId(), name, systemVmTemplate.getId(),
+        AutonomiccsSystemVm autonomiccsSystemVm = new AutonomiccsSystemVm(id, autonomiccsSystemVmServiceOffering.getId(), name, systemVmTemplate.getId(),
                 systemVmTemplate.getHypervisorType(), systemVmTemplate.getGuestOSId(), dataCenterId, systemAcct.getDomainId(), systemAcct.getId(),
-                accountManager.getSystemUser().getId(), cleverCloudsSystemVmServiceOffering.getOfferHA());
-        cleverCloudsSystemVm.setDynamicallyScalable(systemVmTemplate.isDynamicallyScalable());
-        cleverCloudsSystemVm = cleverCloudSystemVmDao.persist(cleverCloudsSystemVm);
+                accountManager.getSystemUser().getId(), autonomiccsSystemVmServiceOffering.getOfferHA());
+        autonomiccsSystemVm.setDynamicallyScalable(systemVmTemplate.isDynamicallyScalable());
+        autonomiccsSystemVm = autonomiccsSystemVmDao.persist(autonomiccsSystemVm);
 
         try {
-            virtualMachineManager.allocate(name, systemVmTemplate, cleverCloudsSystemVmServiceOffering, networks, plan, null);
+            virtualMachineManager.allocate(name, systemVmTemplate, autonomiccsSystemVmServiceOffering, networks, plan, null);
 
-            cleverCloudsSystemVm = cleverCloudSystemVmDao.findById(id);
-            virtualMachineManager.advanceStart(cleverCloudsSystemVm.getUuid(), null, null);
-            cleverCloudsSystemVm = cleverCloudSystemVmDao.findById(id);
+            autonomiccsSystemVm = autonomiccsSystemVmDao.findById(id);
+            virtualMachineManager.advanceStart(autonomiccsSystemVm.getUuid(), null, null);
+            autonomiccsSystemVm = autonomiccsSystemVmDao.findById(id);
         } catch (ConcurrentOperationException | ResourceUnavailableException | OperationTimedoutException | InsufficientCapacityException e) {
-            throw new RuntimeException("Insufficient capacity exception when deploying a clever cloud system VM.", e);
+            throw new RuntimeException("Insufficient capacity exception when deploying a Autonomiccs system VM.", e);
         }
 
         for (int i = 0; i < 100; i++) {
-            logger.debug(String.format("Checking for the %d time(s) if the system VM [name=%s], [id=%d] is reachable ", i, cleverCloudsSystemVm.getInstanceName(),
-                    cleverCloudsSystemVm.getId()));
-            if (hostUtils.isHostReachable(cleverCloudsSystemVm.getManagementIpAddress())) {
-                logger.info(String.format("We noticed out that the system VM [name=%s], [id=%d] is reachable after %d tries.", cleverCloudsSystemVm.getInstanceName(),
-                        cleverCloudsSystemVm.getId(), i));
+            logger.debug(String.format("Checking for the %d time(s) if the system VM [name=%s], [id=%d] is reachable ", i, autonomiccsSystemVm.getInstanceName(),
+                    autonomiccsSystemVm.getId()));
+            if (hostUtils.isHostReachable(autonomiccsSystemVm.getManagementIpAddress())) {
+                logger.info(String.format("We noticed out that the system VM [name=%s], [id=%d] is reachable after %d tries.", autonomiccsSystemVm.getInstanceName(),
+                        autonomiccsSystemVm.getId(), i));
                 break;
             }
             threadUtils.sleepThread(5);
         }
-        if (!hostUtils.isHostReachable(cleverCloudsSystemVm.getManagementIpAddress())) {
+        if (!hostUtils.isHostReachable(autonomiccsSystemVm.getManagementIpAddress())) {
             throw new RuntimeException(String.format("The system VM [name=%s], [id=%d] is not reachable, maybe a problem has happened while starting it.",
-                    cleverCloudsSystemVm.getInstanceName(),
-                    cleverCloudsSystemVm.getId()));
+                    autonomiccsSystemVm.getInstanceName(),
+                    autonomiccsSystemVm.getId()));
         }
-        return cleverCloudsSystemVm;
+        return autonomiccsSystemVm;
     }
 
     private NetworkVO getDefaultNetwork(long dataCenterId) {
@@ -231,9 +232,9 @@ public class CleverCloudSystemVmDeploymentService implements InitializingBean {
      * @param id
      * @param systemVmType
      * @param instanceSuffix
-     * @return the instance name for clever clouds system VMs
+     * @return the instance name for Autonomiccs system VMs
      */
-    private String createCleverCloudSystemVmNameForType(long id, SystemVmType systemVmType, String instanceSuffix) {
+    private String createAutonomiccsSystemVmNameForType(long id, SystemVmType systemVmType, String instanceSuffix) {
         return String.format("%s-%d-%s", systemVmType.getNamePrefix(), id, instanceSuffix);
     }
 
@@ -254,17 +255,17 @@ public class CleverCloudSystemVmDeploymentService implements InitializingBean {
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        loadCleverCloudSystemVmServiceOffering();
-        if (cleverCloudsSystemVmServiceOffering == null) {
-            throw new RuntimeException("Could not register the clever cloud system VMs service offering.");
+        loadAutonomiccsSystemVmServiceOffering();
+        if (autonomiccsSystemVmServiceOffering == null) {
+            throw new RuntimeException("Could not register the Autonomiccs system VMs service offering.");
         }
     }
 
-    private void loadCleverCloudSystemVmServiceOffering() {
-        cleverCloudsSystemVmServiceOffering = cleverCloudsServiceOfferingService.searchCleverCloudsServiceOffering();
-        if (cleverCloudsSystemVmServiceOffering == null) {
-            cleverCloudsServiceOfferingService.createCleverCloudsServiceOffering();
-            cleverCloudsSystemVmServiceOffering = cleverCloudsServiceOfferingService.searchCleverCloudsServiceOffering();
+    private void loadAutonomiccsSystemVmServiceOffering() {
+        autonomiccsSystemVmServiceOffering = autonomiccsServiceOfferingService.searchAutonomiccsServiceOffering();
+        if (autonomiccsSystemVmServiceOffering == null) {
+            autonomiccsServiceOfferingService.createAutonomiccsServiceOffering();
+            autonomiccsSystemVmServiceOffering = autonomiccsServiceOfferingService.searchAutonomiccsServiceOffering();
         }
     }
 }

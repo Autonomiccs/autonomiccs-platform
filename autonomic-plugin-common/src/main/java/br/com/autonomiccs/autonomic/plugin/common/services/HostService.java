@@ -18,7 +18,7 @@ import com.cloud.vm.VMInstanceVO;
 import com.cloud.vm.dao.VMInstanceDao;
 
 import br.com.autonomiccs.autonomic.plugin.common.daos.HostJdbcDao;
-import br.com.autonomiccs.autonomic.plugin.common.enums.HostConsolidationStatus;
+import br.com.autonomiccs.autonomic.plugin.common.enums.HostAdministrationStatus;
 
 /**
  * Provides operations over the host table.
@@ -67,13 +67,13 @@ public class HostService {
 
     /**
      * Marks the host as shutdown to consolidated (
-     * {@link HostConsolidationStatus#ShutDownToConsolidate}).
+     * {@link HostAdministrationStatus#ShutDownToConsolidate}).
      *
      * @param id
      */
     @Transactional(readOnly = false)
     public void markHostAsShutdownByConsolidationManager(long id) {
-        hostDaoJdbc.setConsolidationStatus(HostConsolidationStatus.ShutDownToConsolidate, id);
+        hostDaoJdbc.setConsolidationStatus(HostAdministrationStatus.ShutDownToConsolidate, id);
     }
 
     /**
@@ -121,8 +121,8 @@ public class HostService {
     }
 
     public boolean isHostDown(long id) {
-        HostConsolidationStatus hostConsolidationStatus = hostDaoJdbc.getConsolidationStatus(id);
-        return hostConsolidationStatus != null && !HostConsolidationStatus.Up.equals(hostConsolidationStatus);
+        HostAdministrationStatus hostConsolidationStatus = hostDaoJdbc.getConsolidationStatus(id);
+        return hostConsolidationStatus != null && !HostAdministrationStatus.Up.equals(hostConsolidationStatus);
     }
 
     public boolean isThereAnyHostOnCloudDeactivatedByOurManager() {

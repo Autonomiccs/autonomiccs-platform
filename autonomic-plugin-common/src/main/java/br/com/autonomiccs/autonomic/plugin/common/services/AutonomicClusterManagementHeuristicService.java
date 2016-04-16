@@ -16,6 +16,8 @@ import br.com.autonomiccs.autonomic.administration.algorithms.impl.ClusterManage
 @Service("autonomicClusterManagementHeuristicService")
 public class AutonomicClusterManagementHeuristicService {
 
+    public final static String CLUSTER_ADMINISTRATION_ALGORITHMS_IN_CONFIGURATION_KEY = "autonomiccs.clustermanager.algorithm";
+
     private final Logger logger = LoggerFactory.getLogger(getClass());
     private final Map<String, Class<? extends ClusterManagerHeuristicAlgorithm>> algorithmsMap = new HashMap<String, Class<? extends ClusterManagerHeuristicAlgorithm>>();
 
@@ -26,7 +28,7 @@ public class AutonomicClusterManagementHeuristicService {
      * TODO
      */
     public ClusterManagerHeuristicAlgorithm getConsolidationAlgorithm() {
-        String algorithmName = configurationDao.getValue("smart.cloudstack.clustermanager.algorithm");
+        String algorithmName = configurationDao.getValue(CLUSTER_ADMINISTRATION_ALGORITHMS_IN_CONFIGURATION_KEY);
         if (StringUtils.isBlank(algorithmName)) {
             return getDummyClusterManagementHeuristc();
         }
@@ -65,6 +67,6 @@ public class AutonomicClusterManagementHeuristicService {
     }
 
     private ClusterManagerHeuristicAlgorithm getDummyClusterManagementHeuristc() {
-        return getInstanceOfClass(ClusterManagementDummyAlgorithm.class.toString());
+        return getInstanceOfClass(ClusterManagementDummyAlgorithm.class);
     }
 }

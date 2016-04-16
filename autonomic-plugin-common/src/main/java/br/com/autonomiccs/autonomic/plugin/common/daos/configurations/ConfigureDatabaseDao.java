@@ -2,6 +2,10 @@ package br.com.autonomiccs.autonomic.plugin.common.daos.configurations;
 
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
 
+import br.com.autonomiccs.autonomic.administration.algorithms.impl.ClusterManagementDummyAlgorithm;
+import br.com.autonomiccs.autonomic.administration.algorithms.impl.VmsDispersionAlgorithmForHomogeneousEnvironment;
+import br.com.autonomiccs.autonomic.plugin.common.services.AutonomicClusterManagementHeuristicService;
+
 /**
  * Configures the CloudStack database, inserting (if needed)
  * 'consolidation_status' and 'start_type' columns into 'host' table; It also
@@ -10,23 +14,27 @@ import org.springframework.jdbc.core.support.JdbcDaoSupport;
  */
 public class ConfigureDatabaseDao extends JdbcDaoSupport {
 
-    private String sqlHasHostConsolidationStatusColumn = "SHOW COLUMNS FROM host LIKE 'consolidation_status';";
-    private String sqlCreateHostConsolidationStatusColumn = "ALTER TABLE host ADD consolidation_status VARCHAR(60) AFTER status;";
+    private String sqlHasHostAdministrationStatusColumn = "SHOW COLUMNS FROM host LIKE 'administration_status';";
+    private String sqlCreateHostAdministrationStatusColumn = "ALTER TABLE host ADD administration_status VARCHAR(60) AFTER status;";
 
     private String sqlHasHostStartTypeColumn = "SHOW COLUMNS FROM host LIKE 'start_type';";
-    private String sqlCreateHostStartTypeColumn = "ALTER TABLE host ADD start_type VARCHAR(20) NOT NULL DEFAULT 'WakeOnLan' AFTER consolidation_status;";
+    private String sqlCreateHostStartTypeColumn = "ALTER TABLE host ADD start_type VARCHAR(20) NOT NULL DEFAULT 'WakeOnLan' AFTER administration_status;";
 
-    private String sqlHasClusterConsolidationStatusColumn = "SHOW COLUMNS FROM cluster LIKE 'consolidation_status';";
-    private String sqlCreateClusterConsolidationStatusColumn = "ALTER TABLE cluster ADD consolidation_status VARCHAR(60);";
+    private String sqlHasClusterAdministrationStatusColumn = "SHOW COLUMNS FROM cluster LIKE 'administration_status';";
+    private String sqlCreateClusterAdministrationStatusColumn = "ALTER TABLE cluster ADD administration_status VARCHAR(60);";
 
-    private String sqlHasClusterLastConsolidatedColumn = "SHOW COLUMNS FROM cluster LIKE 'last_consolidated';";
-    private String sqlCreateClusterLastConsolidatedColumn = "ALTER TABLE cluster ADD last_consolidated DATETIME;";
+    private String sqlHasClusterLastAdministrationColumn = "SHOW COLUMNS FROM cluster LIKE 'last_administration';";
+    private String sqlCreateClusterLastAdministrationColumn = "ALTER TABLE cluster ADD last_administration DATETIME;";
 
-    private String sqlHasClusterManagerAlgorithmsInConfiguration = "SELECT * FROM configuration WHERE name='smart.cloudstack.clustermanager.algorithm';";
-    private String sqlInsertIntoConfigurationClusterAlgorithms = "INSERT INTO configuration (category,instance,component,name,value,description,default_value,updated,scope,is_dynamic) VALUES ('Advanced','DEFAULT','autonomicClusterManager','smart.cloudstack.clustermanager.algorithm','br.ufsc.lrg.cloudstack.autonomic.consolidation.algorithm.impl.VmsDispersionAlgorithmForHomogeneousEnvironment','Full qualified heuristic class name to be used to guide the agent during the cluster management process.','br.ufsc.lrg.cloudstack.autonomic.consolidation.algorithm.impl.ClusterManagerDummyAlgorithm',null,null,0);";
+    private String sqlHasClusterAdministrationAlgorithmsInConfiguration = String.format("SELECT * FROM configuration WHERE name='%s';",
+            AutonomicClusterManagementHeuristicService.CLUSTER_ADMINISTRATION_ALGORITHMS_IN_CONFIGURATION_KEY);
+    private String sqlInsertIntoConfigurationClusterAlgorithms = String.format(
+            "INSERT INTO configuration (category,instance,component,name,value,description,default_value,updated,scope,is_dynamic) VALUES ('Advanced','DEFAULT','autonomicClusterManager','%s','%s','Full qualified heuristic class name to be used to guide the agent during the cluster management process.','%s',null,null,0);",
+            AutonomicClusterManagementHeuristicService.CLUSTER_ADMINISTRATION_ALGORITHMS_IN_CONFIGURATION_KEY,
+            VmsDispersionAlgorithmForHomogeneousEnvironment.class.getCanonicalName(), ClusterManagementDummyAlgorithm.class.getCanonicalName());
 
-    private String sqlHasCleverCloudsSystemVmTable = "SHOW TABLES LIKE 'CleverCloudsSystemVm';";
-    private String sqlCreateCleverCloudsSystemVmTable = "CREATE TABLE CleverCloudsSystemVm(id BIGINT(20) UNSIGNED, public_ip_address VARCHAR(40), management_ip_address VARCHAR(40));";
+    private String sqlHasAutonomiccsSystemVmTable = "SHOW TABLES LIKE 'AutonomiccsSystemVm';";
+    private String sqlCreateAutonomiccsSystemVmTable = "CREATE TABLE AutonomiccsSystemVm(id BIGINT(20) UNSIGNED, public_ip_address VARCHAR(40), management_ip_address VARCHAR(40));";
 
     @Override
     protected void initDao() throws Exception {
@@ -46,8 +54,8 @@ public class ConfigureDatabaseDao extends JdbcDaoSupport {
         if (!hasClusterManagerAlgorithmsInConfiguration()) {
             insertClusterManagerAlgorithmsInConfiguration();
         }
-        if (!hasCleverCloudsSystemVmTable()) {
-            createCleverCloudsSystemVmTable();
+        if (!hasAutonomiccsSystemVmTable()) {
+            createAutonomiccsSystemVmTable();
         }
     }
 
@@ -57,14 +65,14 @@ public class ConfigureDatabaseDao extends JdbcDaoSupport {
      * @return
      */
     private boolean hasHostConsolidationStatusColumn() {
-        return (!getJdbcTemplate().queryForList(sqlHasHostConsolidationStatusColumn).isEmpty());
+        return (!getJdbcTemplate().queryForList(sqlHasHostAdministrationStatusColumn).isEmpty());
     }
 
     /**
      * TODO Documentation
      */
     private void createHostConsolidationStatusColumn() {
-        getJdbcTemplate().execute(sqlCreateHostConsolidationStatusColumn);
+        getJdbcTemplate().execute(sqlCreateHostAdministrationStatusColumn);
     }
 
     /**
@@ -89,14 +97,14 @@ public class ConfigureDatabaseDao extends JdbcDaoSupport {
      * @return
      */
     private boolean hasClusterConsolidationStatusColumn() {
-        return !getJdbcTemplate().queryForList(sqlHasClusterConsolidationStatusColumn).isEmpty();
+        return !getJdbcTemplate().queryForList(sqlHasClusterAdministrationStatusColumn).isEmpty();
     }
 
     /**
      * TODO Documentation
      */
     private void createClusterConsolidationStatusColumn() {
-        getJdbcTemplate().execute(sqlCreateClusterConsolidationStatusColumn);
+        getJdbcTemplate().execute(sqlCreateClusterAdministrationStatusColumn);
     }
 
     /**
@@ -105,14 +113,14 @@ public class ConfigureDatabaseDao extends JdbcDaoSupport {
      * @return
      */
     private boolean hasClusterLastConsolidatedColumn() {
-        return !getJdbcTemplate().queryForList(sqlHasClusterLastConsolidatedColumn).isEmpty();
+        return !getJdbcTemplate().queryForList(sqlHasClusterLastAdministrationColumn).isEmpty();
     }
 
     /**
      * TODO Documentation
      */
     private void createClusterLastConsolidatedColumn() {
-        getJdbcTemplate().execute(sqlCreateClusterLastConsolidatedColumn);
+        getJdbcTemplate().execute(sqlCreateClusterLastAdministrationColumn);
     }
 
     /**
@@ -121,7 +129,7 @@ public class ConfigureDatabaseDao extends JdbcDaoSupport {
      * @return
      */
     private boolean hasClusterManagerAlgorithmsInConfiguration() {
-        return !getJdbcTemplate().queryForList(sqlHasClusterManagerAlgorithmsInConfiguration).isEmpty();
+        return !getJdbcTemplate().queryForList(sqlHasClusterAdministrationAlgorithmsInConfiguration).isEmpty();
     }
 
     /**
@@ -135,15 +143,15 @@ public class ConfigureDatabaseDao extends JdbcDaoSupport {
      * TODO
      * @return
      */
-    public boolean hasCleverCloudsSystemVmTable() {
-        return !getJdbcTemplate().queryForList(sqlHasCleverCloudsSystemVmTable).isEmpty();
+    public boolean hasAutonomiccsSystemVmTable() {
+        return !getJdbcTemplate().queryForList(sqlHasAutonomiccsSystemVmTable).isEmpty();
     }
 
     /**
      * TODO
      */
-    private void createCleverCloudsSystemVmTable() {
-        getJdbcTemplate().execute(sqlCreateCleverCloudsSystemVmTable);
+    private void createAutonomiccsSystemVmTable() {
+        getJdbcTemplate().execute(sqlCreateAutonomiccsSystemVmTable);
     }
 
 }

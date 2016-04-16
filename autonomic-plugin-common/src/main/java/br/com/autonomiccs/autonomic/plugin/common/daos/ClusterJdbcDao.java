@@ -4,7 +4,7 @@ import java.util.Date;
 
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
 
-import br.com.autonomiccs.autonomic.plugin.common.enums.ClusterConsolidationStatus;
+import br.com.autonomiccs.autonomic.plugin.common.enums.ClusterAdministrationStatus;
 
 public class ClusterJdbcDao extends JdbcDaoSupport {
 
@@ -20,12 +20,12 @@ public class ClusterJdbcDao extends JdbcDaoSupport {
      * @param clusterId
      * @return
      */
-    public ClusterConsolidationStatus getClusterConsolidationStatus(long clusterId) {
+    public ClusterAdministrationStatus getClusterConsolidationStatus(long clusterId) {
         String statusAsString = getJdbcTemplate().queryForObject(sqlGetClusterConsolidationStatus, String.class, clusterId);
         if (statusAsString == null) {
             return null;
         }
-        return ClusterConsolidationStatus.valueOf(statusAsString);
+        return ClusterAdministrationStatus.valueOf(statusAsString);
     }
 
     /**
@@ -34,7 +34,7 @@ public class ClusterJdbcDao extends JdbcDaoSupport {
      * @param clusterConsolidationStatus
      * @param clusterId
      */
-    public void setClusterConsolidationStatus(ClusterConsolidationStatus clusterConsolidationStatus, long clusterId) {
+    public void setClusterConsolidationStatus(ClusterAdministrationStatus clusterConsolidationStatus, long clusterId) {
         Object[] args = {clusterConsolidationStatus.toString(), clusterId};
         getJdbcTemplate().update(sqlSetClusterConsolidationStatus, args);
     }

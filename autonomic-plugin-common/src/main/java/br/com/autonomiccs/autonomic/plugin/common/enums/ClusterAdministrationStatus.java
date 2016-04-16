@@ -4,9 +4,9 @@ package br.com.autonomiccs.autonomic.plugin.common.enums;
  * A cluster can be in one of two consolidation status: 'Consolidating' or
  * 'Consolidated'
  */
-public enum ClusterConsolidationStatus {
+public enum ClusterAdministrationStatus {
 
-    Consolidated, Consolidating;
+    Done, InProgress;
 
     /**
      * Returns true if the cluster consolidation status is equals to
@@ -15,8 +15,8 @@ public enum ClusterConsolidationStatus {
      * @param consolidationStatus
      * @return
      */
-    public static boolean isConsolidating(ClusterConsolidationStatus consolidationStatus) {
-        return consolidationStatus == Consolidating;
+    public static boolean isConsolidating(ClusterAdministrationStatus consolidationStatus) {
+        return consolidationStatus == InProgress;
     }
 
 }

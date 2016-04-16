@@ -28,11 +28,11 @@ import com.cloud.vm.VirtualMachineGuru;
 import com.cloud.vm.VirtualMachineManager;
 import com.cloud.vm.VirtualMachineProfile;
 
-import br.com.autonomiccs.autonomic.plugin.common.daos.CleverCloudSystemVmDao;
-import br.com.autonomiccs.autonomic.plugin.common.pojos.CleverCloudsSystemVm;
+import br.com.autonomiccs.autonomic.plugin.common.daos.AutonomiccsSystemVmDao;
+import br.com.autonomiccs.autonomic.plugin.common.pojos.AutonomiccsSystemVm;
 
 @Component
-public class ClevercloudsSystemVmsGuru implements VirtualMachineGuru, InitializingBean {
+public class AutonomiccsSystemVmsGuru implements VirtualMachineGuru, InitializingBean {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -40,7 +40,7 @@ public class ClevercloudsSystemVmsGuru implements VirtualMachineGuru, Initializi
     private VirtualMachineManager virtualMachineManager;
 
     @Autowired
-    private CleverCloudSystemVmDao cleverCloudSystemVmDao;
+    private AutonomiccsSystemVmDao autonomiccsSystemVmDao;
 
     @Autowired
     private ConfigurationDao configurationDao;
@@ -50,7 +50,7 @@ public class ClevercloudsSystemVmsGuru implements VirtualMachineGuru, Initializi
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        logger.debug("Clever clouds system VMs guru initialized.");
+        logger.debug("Autonomiccs system VMs guru initialized.");
         virtualMachineManager.registerGuru(VirtualMachine.Type.Instance, this);
     }
 
@@ -64,39 +64,39 @@ public class ClevercloudsSystemVmsGuru implements VirtualMachineGuru, Initializi
 
     @Override
     public boolean finalizeDeployment(Commands cmds, VirtualMachineProfile profile, DeployDestination dest, ReservationContext context) throws ResourceUnavailableException {
-        CleverCloudsSystemVm cleverCloudsSystemVm = cleverCloudSystemVmDao.findById(profile.getId());
+        AutonomiccsSystemVm autonomiccsSystemVm = autonomiccsSystemVmDao.findById(profile.getId());
 
         DataCenter dc = dest.getDataCenter();
         List<NicProfile> nics = profile.getNics();
         for (NicProfile nic : nics) {
             if (nic.getTrafficType() == TrafficType.Management) {
-                cleverCloudsSystemVm.setManagementIpAddress(nic.getIPv4Address());
+                autonomiccsSystemVm.setManagementIpAddress(nic.getIPv4Address());
                 continue;
             }
             if (nic.getTrafficType() == TrafficType.Control) {
-                cleverCloudsSystemVm.setPrivateIpAddress(nic.getIPv4Address());
+                autonomiccsSystemVm.setPrivateIpAddress(nic.getIPv4Address());
                 continue;
             }
             if ((nic.getTrafficType() == TrafficType.Public && dc.getNetworkType() == NetworkType.Advanced)
                     || (nic.getTrafficType() == TrafficType.Guest && (dc.getNetworkType() == NetworkType.Basic || dc.isSecurityGroupEnabled()))) {
-                cleverCloudsSystemVm.setPublicIpAddress(nic.getIPv4Address());
+                autonomiccsSystemVm.setPublicIpAddress(nic.getIPv4Address());
             }
         }
-        cleverCloudSystemVmDao.update(profile.getId(), cleverCloudsSystemVm);
+        autonomiccsSystemVmDao.update(profile.getId(), autonomiccsSystemVm);
         return true;
     }
 
     @Override
     public void finalizeExpunge(VirtualMachine vm) {
-        CleverCloudsSystemVm clevercloudSystemVm = cleverCloudSystemVmDao.findById(vm.getId());
-        if (clevercloudSystemVm == null) {
+        AutonomiccsSystemVm autonomiccsSystemVm = autonomiccsSystemVmDao.findById(vm.getId());
+        if (autonomiccsSystemVm == null) {
             return;
         }
-        clevercloudSystemVm.setPublicIpAddress(null);
-        clevercloudSystemVm.setPrivateMacAddress(null);
-        clevercloudSystemVm.setPrivateIpAddress(null);
-        clevercloudSystemVm.setManagementIpAddress(null);
-        cleverCloudSystemVmDao.update(clevercloudSystemVm.getId(), clevercloudSystemVm);
+        autonomiccsSystemVm.setPublicIpAddress(null);
+        autonomiccsSystemVm.setPrivateMacAddress(null);
+        autonomiccsSystemVm.setPrivateIpAddress(null);
+        autonomiccsSystemVm.setManagementIpAddress(null);
+        autonomiccsSystemVmDao.update(autonomiccsSystemVm.getId(), autonomiccsSystemVm);
     }
 
     /**
@@ -122,8 +122,8 @@ public class ClevercloudsSystemVmsGuru implements VirtualMachineGuru, Initializi
         buf.append(" name=").append(profile.getVirtualMachine().getHostName());
         buf.append(" zone=").append(dest.getDataCenter().getId());
         buf.append(" pod=").append(dest.getPod().getId());
-        buf.append(" guid=cleverCloudSystemVm.").append(profile.getId());
-        buf.append(" cleverCloudSystemVm_vm=").append(profile.getId());
+        buf.append(" guid=autonomiccsSystemVm.").append(profile.getId());
+        buf.append(" autonomiccsSystemVm_vm=").append(profile.getId());
 
         boolean externalDhcp = false;
         String externalDhcpStr = configurationDao.getValue("direct.attach.network.externalIpAllocator.enabled");
