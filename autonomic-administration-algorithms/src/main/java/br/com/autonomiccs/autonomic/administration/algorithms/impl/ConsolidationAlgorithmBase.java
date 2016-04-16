@@ -21,7 +21,7 @@ public class ConsolidationAlgorithmBase extends ClusterManagementDummyAlgorithm 
 
     /**
      * It indicates if the given heuristic is going to shutdown hosts.
-     * This is used to control the deployment of clever clouds system VMs.
+     * This is used to control the deployment of Autonomiccs system VMs.
      */
     protected boolean canHeuristicShutdownHost = true;
 
