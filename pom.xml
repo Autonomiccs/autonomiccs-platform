@@ -12,9 +12,11 @@
 	<url>http://maven.apache.org</url>
 
 	<properties>
-		<cloudstackVersion>4.6.0</cloudstackVersion>
 		<jdkVersion>1.7</jdkVersion>
+		<cloudstackVersion>4.6.0</cloudstackVersion>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		 <dbcp.version>1.4</dbcp.version>
+		<org.springframework.version>3.2.12.RELEASE</org.springframework.version>
 	</properties>
 
 	<dependencies>
@@ -97,5 +99,6 @@
 		<module>autonomic-algorithms-commons</module>
 		<module>autonomic-allocation-algorithms</module>
 		<module>autonomic-administration-algorithms</module>
+		<module>autonomic-plugin-common</module>
 	</modules>
 </project>

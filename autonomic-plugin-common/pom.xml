@@ -1,0 +1,72 @@
+<?xml version="1.0"?>
+<project
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>br.com.autonomiccs</groupId>
+		<artifactId>autonomic-platform</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+	<artifactId>autonomic-plugin-common</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+
+	<name>autonomic-plugin-common</name>
+	<description>This project contains the commons artifacts that can be used by autonomic plugins developed by Autonomiccs.</description>
+
+	<dependencies>
+		<dependency>
+			<groupId>br.com.autonomiccs</groupId>
+			<artifactId>autonomic-administration-algorithms</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<!-- Spring dependencies -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jdbc</artifactId>
+			<version>${org.springframework.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+			<version>${org.springframework.version}</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- DBCP dependency -->
+		<dependency>
+			<groupId>commons-dbcp</groupId>
+			<artifactId>commons-dbcp</artifactId>
+			<version>${dbcp.version}</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- CloudStack dependency -->
+		<dependency>
+			<groupId>org.apache.cloudstack</groupId>
+			<artifactId>cloud-framework-db</artifactId>
+			<version>${cloudstackVersion}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.cloudstack</groupId>
+			<artifactId>cloud-api</artifactId>
+			<version>${cloudstackVersion}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.cloudstack</groupId>
+			<artifactId>cloud-engine-schema</artifactId>
+			<version>${cloudstackVersion}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.cloudstack</groupId>
+			<artifactId>cloud-server</artifactId>
+			<version>${cloudstackVersion}</version>
+			<scope>provided</scope>
+		</dependency>
+
+	</dependencies>
+</project>
