@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<project
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>br.com.autonomiccs</groupId>
+		<artifactId>autonomic-platform</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+	<artifactId>autonomic-administration-algorithms</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+
+	<name>autonomic-administration-algorithms</name>
+	<description>This project contains the administration algorithms interface and a set of basic algorithms that can be used with the Autonomiccs cloud computing management platform. Those algorithms are used to feed our management agents.</description>
+	<dependencies>
+		<dependency>
+			<groupId>br.com.autonomiccs</groupId>
+			<artifactId>autonomic-algorithms-commons</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+
+		<!-- Apache commons math dependency -->
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-math3</artifactId>
+			<version>3.6</version>
+		</dependency>
+	</dependencies>
+</project>

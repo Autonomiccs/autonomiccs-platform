@@ -23,8 +23,25 @@
 			<groupId>commons-collections</groupId>
 			<artifactId>commons-collections</artifactId>
 			<version>3.2.2</version>
+			<scope>provided</scope>
 		</dependency>
-		
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>3.4</version>
+			<scope>provided</scope>
+		</dependency>
+
+
+		<!-- Logging dependencies -->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>1.7.7</version>
+			<scope>provided</scope>
+		</dependency>
+
+
 		<!-- Tests dependencies -->
 		<dependency>
 			<groupId>junit</groupId>
@@ -79,5 +96,6 @@
 	<modules>
 		<module>autonomic-algorithms-commons</module>
 		<module>autonomic-allocation-algorithms</module>
+		<module>autonomic-administration-algorithms</module>
 	</modules>
 </project>
