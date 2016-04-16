@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<project
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>br.com.autonomiccs</groupId>
+		<artifactId>autonomic-platform</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+	<artifactId>autonomic-algorithms-commons</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+
+	<name>autonomic-algorithms-commons</name>
+	<description>This project contains a set of utilities that can be used to create autonomic management algorithms to be used with Autonomiccs cloud computing management platform.</description>
+	<dependencies>
+		<dependency>
+			<groupId>org.apache.cloudstack</groupId>
+			<artifactId>cloud-engine-schema</artifactId>
+			<version>${cloudstackVersion}</version>
+			<scope>provided</scope>
+		</dependency>
+	</dependencies>
+</project>
