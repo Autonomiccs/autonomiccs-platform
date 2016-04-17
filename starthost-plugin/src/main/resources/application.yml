@@ -1,0 +1,5 @@
+server.port: 8080
+
+logging.file: /var/log/StartUp.log
+logging.config: log4j.properties
+

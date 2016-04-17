@@ -1,0 +1,31 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns:aop="http://www.springframework.org/schema/aop"
+xmlns:task="http://www.springframework.org/schema/task"
+xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.2.xsd
+http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.2.xsd">
+
+	<bean id="startHostMethodInterceptorWorkAround" class="br.com.autonomiccs.starthost.plugin.proxies.StartHostMethodInterceptorWorkAroundForProxy" />
+	<bean id="scanDirectAgentToLoadMethodInterceptorWorkAroundForProxy" class="br.com.autonomiccs.starthost.plugin.proxies.ScanDirectAgentToLoadMethodInterceptorWorkAroundForProxy" />
+	
+	<aop:config>
+		<aop:pointcut id="configuracaoStartHostReserverMethodInterceptor" expression="execution(* org.apache.cloudstack.engine.cloud.entity.api.VMEntityManagerImpl.reserveVirtualMachine(..))" />
+		<aop:advisor advice-ref="startHostMethodInterceptorWorkAround" pointcut-ref="configuracaoStartHostReserverMethodInterceptor" />
+	</aop:config>
+	
+	<aop:config>
+		<aop:pointcut id="configuracaoStartHostDeployMethodInterceptor" expression="execution(* org.apache.cloudstack.engine.cloud.entity.api.VMEntityManagerImpl.deployVirtualMachine(..))" />
+		<aop:advisor advice-ref="startHostMethodInterceptorWorkAround" pointcut-ref="configuracaoStartHostDeployMethodInterceptor" />
+	</aop:config>
+	
+	<aop:config>
+		<aop:pointcut id="configuracaoFindAndUpdateDirectAgentToLoad" expression="execution(* com.cloud.host.dao.HostDao.findAndUpdateDirectAgentToLoad(..))" />
+		<aop:advisor advice-ref="scanDirectAgentToLoadMethodInterceptorWorkAroundForProxy" pointcut-ref="configuracaoFindAndUpdateDirectAgentToLoad" />
+	</aop:config>
+	
+	<aop:config>
+		<aop:pointcut id="configuracaoFindAndUpdateApplianceToLoad" expression="execution(* com.cloud.host.dao.HostDao.findAndUpdateApplianceToLoad(..))" />
+		<aop:advisor advice-ref="scanDirectAgentToLoadMethodInterceptorWorkAroundForProxy" pointcut-ref="configuracaoFindAndUpdateApplianceToLoad" />
+	</aop:config>
+</beans>

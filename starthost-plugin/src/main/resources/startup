@@ -1,0 +1,17 @@
+#! /bin/sh
+# /etc/init.d/startup
+
+case "$1" in
+  start)
+    java -jar /root/startupHost.jar
+    ;;
+  stop)
+    ;;
+  *)
+    echo "Usage: /etc/init.d/startup {start|stop}"
+    exit 1
+    ;;
+esac
+
+exit 0
+

@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<project
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>br.com.autonomiccs</groupId>
+		<artifactId>autonomic-platform</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+	<artifactId>starthost-plugin</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+
+	<name>starthost-plugin</name>
+	<description>This project is responsible for intercepting all of the requests to deploy and start virtual machines (VMs) and then ensuring that we have enough resources to those VMs. If there is not enough resource on the environment, it will activated hosts that were deactivated before, to ensure that the VMs can be started.</description>
+
+	<dependencies>
+		<dependency>
+			<groupId>br.com.autonomiccs</groupId>
+			<artifactId>autonomic-plugin-common</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>br.com.autonomiccs</groupId>
+			<artifactId>autonomic-allocation-algorithms</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+
+		<!-- CloudStack dependency -->
+		<dependency>
+			<groupId>org.apache.cloudstack</groupId>
+			<artifactId>cloud-engine-schema</artifactId>
+			<version>${cloudstackVersion}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.cloudstack</groupId>
+			<artifactId>cloud-engine-components-api</artifactId>
+			<version>${cloudstackVersion}</version>
+			<scope>provided</scope>
+		</dependency>
+	</dependencies>
+</project>
