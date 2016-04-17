@@ -21,29 +21,29 @@ import br.com.autonomiccs.autonomic.plugin.common.enums.StartType;
  */
 public class HostJdbcDao extends JdbcDaoSupport {
 
-    private String sqlGetConsolidationStatus = "SELECT consolidation_status FROM host WHERE id=?;";
-    private String sqlSetConsolidationStatus = "UPDATE host SET consolidation_status=? WHERE id=?;";
+    private String sqlGetAdministrationStatus = "SELECT administration_status FROM host WHERE id=?;";
+    private String sqlSetAdministrationStatus = "UPDATE host SET administration_status=? WHERE id=?;";
     private String sqlGetStartType = "SELECT start_type FROM host WHERE id=?;";
     private String sqlGetStatus = "SELECT status FROM host WHERE id=?;";
     private String sqlGetResourceState = "SELECT resource_state FROM host WHERE id=?;";
 
-    public HostAdministrationStatus getConsolidationStatus(long hostId) {
-        String hostConsolidationStatusAsAtring = getJdbcTemplate().queryForObject(sqlGetConsolidationStatus, String.class, hostId);
-        if (StringUtils.isBlank(hostConsolidationStatusAsAtring)) {
+    public HostAdministrationStatus getAdministrationStatus(long hostId) {
+        String hostAdministrationStatusAsAtring = getJdbcTemplate().queryForObject(sqlGetAdministrationStatus, String.class, hostId);
+        if (StringUtils.isBlank(hostAdministrationStatusAsAtring)) {
             return null;
         }
-        return HostAdministrationStatus.valueOf(hostConsolidationStatusAsAtring);
+        return HostAdministrationStatus.valueOf(hostAdministrationStatusAsAtring);
     }
 
     /**
-     * Updates the 'consolidation_status' column from the 'host' table.
+     * Updates the 'administration_status' column from the 'host' table.
      *
      * @param hostConsolidationStatus
      * @param hostId
      */
-    public void setConsolidationStatus(HostAdministrationStatus hostConsolidationStatus, long hostId) {
+    public void setAdministrationStatus(HostAdministrationStatus hostConsolidationStatus, long hostId) {
         Object[] args = {ObjectUtils.toString(hostConsolidationStatus), hostId};
-        getJdbcTemplate().update(sqlSetConsolidationStatus, args);
+        getJdbcTemplate().update(sqlSetAdministrationStatus, args);
     }
 
     /**
@@ -77,6 +77,7 @@ public class HostJdbcDao extends JdbcDaoSupport {
     }
 
     private String sqlSetAllHypervisorsTypeInCloud = "select hypervisor_type from host where removed is null and hypervisor_type is not null group by hypervisor_type";
+
     /**
      * It loads all of the hypervisors types in use in the whole cloud environment
      * @return List<HypervisorType>

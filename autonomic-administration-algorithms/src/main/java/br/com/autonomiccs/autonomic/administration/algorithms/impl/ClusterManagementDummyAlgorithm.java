@@ -8,12 +8,12 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import br.com.autonomiccs.autonomic.administration.algorithms.ClusterManagerHeuristicAlgorithm;
+import br.com.autonomiccs.autonomic.administration.algorithms.ClusterAdministrationHeuristicAlgorithm;
 import br.com.autonomiccs.autonomic.algorithms.commons.resources.CloudResources;
 import br.com.autonomiccs.autonomic.algorithms.commons.resources.HostResources;
 import br.com.autonomiccs.autonomic.algorithms.commons.resources.VmResources;
 
-public class ClusterManagementDummyAlgorithm implements ClusterManagerHeuristicAlgorithm {
+public class ClusterManagementDummyAlgorithm implements ClusterAdministrationHeuristicAlgorithm {
 
     protected final Logger logger = LoggerFactory.getLogger(getClass());
 

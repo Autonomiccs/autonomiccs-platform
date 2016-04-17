@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.com.autonomiccs.autonomic.administration.algorithms.ClusterManagerHeuristicAlgorithm;
+import br.com.autonomiccs.autonomic.administration.algorithms.ClusterAdministrationHeuristicAlgorithm;
 import br.com.autonomiccs.autonomic.administration.algorithms.impl.ClusterManagementDummyAlgorithm;
 
 @Service("autonomicClusterManagementHeuristicService")
@@ -19,7 +19,7 @@ public class AutonomicClusterManagementHeuristicService {
     public final static String CLUSTER_ADMINISTRATION_ALGORITHMS_IN_CONFIGURATION_KEY = "autonomiccs.clustermanager.algorithm";
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
-    private final Map<String, Class<? extends ClusterManagerHeuristicAlgorithm>> algorithmsMap = new HashMap<String, Class<? extends ClusterManagerHeuristicAlgorithm>>();
+    private final Map<String, Class<? extends ClusterAdministrationHeuristicAlgorithm>> algorithmsMap = new HashMap<String, Class<? extends ClusterAdministrationHeuristicAlgorithm>>();
 
     @Autowired
     private ConfigurationDao configurationDao;
@@ -27,7 +27,7 @@ public class AutonomicClusterManagementHeuristicService {
     /**
      * TODO
      */
-    public ClusterManagerHeuristicAlgorithm getConsolidationAlgorithm() {
+    public ClusterAdministrationHeuristicAlgorithm getAdministrationAlgorithm() {
         String algorithmName = configurationDao.getValue(CLUSTER_ADMINISTRATION_ALGORITHMS_IN_CONFIGURATION_KEY);
         if (StringUtils.isBlank(algorithmName)) {
             return getDummyClusterManagementHeuristc();
@@ -35,13 +35,13 @@ public class AutonomicClusterManagementHeuristicService {
         return getInstanceOfClass(algorithmName);
     }
 
-    private ClusterManagerHeuristicAlgorithm getInstanceOfClass(String algorithmName) {
-        Class<? extends ClusterManagerHeuristicAlgorithm> clusterManagerHeuristicAlgorithmClass = algorithmsMap.get(algorithmName);
+    private ClusterAdministrationHeuristicAlgorithm getInstanceOfClass(String algorithmName) {
+        Class<? extends ClusterAdministrationHeuristicAlgorithm> clusterManagerHeuristicAlgorithmClass = algorithmsMap.get(algorithmName);
         if (clusterManagerHeuristicAlgorithmClass != null) {
             return getInstanceOfClass(clusterManagerHeuristicAlgorithmClass);
         }
         try {
-            Class<? extends ClusterManagerHeuristicAlgorithm> algorithmClass = loadAlgorithmClass(algorithmName);
+            Class<? extends ClusterAdministrationHeuristicAlgorithm> algorithmClass = loadAlgorithmClass(algorithmName);
             return getInstanceOfClass(algorithmClass);
         } catch (Exception e) {
             logger.warn(String.format("Could not load heuristics from algorithm [algorithm class name=%s], using the Dummy management algorithm", algorithmName), e);
@@ -50,14 +50,14 @@ public class AutonomicClusterManagementHeuristicService {
     }
 
     @SuppressWarnings("unchecked")
-    private Class<? extends ClusterManagerHeuristicAlgorithm> loadAlgorithmClass(String algorithmName) throws ClassNotFoundException {
+    private Class<? extends ClusterAdministrationHeuristicAlgorithm> loadAlgorithmClass(String algorithmName) throws ClassNotFoundException {
         logger.info(String.format("Loading heuristics from algorithm [algorithm class name=%s]", algorithmName));
-        Class<? extends ClusterManagerHeuristicAlgorithm> algorithmClass = (Class<? extends ClusterManagerHeuristicAlgorithm>)Class.forName(algorithmName.trim());
+        Class<? extends ClusterAdministrationHeuristicAlgorithm> algorithmClass = (Class<? extends ClusterAdministrationHeuristicAlgorithm>)Class.forName(algorithmName.trim());
         algorithmsMap.put(algorithmName, algorithmClass);
         return algorithmClass;
     }
 
-    private ClusterManagerHeuristicAlgorithm getInstanceOfClass(Class<? extends ClusterManagerHeuristicAlgorithm> clusterManagerHeuristicAlgorithmClass) {
+    private ClusterAdministrationHeuristicAlgorithm getInstanceOfClass(Class<? extends ClusterAdministrationHeuristicAlgorithm> clusterManagerHeuristicAlgorithmClass) {
         try {
             return clusterManagerHeuristicAlgorithmClass.newInstance();
         } catch (InstantiationException | IllegalAccessException e) {
@@ -66,7 +66,7 @@ public class AutonomicClusterManagementHeuristicService {
         }
     }
 
-    private ClusterManagerHeuristicAlgorithm getDummyClusterManagementHeuristc() {
+    private ClusterAdministrationHeuristicAlgorithm getDummyClusterManagementHeuristc() {
         return getInstanceOfClass(ClusterManagementDummyAlgorithm.class);
     }
 }

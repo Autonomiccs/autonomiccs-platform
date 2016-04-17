@@ -79,7 +79,7 @@ public class AutonomiccsSystemVirtualMachinesTemplateRegister implements Initial
      */
     @Scheduled(initialDelay = ONE_MINUTE_IN_MILLISECONDS, fixedDelay = ONE_MINUTE_IN_MILLISECONDS * NUMBER_OF_MINUTES_BETWEEN_REGISTRATION_OF_TEMPLATES)
     public void registerTemplatesIfNeeded() {
-        if (!autonomicManagementHeuristicService.getConsolidationAlgorithm().canHeuristicShutdownHosts() && !hostService.isThereAnyHostOnCloudDeactivatedByOurManager()) {
+        if (!autonomicManagementHeuristicService.getAdministrationAlgorithm().canHeuristicShutdownHosts() && !hostService.isThereAnyHostOnCloudDeactivatedByOurManager()) {
             return;
         }
         List<HypervisorType> allHypervisorsTypeInCloud = hostService.getAllHypervisorsTypeInCloud();

@@ -1,0 +1,23 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:int="http://www.springframework.org/schema/integration"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+		http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration-3.0.xsd
+		http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.2.xsd">
+
+		<!-- Spring-integration configurations-->
+		<int:channel id="clusterToBeManaged">
+			<int:queue capacity="100" />
+		</int:channel>
+
+		<task:executor id="executorSpringIntegration" pool-size="1-20" keep-alive="600" queue-capacity="100" />		
+		<int:inbound-channel-adapter ref="administrationAgent" method="searchClusterToBeManaged" channel="clusterToBeManaged"/>
+		<int:poller task-executor="executorSpringIntegration"  default="true" fixed-delay="60000" max-messages-per-poll="5" />
+		<int:service-activator input-channel="clusterToBeManaged" ref="administrationAgent" method="receiveClusterToBeManaged" />
+
+		<!-- Spring scheduler configuration -->
+		<task:executor id="executorScheduler" pool-size="1-2" keep-alive="600" queue-capacity="100" />		
+		<task:scheduler id="taskScheduler"/>
+		<task:annotation-driven executor="executorScheduler" scheduler="taskScheduler"/>		
+</beans>

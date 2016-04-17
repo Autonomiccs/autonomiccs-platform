@@ -14,7 +14,7 @@ import br.com.autonomiccs.autonomic.algorithms.commons.resources.HostResources;
  * done according to the knowledge that the implementation of this class will
  * provide for the environment.
  */
-public interface ClusterManagerHeuristicAlgorithm {
+public interface ClusterAdministrationHeuristicAlgorithm {
 
     /**
      * @return minimum time interval (seconds) between consolidation of a cluster.

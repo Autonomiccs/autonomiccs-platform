@@ -15,7 +15,7 @@
 		<jdkVersion>1.7</jdkVersion>
 		<cloudstackVersion>4.6.0</cloudstackVersion>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		 <dbcp.version>1.4</dbcp.version>
+		<dbcp.version>1.4</dbcp.version>
 		<org.springframework.version>3.2.12.RELEASE</org.springframework.version>
 	</properties>
 
@@ -42,6 +42,23 @@
 			<version>1.7.7</version>
 			<scope>provided</scope>
 		</dependency>
+
+		<!-- Spring dependencies -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+			<version>${org.springframework.version}</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- DBCP dependency -->
+		<dependency>
+			<groupId>commons-dbcp</groupId>
+			<artifactId>commons-dbcp</artifactId>
+			<version>${dbcp.version}</version>
+			<scope>provided</scope>
+		</dependency>
+
 
 
 		<!-- Tests dependencies -->
@@ -101,5 +118,6 @@
 		<module>autonomic-administration-algorithms</module>
 		<module>autonomic-plugin-common</module>
 		<module>wakeonlan-service</module>
+		<module>autonomic-administration-plugin</module>
 	</modules>
 </project>

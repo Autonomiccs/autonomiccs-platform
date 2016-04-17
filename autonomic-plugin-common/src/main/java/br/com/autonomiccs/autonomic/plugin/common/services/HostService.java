@@ -72,8 +72,8 @@ public class HostService {
      * @param id
      */
     @Transactional(readOnly = false)
-    public void markHostAsShutdownByConsolidationManager(long id) {
-        hostDaoJdbc.setConsolidationStatus(HostAdministrationStatus.ShutDownToConsolidate, id);
+    public void markHostAsShutdownByAdministrationAgent(long id) {
+        hostDaoJdbc.setAdministrationStatus(HostAdministrationStatus.ShutDownToConsolidate, id);
     }
 
     /**
@@ -121,7 +121,7 @@ public class HostService {
     }
 
     public boolean isHostDown(long id) {
-        HostAdministrationStatus hostConsolidationStatus = hostDaoJdbc.getConsolidationStatus(id);
+        HostAdministrationStatus hostConsolidationStatus = hostDaoJdbc.getAdministrationStatus(id);
         return hostConsolidationStatus != null && !HostAdministrationStatus.Up.equals(hostConsolidationStatus);
     }
 

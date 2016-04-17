@@ -8,20 +8,20 @@ import br.com.autonomiccs.autonomic.plugin.common.enums.ClusterAdministrationSta
 
 public class ClusterJdbcDao extends JdbcDaoSupport {
 
-    private String sqlGetClusterConsolidationStatus = "SELECT consolidation_status FROM cluster WHERE id=?;";
-    private String sqlSetClusterConsolidationStatus = "UPDATE cluster SET consolidation_status=? WHERE id=?;";
+    private String sqlGetClusterAdministrationStatus = "SELECT administration_status FROM cluster WHERE id=?;";
+    private String sqlSetClusterAdministrationStatus = "UPDATE cluster SET administration_status=? WHERE id=?;";
 
-    private String sqlGetClusterLastConsolidated = "SELECT last_consolidated FROM cluster WHERE id=?;";
-    private String sqlSetClusterLastConsolidated = "UPDATE cluster SET last_consolidated=? WHERE id=?;";
+    private String sqlGetClusterLastAdministration = "SELECT last_administration FROM cluster WHERE id=?;";
+    private String sqlSetClusterLastAdministration = "UPDATE cluster SET last_administration=? WHERE id=?;";
 
     /**
-     * Selects the 'consolidation_status' column from the 'cluster' table.
+     * Selects the 'last_administration' column from the 'cluster' table.
      *
      * @param clusterId
      * @return
      */
-    public ClusterAdministrationStatus getClusterConsolidationStatus(long clusterId) {
-        String statusAsString = getJdbcTemplate().queryForObject(sqlGetClusterConsolidationStatus, String.class, clusterId);
+    public ClusterAdministrationStatus getClusterAdministrationStatus(long clusterId) {
+        String statusAsString = getJdbcTemplate().queryForObject(sqlGetClusterAdministrationStatus, String.class, clusterId);
         if (statusAsString == null) {
             return null;
         }
@@ -29,35 +29,35 @@ public class ClusterJdbcDao extends JdbcDaoSupport {
     }
 
     /**
-     * Updates the 'consolidation_status' column from the 'cluster' table.
+     * Updates the 'last_administration' column from the 'cluster' table.
      *
      * @param clusterConsolidationStatus
      * @param clusterId
      */
-    public void setClusterConsolidationStatus(ClusterAdministrationStatus clusterConsolidationStatus, long clusterId) {
+    public void setClusterAdministrationStatus(ClusterAdministrationStatus clusterConsolidationStatus, long clusterId) {
         Object[] args = {clusterConsolidationStatus.toString(), clusterId};
-        getJdbcTemplate().update(sqlSetClusterConsolidationStatus, args);
+        getJdbcTemplate().update(sqlSetClusterAdministrationStatus, args);
     }
 
     /**
-     * Selects the 'last_consolidated' column from the 'cluster' table.
+     * Selects the 'last_administration' column from the 'cluster' table.
      *
      * @param clusterId
      * @return
      */
-    public Date getClusterLastConsolidated(long clusterId) {
-        return getJdbcTemplate().queryForObject(sqlGetClusterLastConsolidated, Date.class, clusterId);
+    public Date getClusterLastAdminstration(long clusterId) {
+        return getJdbcTemplate().queryForObject(sqlGetClusterLastAdministration, Date.class, clusterId);
     }
 
     /**
-     * Updates the 'last_consolidated' column from the 'cluster' table.
+     * Updates the 'last_administration' column from the 'cluster' table.
      *
      * @param date
      * @param clusterId
      */
-    public void setClusterLastConsolidated(Date date, long clusterId) {
+    public void setClusterLastAdministration(Date date, long clusterId) {
         Object[] args = { date, clusterId };
-        getJdbcTemplate().update(sqlSetClusterLastConsolidated, args);
+        getJdbcTemplate().update(sqlSetClusterLastAdministration, args);
     }
 
 }

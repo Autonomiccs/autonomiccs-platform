@@ -8,50 +8,38 @@
 		<artifactId>autonomic-platform</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
-	<artifactId>autonomic-plugin-common</artifactId>
+	<artifactId>autonomic-administration-plugin</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 
-	<name>autonomic-plugin-common</name>
-	<description>This project contains the commons artifacts that can be used by autonomic plugins developed by Autonomiccs.</description>
-
+	<name>autonomic-administration-plugin</name>
+	<description>This project contains the agents that are responsible for the management phase of the Autonomiccs cloud computing management platform.</description>
 	<dependencies>
 		<dependency>
 			<groupId>br.com.autonomiccs</groupId>
-			<artifactId>autonomic-administration-algorithms</artifactId>
+			<artifactId>autonomic-plugin-common</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
-		<!-- Spring dependencies -->
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-jdbc</artifactId>
-			<version>${org.springframework.version}</version>
 		</dependency>
 
 		<!-- CloudStack dependency -->
-		<dependency>
-			<groupId>org.apache.cloudstack</groupId>
-			<artifactId>cloud-framework-db</artifactId>
-			<version>${cloudstackVersion}</version>
-			<scope>provided</scope>
-		</dependency>
 		<dependency>
 			<groupId>org.apache.cloudstack</groupId>
 			<artifactId>cloud-api</artifactId>
 			<version>${cloudstackVersion}</version>
 			<scope>provided</scope>
 		</dependency>
+		<!-- CloudStack dependency -->
 		<dependency>
 			<groupId>org.apache.cloudstack</groupId>
-			<artifactId>cloud-engine-schema</artifactId>
-			<version>${cloudstackVersion}</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.cloudstack</groupId>
-			<artifactId>cloud-server</artifactId>
+			<artifactId>cloud-engine-components-api</artifactId>
 			<version>${cloudstackVersion}</version>
 			<scope>provided</scope>
 		</dependency>
 
+		<dependency>
+			<artifactId>cloud-plugin-hypervisor-xenserver</artifactId>
+			<groupId>org.apache.cloudstack</groupId>
+			<version>${cloudstackVersion}</version>
+			<scope>provided</scope>
+		</dependency>
 	</dependencies>
 </project>
