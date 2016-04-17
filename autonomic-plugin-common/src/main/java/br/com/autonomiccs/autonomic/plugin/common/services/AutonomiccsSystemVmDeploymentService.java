@@ -61,7 +61,7 @@ public class AutonomiccsSystemVmDeploymentService implements InitializingBean {
     private SshUtils sshUtils;
 
     @Autowired
-    private AutonomiccsVmTemplateService autonomiccsSystemVmTemplateService;
+    private AutonomiccsSystemVmTemplateService autonomiccsSystemVmTemplateService;
 
     @Autowired
     private AutonomiccsSystemVmDao autonomiccsSystemVmDao;

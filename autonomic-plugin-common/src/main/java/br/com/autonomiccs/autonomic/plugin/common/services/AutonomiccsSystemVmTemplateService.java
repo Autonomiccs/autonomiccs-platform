@@ -17,7 +17,7 @@ import br.com.autonomiccs.autonomic.plugin.common.daos.AutonomiccsVmTemplateJdbc
  * This class is responsible to manage the Autonomiccs System VMs templates
  */
 @Service
-public class AutonomiccsVmTemplateService implements InitializingBean {
+public class AutonomiccsSystemVmTemplateService implements InitializingBean {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 

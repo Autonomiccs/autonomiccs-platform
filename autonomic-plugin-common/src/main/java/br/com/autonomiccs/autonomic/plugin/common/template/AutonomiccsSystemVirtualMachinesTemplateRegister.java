@@ -18,7 +18,7 @@ import com.cloud.template.TemplateApiService;
 import com.cloud.user.AccountService;
 
 import br.com.autonomiccs.autonomic.plugin.common.services.AutonomicClusterManagementHeuristicService;
-import br.com.autonomiccs.autonomic.plugin.common.services.AutonomiccsVmTemplateService;
+import br.com.autonomiccs.autonomic.plugin.common.services.AutonomiccsSystemVmTemplateService;
 import br.com.autonomiccs.autonomic.plugin.common.services.GuestOsService;
 import br.com.autonomiccs.autonomic.plugin.common.services.HostService;
 import br.com.autonomiccs.autonomic.plugin.common.utils.NotifySmartAcsStartUpUtils;
@@ -46,7 +46,7 @@ public class AutonomiccsSystemVirtualMachinesTemplateRegister implements Initial
     private HostService hostService;
 
     @Autowired
-    private AutonomiccsVmTemplateService autonomiccsSystemVmTemplateService;
+    private AutonomiccsSystemVmTemplateService autonomiccsSystemVmTemplateService;
 
     @Autowired
     private AutonomicClusterManagementHeuristicService autonomicManagementHeuristicService;
