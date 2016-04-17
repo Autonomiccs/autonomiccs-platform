@@ -1,8 +1,10 @@
 ![Autonomiccs Platform](tools/project-logo/autonomiccs.png)
 
-Autonomiccs platform is open source software that provides the vital components needed to manage a cloud computing environment autonomously.
+Autonomiccs platform is open source software that provides the vital components needed to manage a cloud computing environment autonomously; we act at the infrastructure as a service level by providing a plugin to <a href="https://github.com/apache/cloudstack">Apache CloudStack</a>.
 
-This project is a plugin to Apache CloudStack (https://github.com/apache/cloudstack). Our mission is to take the orchestration of cloud computing infrastructures to the next level. To achieve that, we developed a distributed and autonomic plugin that can monitor the CC environment and take decisions in order to fulfill the goals of the given environment. We do not wish to remove the need for human administrators, but to improve their work. Our mission is to optimize and make CC environments more efficient and stable without needing to rely on human administrators.
+Our mission is to take the orchestration of cloud computing infrastructures to the next level. To achieve that, we developed a distributed and autonomic plugin that can monitor the CC environment and take decisions in order to fulfill the goals of the given environment. We do not wish to remove the need for human administrators, but to improve their work. Our mission is to optimize and make CC environments more efficient and stable without needing to rely on human administrators.
+
+The plugin is stable on CloudStack 4.6 and beyond, and was designed to have a smooth installation and upgrade process. Currently, all algorithms that do not shut down idle hosts are working with every type of hypervisor supported by ACS; however, the consolidation algorithms are available only for XenServer and XCP (it is a question of time and resources to implement for all hypervisors supported by ACS).
 
 ## Motivation
 
@@ -14,28 +16,56 @@ Even so, we still do not see autonomic management solutions being used in curren
 
 In summary, our agents can move workloads around, letting idle servers to power off; those agents also can balance the load in the whole environment and manage the service level agreements between providers and clients. The plugin as designed to be flexible and strive to achieve different goals. TOmanage cloud computing environments 
 
+We had already developed a set of algorithms that strive to achieve some specific goals; e.g. (i) reduce the energy consumption by migrating VMs workloads and powering off idle hosts; (ii) distribute VMs among hosts to balance resources usage.
+
 ### Balancing workload
 
+In this approach, the environment workload will constantly be balanced. It seeks to migrate virtual machines among hosts in order to keep the resource usage of each host close to a given average.
+
+The following figure depicts the autonomic system balancing the workload of a given scenario:
 <p align="center">
-	<img src="https://github.com/Autonomiccs/autonomiccs-platform/blob/master/figures/balancing.jpg" width="250">
+	<img src="tools/figures/balancing.jpg" width="280">
 </p>
 
 ### Powering off idle hosts
 
+This solution strives to power off as many hosts as possible. The goal of this approach is to reduce the energetic costs by powering off idle hosts.
+
+One who use this heuristic will cut its energy costs and the maintenance need from unnecessary use of idle resources. Moreover, as the concerns with pollution have grown, governments and consumers are willing to prefer companies that invest in green solutions, in favor of companies that do not.
+
+The following figure depicts the autonomic system consolidating a given scenario:
 <p align="center">
-	<img src="https://github.com/Autonomiccs/autonomiccs-platform/blob/master/figures/consolidating.jpg" width="250">
+	<img src="tools/figures/consolidation.jpg" width="280">
 </p>
+
+
+## Project evolution
+
+This project is yet at an early stage, to give an idea of the big picture and development plan that we have there is a list of some of the key improvements:
+
+- user interface to the management plugin;
+- autonomic monitoring platform;
+- user interface to the monitoring platform;
+- analysis and forecasting of virtual machines profile to enhance the virtual machine placement;
+- projection of virtual machines workload, activating hosts before the demand happens;
+- prediction of service degradation that is caused by collocated VMs and migration before the service degradation takes place.
+
+Mainly the result of these improvements would be an autonomic monitoring platform and a component to perform analysis on the monitored data; with that, our algorithm decisions can be refined and use advanced artificial intelligence techniques. Also, the user interface will give the environment administrator a finer understanding of the infrastructure and its workload behavior.
 
 ## Who Autonomiccs is for?
 
 Our main focus is to get CloudStack to the next generation of cloud computing orchestration platforms. One who shares our enthusiasm may benefit from this project.
     
-We foresee the following types of users of this solution:
-- companies that use ACS;
-- companies that provide ACS consulting and support services to other companies;
+We foresee the following types of users of this platform:
+- companies that use Apache CloudStack;
+- companies that provide Apache CloudStack consulting and support services to other companies;
 - Cloud Computing research labs;
 
 The first user of this solution is the Network and Management Laboratory of the Federal University of Santa Catarina (<a href="https://wiki.lrg.ufsc.br/">LRG</a>).
+
+## Getting Started
+
+- Please, follow the installation instructions in the <a href="https://github.com/Autonomiccs/autonomiccs-platform/wiki/Installation">Installation</a> wiki page.
 
 ## Getting source repository
 
@@ -45,9 +75,9 @@ The Github mirror allows users and developers to explore the code; however, cont
 
 ## Getting involved contributing
 
-The Autonomiccs project welcomes anybody interested to work towards the development of Cloud Computing autonomic management.
+The Autonomiccs project welcomes anybody interested in working towards the development of Cloud Computing autonomic management.
 
-You don't need to be a developer to contribute with this project, we are pleased with any contribution. We need people that can help with documentation, promotion, design, evolve research topics etc.
+You don't need to be a developer to contribute to this project, we are pleased with any contribution. We need people that can help with documentation, promotion, design, evolve research topics etc.
 
 Mailing lists:
 - Hold on, we are working on that.
@@ -63,5 +93,3 @@ Licensed to the Autonomiccs, Inc under one or more contributor license agreement
 Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY IND, either express or implied.  See the License for the specific language governing permissions and limitations under the License.
 
 Please see the <a href="https://github.com/Autonomiccs/autonomiccs-platform/blob/master/LICENSE">LICENSE</a> file included in the root directory of the project for more details.
-
-

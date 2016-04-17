@@ -36,7 +36,7 @@ import br.com.autonomiccs.autonomic.plugin.common.utils.ShellCommandUtils;
  * This class have the necessary methods to install the wake on LAN command in the host
  */
 @Component
-public class WakeOnLanInstalation implements InitializingBean {
+public class WakeOnLanInstallation implements InitializingBean {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -52,7 +52,7 @@ public class WakeOnLanInstalation implements InitializingBean {
      * if the wake on LAN is already installed, it does nothing, otherwise it installs the wake on
      * LAN.
      */
-    private void installWakeOnLan() {
+    protected void installWakeOnLan() {
         logger.info("Checking if wakeonlan is installed.");
         File file = new File(wakeOnLanCommand);
         boolean isWakeOnLanInstalled = file.exists();

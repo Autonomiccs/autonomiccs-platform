@@ -39,16 +39,15 @@
 		<!-- Sonar/Jacoco integration. Note that these properties need to be defined 
 			outside the "coverage" profile because we want to be to able to execute mvn 
 			sonar:sonar without passing a profile -->
-
 		<!-- Tells Sonar to use jacoco for coverage results -->
-		<sonar.projectKey>autonomic-platform</sonar.projectKey>
-		<sonar.projectName>Autonomiccs cloud computing management platform</sonar.projectName>
 
-		<sonar.projectVersion>${yearMonth}</sonar.projectVersion>
+		<sonar.projectKey>${project.artifactId}</sonar.projectKey>
+		<sonar.projectName>${project.name}</sonar.projectName>
+
+		<sonar.projectVersion>${project.version}</sonar.projectVersion>
 		<sonar.language>java</sonar.language>
 		<sonar.sourceEncoding>UTF-8</sonar.sourceEncoding>
 		<sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
-
 		<!-- Jacoco version to use -->
 		<jacoco.version>0.7.2.201409121644</jacoco.version>
 		<!-- The Sonar Jacoco Listener for JUnit to extract coverage details per 
