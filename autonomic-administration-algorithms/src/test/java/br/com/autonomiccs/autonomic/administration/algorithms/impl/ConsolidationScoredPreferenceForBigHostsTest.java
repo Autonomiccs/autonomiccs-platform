@@ -20,34 +20,31 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package br.com.autonomiccs.autonomic.administration.algorithms.pojos;
+package br.com.autonomiccs.autonomic.administration.algorithms.impl;
 
-/**
- * Contains the host profile attributes (number of cpus, cpu speed and memory).
- */
-public class HostProfile {
+import java.util.ArrayList;
+import java.util.List;
 
-    private double cpusProfile;
-    private double cpuSpeedProfile;
-    private double memoryProfile;
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.Mockito;
 
-    public double getCpusProfile() {
-        return cpusProfile;
+import br.com.autonomiccs.autonomic.algorithms.commons.resources.HostResources;
+
+public class ConsolidationScoredPreferenceForBigHostsTest {
+
+    private ConsolidationScoredPreferenceForBigHosts spyAlgorithm;
+
+    @Before
+    public void setup() {
+        spyAlgorithm = Mockito.spy(new ConsolidationScoredPreferenceForBigHosts());
     }
-    public void setCpusProfile(double cpusProfile) {
-        this.cpusProfile = cpusProfile;
-    }
-    public double getCpuSpeedProfile() {
-        return cpuSpeedProfile;
-    }
-    public void setCpuSpeedProfile(double cpuSpeedProfile) {
-        this.cpuSpeedProfile = cpuSpeedProfile;
-    }
-    public double getMemoryProfile() {
-        return memoryProfile;
-    }
-    public void setMemoryProfile(double memoryProfile) {
-        this.memoryProfile = memoryProfile;
+
+    @Test
+    public void sortHostsTest() {
+        List<HostResources> hosts = new ArrayList<HostResources>();
+        spyAlgorithm.sortHosts(hosts);
+        Mockito.verify(spyAlgorithm).sortHostsDownwardScore(hosts);
     }
 
 }
