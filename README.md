@@ -1,5 +1,6 @@
-# Autonomiccs platform
-The Autonomiccs platform is open source software that provides the vital components needed to manage a cloud computing environment autonomously.
+![Autonomiccs Platform](tools/project-logo/autonomiccs.png)
+
+Autonomiccs platform is open source software that provides the vital components needed to manage a cloud computing environment autonomously.
 
 This project is a plugin to Apache CloudStack (https://github.com/apache/cloudstack). Our mission is to take the orchestration of cloud computing infrastructures to the next level. To achieve that, we developed a distributed and autonomic plugin that can monitor the CC environment and take decisions in order to fulfill the goals of the given environment. We do not wish to remove the need for human administrators, but to improve their work. Our mission is to optimize and make CC environments more efficient and stable without needing to rely on human administrators.
 
@@ -36,13 +37,13 @@ We foresee the following types of users of this solution:
 
 The first user of this solution is the Network and Management Laboratory of the Federal University of Santa Catarina (<a href="https://wiki.lrg.ufsc.br/">LRG</a>).
 
-## Getting Source Repository
+## Getting source repository
 
 Autonomiccs Platform project uses Git and a mirror is hosted on <a href="https://github.com/Autonomiccs/autonomiccs-platform">GitHub</a>.
 
 The Github mirror allows users and developers to explore the code; however, contributions from the community can be done only via Github pull requests.
 
-## Getting Involved and Contributing
+## Getting involved contributing
 
 The Autonomiccs project welcomes anybody interested to work towards the development of Cloud Computing autonomic management.
 
