@@ -248,7 +248,7 @@ public class ConsolidationScoredPreferenceForSmallHosts extends ConsolidationAlg
     protected double cloudMemoryUsagePercentage(CloudResources cloudResources) {
         double cloudMemory = cloudResources.getMemoryInBytes() / BYTES_TO_MEGA_BYTES;
         double cloudUsedMemory = cloudResources.getUsedMemory() / BYTES_TO_MEGA_BYTES;
-        return (cloudUsedMemory / cloudMemory);
+        return cloudUsedMemory / cloudMemory;
     }
 
     /**
@@ -261,7 +261,7 @@ public class ConsolidationScoredPreferenceForSmallHosts extends ConsolidationAlg
     protected double cloudCpuUsagePercentage(CloudResources cloudResources) {
         double cloudCpu = getCloudCpuCapacity(cloudResources);
         double cloudUsedCpu = cloudResources.getUsedCpu();
-        return (cloudUsedCpu / cloudCpu);
+        return cloudUsedCpu / cloudCpu;
     }
 
 }

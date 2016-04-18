@@ -63,7 +63,7 @@ public class ConsolidationAlgorithmBase extends ClusterManagementDummyAlgorithm 
      */
     @Override
     public Map<Long, HostResources> mapVMsToHost(List<HostResources> rankedHosts) {
-        Map<Long, HostResources> vmsToHost = new HashMap<Long, HostResources>();
+        Map<Long, HostResources> vmsToHost = new HashMap<>();
         for (int i = rankedHosts.size() - 1; i > 0; i--) {
             for (VmResources vmResources : rankedHosts.get(i).getVmsResources()) {
                 for (HostResources hostCandidateToStayRunning : rankedHosts) {

@@ -90,14 +90,14 @@ public class ClusterManagementDummyAlgorithm implements ClusterAdministrationHeu
      * @return
      */
     protected List<HostResources> cloneListOfHosts(List<HostResources> hosts) {
-        List<HostResources> clonedHostList = new ArrayList<HostResources>();
+        List<HostResources> clonedHostList = new ArrayList<>();
         for (HostResources host : hosts) {
             try {
                 HostResources clonedHost = (HostResources) host.clone();
                 clonedHost.setVmsResources(cloneHostVmsList(host));
                 clonedHostList.add(clonedHost);
             } catch (CloneNotSupportedException e) {
-                e.printStackTrace();
+                logger.error("Problems while clonning objects", e);
             }
         }
         return clonedHostList;
@@ -109,7 +109,7 @@ public class ClusterManagementDummyAlgorithm implements ClusterAdministrationHeu
      * @param host
      */
     protected List<VmResources> cloneHostVmsList(HostResources host) {
-        return new ArrayList<VmResources>(host.getVmsResources());
+        return new ArrayList<>(host.getVmsResources());
     }
 
 }
