@@ -55,7 +55,7 @@ public class ClusterManagementDummyAlgorithm implements ClusterAdministrationHeu
 
     @Override
     public Map<Long, HostResources> mapVMsToHost(List<HostResources> rankedHosts) {
-        return new HashMap<Long, HostResources>();
+        return new HashMap<>();
     }
 
     /**
