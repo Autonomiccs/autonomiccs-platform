@@ -22,6 +22,7 @@
  */
 package br.com.autonomiccs.wakeonlan.controller;
 
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -41,8 +42,13 @@ public class WakeOnLanServiceEndPointTest {
 
     @Test
     public void consultarTest() {
-        Mockito.doReturn("mac").when(startHostService).startHost(Mockito.anyString());
-        wakeOnLanServiceEndPoint.startHost("");
-        Mockito.verify(startHostService).startHost("");
+        String macTest = "mac teste";
+        String returnExpected = "ok";
+        Mockito.doReturn(returnExpected).when(startHostService).startHost(Mockito.anyString());
+
+        String returnOfCommand = wakeOnLanServiceEndPoint.startHost(macTest);
+
+        Assert.assertEquals(returnExpected, returnOfCommand);
+        Mockito.verify(startHostService).startHost(macTest);
     }
 }

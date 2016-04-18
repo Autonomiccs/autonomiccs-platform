@@ -21,8 +21,6 @@
  */
 package br.com.autonomiccs.wakeonlan.installation;
 
-import static org.mockito.Mockito.when;
-
 import java.io.File;
 
 import org.junit.Before;
@@ -36,45 +34,42 @@ import org.powermock.modules.junit4.PowerMockRunner;
 import br.com.autonomiccs.autonomic.plugin.common.utils.ShellCommandUtils;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest(WakeOnLanInstallation.class)
 public class WakeOnLanInstallationTest {
 
     private WakeOnLanInstallation wakeOnLanInstallation;
-    private ShellCommandUtils shellCommandUtils;
+    private String wakeOnLanProgramPath = "/usr/bin/wakeonlan";
 
     @Before
     public void beforeTest() {
         wakeOnLanInstallation = Mockito.spy(new WakeOnLanInstallation());
-        shellCommandUtils = Mockito.mock(ShellCommandUtils.class);
+        wakeOnLanInstallation.shellCommandUtils = Mockito.mock(ShellCommandUtils.class);
     }
 
     @Test
+    @PrepareForTest(WakeOnLanInstallation.class)
     public void installWakeOnLanTestIfNotInstalled() throws Exception {
-        File file = PowerMockito.mock(File.class);
-        PowerMockito.when(file.exists()).thenReturn(false);
+        prepareMockedFileThatRepresentsTheWakeOnLanCommand(false);
+
         String command = "aptitude -y install wakeonlan";
-        PowerMockito.whenNew(File.class).withArguments("/usr/bin/wakeonlan").thenReturn(file);
+        Mockito.when(wakeOnLanInstallation.shellCommandUtils.executeCommand(command)).thenReturn("return of command");
 
-        when(shellCommandUtils.executeCommand(command)).thenReturn(command);
-
-        wakeOnLanInstallation.shellCommandUtils = shellCommandUtils;
         wakeOnLanInstallation.installWakeOnLan();
-        Mockito.verify(shellCommandUtils, Mockito.times(1)).executeCommand(command);
+        Mockito.verify(wakeOnLanInstallation.shellCommandUtils, Mockito.times(1)).executeCommand(command);
     }
 
     @Test
+    @PrepareForTest(WakeOnLanInstallation.class)
     public void installWakeOnLanTestWakeOnLanAlreadyInstalled() throws Exception {
-        File file = PowerMockito.mock(File.class);
-        PowerMockito.when(file.exists()).thenReturn(true);
-        String command = "aptitude -y install wakeonlan";
-        PowerMockito.whenNew(File.class).withArguments("/usr/bin/wakeonlan").thenReturn(file);
+        prepareMockedFileThatRepresentsTheWakeOnLanCommand(true);
 
-        when(shellCommandUtils.executeCommand(command)).thenReturn(command);
-
-        wakeOnLanInstallation.shellCommandUtils = shellCommandUtils;
         wakeOnLanInstallation.installWakeOnLan();
+        Mockito.verify(wakeOnLanInstallation.shellCommandUtils, Mockito.times(0)).executeCommand(Mockito.anyString());
+    }
 
-        Mockito.verify(shellCommandUtils, Mockito.times(0)).executeCommand(command);
+    private void prepareMockedFileThatRepresentsTheWakeOnLanCommand(boolean isIsInstalled) throws Exception {
+        File mockedFile = Mockito.mock(File.class);
+        Mockito.when(mockedFile.exists()).thenReturn(isIsInstalled);
+        PowerMockito.whenNew(File.class).withArguments(wakeOnLanProgramPath).thenReturn(mockedFile);
     }
 
     @Test

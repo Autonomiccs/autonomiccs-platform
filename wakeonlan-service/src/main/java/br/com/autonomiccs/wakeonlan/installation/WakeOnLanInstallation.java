@@ -62,9 +62,9 @@ public class WakeOnLanInstallation implements InitializingBean {
         }
         logger.info("Wakeonlan is not installed.");
         logger.info("Installing wakeonlan.");
-        String logInstalation = shellCommandUtils.executeCommand(String.format("%s", aptitudeInstallWakeOnLan));
-        logger.info(logInstalation);
-        logger.info("Instalation finished.");
+        String logInstallation = shellCommandUtils.executeCommand(String.format("%s", aptitudeInstallWakeOnLan));
+        logger.info(logInstallation);
+        logger.info("Installation finished.");
     }
 
     @Override
