@@ -47,6 +47,7 @@
 		<sonar.projectVersion>${project.version}</sonar.projectVersion>
 		<sonar.language>java</sonar.language>
 		<sonar.sourceEncoding>UTF-8</sonar.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
 		<!-- Jacoco version to use -->
 		<jacoco.version>0.7.6.201602180812</jacoco.version>
