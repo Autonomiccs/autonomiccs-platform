@@ -50,10 +50,10 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
 		<!-- Jacoco version to use -->
-		<jacoco.version>0.7.2.201409121644</jacoco.version>
+		<jacoco.version>0.7.6.201602180812</jacoco.version>
 		<!-- The Sonar Jacoco Listener for JUnit to extract coverage details per 
 			test -->
-		<sonar-jacoco-listeners.version>1.4</sonar-jacoco-listeners.version>
+		<sonar-jacoco-listeners.version>3.2</sonar-jacoco-listeners.version>
 
 		<!-- Don't let Sonar execute tests. We will ask it to Maven 'sonar.dynamicAnalysis' 
 			is deprecated since version 4.3 and should no longer be used. -->
