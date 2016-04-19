@@ -25,6 +25,7 @@ package br.com.autonomiccs.wakeonlan.initialization;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -42,7 +43,8 @@ import br.com.autonomiccs.autonomic.plugin.common.utils.ShellCommandUtils;
 public class InicializeSystem {
 
     public static void main(String[] args) {
-        SpringApplication.run(InicializeSystem.class, args);
+        ConfigurableApplicationContext applicationContext = SpringApplication.run(InicializeSystem.class, args);
+        applicationContext.close();
     }
 
     /**
