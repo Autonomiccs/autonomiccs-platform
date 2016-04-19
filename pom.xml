@@ -312,10 +312,6 @@
 		<profile>
 			<id>sonar</id>
 			<properties>
-				<sonar.jdbc.url>jdbc:mysql://localhost:3306/sonar</sonar.jdbc.url>
-				<sonar.jdbc.driver>com.mysql.jdbc.Driver</sonar.jdbc.driver>
-				<sonar.jdbc.username>mavenSonar</sonar.jdbc.username>
-				<sonar.jdbc.password>mavenSonarPassword</sonar.jdbc.password>
 				<sonar.host.url>http://localhost:9000</sonar.host.url>
 			</properties>
 			<build>
