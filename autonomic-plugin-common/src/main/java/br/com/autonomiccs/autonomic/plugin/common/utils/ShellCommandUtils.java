@@ -27,21 +27,25 @@ import java.io.StringWriter;
 import java.io.Writer;
 
 import org.apache.commons.io.IOUtils;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 /**
- * Execute shell commands
+ * Utility to execute shell commands
  */
 @Component
 public class ShellCommandUtils {
 
-    private final Logger logger = Logger.getLogger(this.getClass());
+    protected Logger logger = LoggerFactory.getLogger(this.getClass());
 
     /**
-     * Executes the specified shell command and wait for the
+     * It executes the specified shell command and wait for the
      * end of command execution to continue with the application
      * flow.
+     *
+     * If an exception happens, it will get logged and the flow of execution continues.
+     * This method will not break the flow of execution if an expected exception happens.
      *
      * @param command
      *            The command that will be executed.

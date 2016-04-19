@@ -27,34 +27,83 @@ import java.io.InputStream;
 
 import org.apache.commons.io.IOUtils;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mockito;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
+import org.slf4j.Logger;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(ShellCommandUtils.class)
 public class ShellCommandUtilsTest {
 
+    private ShellCommandUtils shellCommandUtils;
+    private String command = "test";
+
+    @Before
+    public void beforeTest(){
+        shellCommandUtils = new ShellCommandUtils();
+    }
+
     @Test
     public void executeCommandTest() throws IOException, InterruptedException{
-        Process process = PowerMockito.mock(Process.class);
-        Runtime runtime = PowerMockito.mock(Runtime.class);
-        PowerMockito.mockStatic(Runtime.class);
+        Process processMock = Mockito.mock(Process.class);
+        Runtime runtimeMock = configureAndGetRuntimeMock();
 
         String commandOutput = "TEST";
         InputStream input = IOUtils.toInputStream(commandOutput, "utf-8");
 
-        PowerMockito.when(Runtime.getRuntime()).thenReturn(runtime);
+        Mockito.when(runtimeMock.exec(command)).thenReturn(processMock);
+        Mockito.when(processMock.waitFor()).thenReturn(1);
+        Mockito.when(processMock.getInputStream()).thenReturn(input);
 
-        String command = "test";
-        PowerMockito.when(runtime.exec(command)).thenReturn(process);
-        PowerMockito.when(process.waitFor()).thenReturn(1);
-        PowerMockito.when(process.getInputStream()).thenReturn(input);
-
-        ShellCommandUtils shell = new ShellCommandUtils();
-        String response = shell.executeCommand(command);
+        String response = shellCommandUtils.executeCommand(command);
         Assert.assertEquals(commandOutput, response);
+        Mockito.verify(processMock).waitFor();
+    }
+
+    @Test
+    @SuppressWarnings("unchecked")
+    public void executeCommandTestDealingWithIoException() throws IOException, InterruptedException {
+        shellCommandUtils.logger = Mockito.mock(Logger.class);
+
+        Runtime runtimeMock = configureAndGetRuntimeMock();
+        Mockito.when(runtimeMock.exec(command)).thenThrow(IOException.class);
+
+        String commandOutput = shellCommandUtils.executeCommand(command);
+
+        executeChecksForExceptionTests(commandOutput);
+    }
+
+    @Test
+    @SuppressWarnings("unchecked")
+    public void executeCommandTestDealingWithInterruptedException() throws IOException, InterruptedException {
+        shellCommandUtils.logger = Mockito.mock(Logger.class);
+
+        Process processMock = Mockito.mock(Process.class);
+        Runtime runtimeMock = configureAndGetRuntimeMock();
+        Mockito.when(runtimeMock.exec(command)).thenReturn(processMock);
+        Mockito.when(processMock.waitFor()).thenThrow(InterruptedException.class);
+
+        String commandOutput = shellCommandUtils.executeCommand(command);
+
+        Mockito.verify(processMock).waitFor();
+        executeChecksForExceptionTests(commandOutput);
+    }
+
+    private void executeChecksForExceptionTests(String commandOutput) {
+        Mockito.verify(shellCommandUtils.logger).error(Mockito.anyString());
+        Assert.assertEquals("", commandOutput);
+    }
+
+    private Runtime configureAndGetRuntimeMock() {
+        Runtime runtimeMock = Mockito.mock(Runtime.class);
+        PowerMockito.mockStatic(Runtime.class);
+
+        PowerMockito.when(Runtime.getRuntime()).thenReturn(runtimeMock);
+        return runtimeMock;
     }
 }
