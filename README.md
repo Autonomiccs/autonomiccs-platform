@@ -15,9 +15,9 @@ Even so, we still do not see autonomic management solutions being used in curren
 
 ## Solution
 
-In summary, our agents can move workloads around, letting idle servers to power off; those agents also can balance the load in the whole environment and manage the service level agreements between providers and clients. The plugin as designed to be flexible and strive to achieve different goals. TOmanage cloud computing environments 
+In summary, our agents can move workloads around, letting idle servers to power off; those agents also can balance the load in the whole environment and manage the service level agreements between providers and clients. The plugin as designed to be flexible and strive to achieve different goals. To manage cloud computing environments 
 
-We had already developed a set of algorithms that strive to achieve some specific goals; e.g. (i) reduce the energy consumption by migrating VMs workloads and powering off idle hosts; (ii) distribute VMs among hosts to balance resources usage.
+We had already developed a set of algorithms that strive to achieve some specific goals; e.g. (i) reduce the energy consumption by migrating VMs workloads and powering off idle hosts; (ii) distribute VMs among hosts to balance resources usage. These algorithms and its usage are explained at the <a href="https://github.com/Autonomiccs/autonomiccs-platform/wiki/Heuristics">heuristics</a> page.
 
 ### Balancing workload
 
@@ -66,8 +66,9 @@ The first user of this solution is the Network and Management Laboratory of the 
 
 ## Getting Started
 
-- Please, follow the installation instructions in the <a href="https://github.com/Autonomiccs/autonomiccs-platform/wiki/Installation">Installation</a> wiki page.
-
+- Please, follow the installation instructions in the <a href="https://github.com/Autonomiccs/autonomiccs-platform/wiki/Installation">Installation</a> wiki page;
+- once it is installed, please check our documentation to understande our plugin <a href="https://github.com/Autonomiccs/autonomiccs-platform/wiki/Usage">usage</a>.
+ 
 ## Getting source repository
 
 Autonomiccs Platform project uses Git and a mirror is hosted on <a href="https://github.com/Autonomiccs/autonomiccs-platform">GitHub</a>.
@@ -83,6 +84,10 @@ You don't need to be a developer to contribute to this project, we are pleased w
 Mailing lists:
 - Hold on, we are working on that.
 
+## More details
+
+Please, go to our <a href="https://github.com/Autonomiccs/autonomiccs-platform/wiki">wiki</a> page for more details; there you can understand more of the <a href="https://github.com/Autonomiccs/autonomiccs-platform/wiki/Autonomiccs-platform">Autonomiccs platform</a>, some <a href="https://github.com/Autonomiccs/autonomiccs-platform/wiki/Basic-concepts">basic concepts</a>, what are <a href="https://github.com/Autonomiccs/autonomiccs-platform/wiki/Heuristics">heuristics</a> and how we use it, how to <a href="https://github.com/Autonomiccs/autonomiccs-platform/wiki/Installation">install</a> and <a href="https://github.com/Autonomiccs/autonomiccs-platform/wiki/Usage">use</a>.
+
 ## Licence
 
 This project is part of Autonomiccs, an open source autonomic cloud computing management platform. Copyright (C) 2016 Autonomiccs, Inc.
@@ -94,3 +99,7 @@ Licensed to the Autonomiccs, Inc under one or more contributor license agreement
 Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY IND, either express or implied.  See the License for the specific language governing permissions and limitations under the License.
 
 Please see the <a href="https://github.com/Autonomiccs/autonomiccs-platform/blob/master/LICENSE">LICENSE</a> file included in the root directory of the project for more details.
+
+<p align="center">
+	<img src="https://github.com/Autonomiccs/autonomiccs-platform/blob/master/tools/project-logo/autonomiccsWhite.png" width="150">
+</p>
