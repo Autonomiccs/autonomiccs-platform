@@ -23,6 +23,16 @@
 	<name>autonomic-platform</name>
 	<url>http://maven.apache.org</url>
 
+	<modules>
+		<module>autonomic-algorithms-commons</module>
+		<module>autonomic-allocation-algorithms</module>
+		<module>autonomic-administration-algorithms</module>
+		<module>autonomic-plugin-common</module>
+		<module>wakeonlan-service</module>
+		<module>autonomic-administration-plugin</module>
+		<module>starthost-plugin</module>
+	</modules>
+
 	<properties>
 		<jdkVersion>1.7</jdkVersion>
 		<cloudstackVersion>4.6.0</cloudstackVersion>
@@ -180,15 +190,6 @@
 			</plugin>
 		</plugins>
 	</build>
-	<modules>
-		<module>autonomic-algorithms-commons</module>
-		<module>autonomic-allocation-algorithms</module>
-		<module>autonomic-administration-algorithms</module>
-		<module>autonomic-plugin-common</module>
-		<module>wakeonlan-service</module>
-		<module>autonomic-administration-plugin</module>
-		<module>starthost-plugin</module>
-	</modules>
 
 	<!-- coverage configuration -->
 	<profiles>
@@ -312,7 +313,7 @@
 		<profile>
 			<id>sonar</id>
 			<properties>
-				<sonar.host.url>http://localhost:9000</sonar.host.url>
+				<sonar.host.url>http://sonar.autonomiccs.com.br</sonar.host.url>
 			</properties>
 			<build>
 				<plugins>
