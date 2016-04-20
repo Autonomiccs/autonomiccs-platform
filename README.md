@@ -42,16 +42,16 @@ The following figure depicts the autonomic system consolidating a given scenario
 
 ## Project evolution
 
-This project is yet at an early stage, to give an idea of the big picture and development plan that we have there is a list of some of the key improvements:
+This project is yet at an early stage of life, to provide an idea of the big picture and our development plan, we list here some of our goals:
 
 - user interface to the management plugin;
 - autonomic monitoring platform;
 - user interface to the monitoring platform;
 - analysis and forecasting of virtual machines profile to enhance the virtual machine placement;
-- projection of virtual machines workload, activating hosts before the demand happens;
+- projection of virtual machines workload, enabling the activation of hosts before the demand happens;
 - prediction of service degradation that is caused by collocated VMs and migration before the service degradation takes place.
 
-Mainly the result of these improvements would be an autonomic monitoring platform and a component to perform analysis on the monitored data; with that, our algorithm decisions can be refined and use advanced artificial intelligence techniques. Also, the user interface will give the environment administrator a finer understanding of the infrastructure and its workload behavior.
+The aforementioned goals contribute toward an autonomic monitoring platform and a component to perform analysis on the monitored data; with that, our agents decisions can be improved through the use of artificial intelligence techniques. Also, the user interface gives the environment administrator a greater understanding of the infrastructure and its workload behavior.
 
 ## Who Autonomiccs is for?
 
@@ -73,13 +73,13 @@ The first user of this solution is the Network and Management Laboratory of the 
 
 Autonomiccs Platform project uses Git and a mirror is hosted on <a href="https://github.com/Autonomiccs/autonomiccs-platform">GitHub</a>.
 
-The Github mirror allows users and developers to explore the code; however, contributions from the community can be done only via Github pull requests.
+The Github mirror allows users and developers to explore the code; contributions from the community can be done only via Github pull requests.
 
 ## Getting involved contributing
 
-The Autonomiccs project welcomes anybody interested in working towards the development of Cloud Computing autonomic management.
+The Autonomiccs project welcomes anybody interested in working towards the development of Cloud Computing autonomic management solution.
 
-You don't need to be a developer to contribute to this project, we are pleased with any contribution. We need people that can help with documentation, promotion, design, evolve research topics etc.
+You don't need to be a developer to contribute to this project, we are pleased with any contribution. We need people that can help with documentation, promotion, design, research and other tasks that are essensial to the project life cycle.
 
 Mailing lists:
 - Hold on, we are working on that.
