@@ -67,7 +67,7 @@ The first user of this solution is the Network and Management Laboratory of the 
 ## Getting Started
 
 - Please, follow the installation instructions in the <a href="https://github.com/Autonomiccs/autonomiccs-platform/wiki/Installation">Installation</a> wiki page;
-- once it is installed, please check our documentation to understande our plugin <a href="https://github.com/Autonomiccs/autonomiccs-platform/wiki/Usage">usage</a>.
+- once it is installed, please check our documentation to understand our plugin <a href="https://github.com/Autonomiccs/autonomiccs-platform/wiki/Usage">usage</a>.
  
 ## Getting source repository
 
@@ -79,7 +79,7 @@ The Github mirror allows users and developers to explore the code; contributions
 
 The Autonomiccs project welcomes anybody interested in working towards the development of Cloud Computing autonomic management solution.
 
-You don't need to be a developer to contribute to this project, we are pleased with any contribution. We need people that can help with documentation, promotion, design, research and other tasks that are essensial to the project life cycle.
+You don't need to be a developer to contribute to this project, we are pleased with any contribution. We need people that can help with documentation, promotion, design, research and other tasks that are essential to the project life cycle.
 
 Mailing lists:
 - Hold on, we are working on that.
