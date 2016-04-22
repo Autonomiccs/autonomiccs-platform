@@ -63,15 +63,16 @@ public class HostProfiler {
     }
 
     /**
-     * It calculates the average cpu and memory usage of VMs.
+     * It calculates the average CPU and memory usage of VMs.
      *
      * @param vmsProfile
      * @return {@link ClusterVmProfile}
      */
     public ClusterVmProfile createClusterVmsProfile(ClusterVmProfile vmsProfile) {
-        vmsProfile.setCpusProfile(vmsProfile.getTotalCpus() / vmsProfile.getNumberOfInstances());
-        vmsProfile.setCpuSpeedProfile(vmsProfile.getTotalCpuSpeed() / vmsProfile.getNumberOfInstances());
-        vmsProfile.setMemoryProfile(vmsProfile.getTotalMemory() / vmsProfile.getNumberOfInstances());
+        double numberOfInstances = vmsProfile.getNumberOfInstances();
+        vmsProfile.setCpusProfile(vmsProfile.getTotalCpus() / numberOfInstances);
+        vmsProfile.setCpuSpeedProfile(vmsProfile.getTotalCpuSpeed() / numberOfInstances);
+        vmsProfile.setMemoryProfile(vmsProfile.getTotalMemory() / numberOfInstances);
 
         return vmsProfile;
     }
