@@ -37,13 +37,6 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.com.autonomiccs.autonomic.plugin.common.daos.AutonomiccsSystemVmDao;
-import br.com.autonomiccs.autonomic.plugin.common.enums.SystemVmType;
-import br.com.autonomiccs.autonomic.plugin.common.pojos.AutonomiccsSystemVm;
-import br.com.autonomiccs.autonomic.plugin.common.utils.HostUtils;
-import br.com.autonomiccs.autonomic.plugin.common.utils.SshUtils;
-import br.com.autonomiccs.autonomic.plugin.common.utils.ThreadUtils;
-
 import com.cloud.dc.DataCenter.NetworkType;
 import com.cloud.dc.DataCenterVO;
 import com.cloud.dc.dao.DataCenterDao;
@@ -67,6 +60,13 @@ import com.cloud.user.AccountManager;
 import com.cloud.utils.exception.CloudRuntimeException;
 import com.cloud.vm.NicProfile;
 import com.cloud.vm.VirtualMachineManager;
+
+import br.com.autonomiccs.autonomic.plugin.common.daos.AutonomiccsSystemVmDao;
+import br.com.autonomiccs.autonomic.plugin.common.enums.SystemVmType;
+import br.com.autonomiccs.autonomic.plugin.common.pojos.AutonomiccsSystemVm;
+import br.com.autonomiccs.autonomic.plugin.common.utils.HostUtils;
+import br.com.autonomiccs.autonomic.plugin.common.utils.SshUtils;
+import br.com.autonomiccs.autonomic.plugin.common.utils.ThreadUtils;
 
 /**
  * This class is used to deploy and manage Autonomiccs system VMs.
@@ -147,7 +147,7 @@ public class AutonomiccsSystemVmDeploymentService implements InitializingBean {
      * discover the template based on the hypervisor type of the host. The
      * prefix that has to be informed is used to mark the type of agent that is
      * being deployed.
-     * This method will wait until the deployed VM is up. If the VM for some reason do not boot, a runtime exception will be thrown.
+     * This method will wait until the deployed VM is up. If the VM for some reason do not boot, a {@link CloudRuntimeException} exception will be thrown.
      *
      * @param hostId
      *            in which the VM is being deployed
@@ -158,14 +158,15 @@ public class AutonomiccsSystemVmDeploymentService implements InitializingBean {
     public AutonomiccsSystemVm deploySystemVm(Long hostId, SystemVmType systemVmType) {
         HostVO host = hostService.findHostById(hostId);
         if (host == null) {
-            throw new RuntimeException(String.format("Could not find a host with the provieded id [%d]", hostId));
+            throw new CloudRuntimeException(String.format("Could not find a host with the provieded id [%d]", hostId));
         }
         if (!autonomiccsSystemVmTemplateService.isTemplateRegisteredAndReadyForHypervisor(host.getHypervisorType())) {
-            throw new RuntimeException(String.format("There is no Autonomiccs system VM for hypervisor [%s], so we do not deploy a system Vm for it.", host.getHypervisorType()));
+            throw new CloudRuntimeException(
+                    String.format("There is no Autonomiccs system VM for hypervisor [%s], so we do not deploy a system Vm for it.", host.getHypervisorType()));
         }
         VMTemplateVO systemVmTemplate = autonomiccsSystemVmTemplateService.findAutonomiccsSystemVmTemplate(host.getHypervisorType());
         if (systemVmTemplate == null) {
-            throw new RuntimeException(String.format("Could not find a System VM template for the host hypervisors [%s]", host.getHypervisorType()));
+            throw new CloudRuntimeException(String.format("Could not find a System VM template for the host hypervisors [%s]", host.getHypervisorType()));
         }
 
         Account systemAcct = accountManager.getSystemAccount();
@@ -203,7 +204,7 @@ public class AutonomiccsSystemVmDeploymentService implements InitializingBean {
             virtualMachineManager.advanceStart(autonomiccsSystemVm.getUuid(), null, null);
             autonomiccsSystemVm = autonomiccsSystemVmDao.findById(id);
         } catch (ConcurrentOperationException | ResourceUnavailableException | OperationTimedoutException | InsufficientCapacityException e) {
-            throw new RuntimeException("Insufficient capacity exception when deploying a Autonomiccs system VM.", e);
+            throw new CloudRuntimeException("Insufficient capacity exception when deploying a Autonomiccs system VM.", e);
         }
 
         for (int i = 0; i < 100; i++) {
@@ -217,7 +218,7 @@ public class AutonomiccsSystemVmDeploymentService implements InitializingBean {
             threadUtils.sleepThread(5);
         }
         if (!hostUtils.isHostReachable(autonomiccsSystemVm.getManagementIpAddress())) {
-            throw new RuntimeException(String.format("The system VM [name=%s], [id=%d] is not reachable, maybe a problem has happened while starting it.",
+            throw new CloudRuntimeException(String.format("The system VM [name=%s], [id=%d] is not reachable, maybe a problem has happened while starting it.",
                     autonomiccsSystemVm.getInstanceName(),
                     autonomiccsSystemVm.getId()));
         }
@@ -251,9 +252,6 @@ public class AutonomiccsSystemVmDeploymentService implements InitializingBean {
      * The name created follows the convention: system VM type suffix-id of
      * VM-instanceSuffix
      *
-     * @param id
-     * @param systemVmType
-     * @param instanceSuffix
      * @return the instance name for Autonomiccs system VMs
      */
     private String createAutonomiccsSystemVmNameForType(long id, SystemVmType systemVmType, String instanceSuffix) {
@@ -279,7 +277,7 @@ public class AutonomiccsSystemVmDeploymentService implements InitializingBean {
     public void afterPropertiesSet() throws Exception {
         loadAutonomiccsSystemVmServiceOffering();
         if (autonomiccsSystemVmServiceOffering == null) {
-            throw new RuntimeException("Could not register the Autonomiccs system VMs service offering.");
+            throw new CloudRuntimeException("Could not register the Autonomiccs system VMs service offering.");
         }
     }
 

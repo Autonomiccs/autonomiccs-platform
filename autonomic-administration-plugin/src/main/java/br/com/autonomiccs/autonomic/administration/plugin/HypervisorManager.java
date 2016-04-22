@@ -28,12 +28,13 @@ import javax.inject.Inject;
 
 import org.springframework.stereotype.Component;
 
+import com.cloud.host.Host;
+import com.cloud.host.HostVO;
+import com.cloud.utils.exception.CloudRuntimeException;
+
 import br.com.autonomiccs.autonomic.administration.plugin.hypervisors.HypervisorHost;
 import br.com.autonomiccs.autonomic.plugin.common.enums.HostAdministrationStatus;
 import br.com.autonomiccs.autonomic.plugin.common.services.HostService;
-
-import com.cloud.host.Host;
-import com.cloud.host.HostVO;
 
 /**
  * Manages hypervisor's operations, passing the execution flow to the correct hypervisor facade.
@@ -50,10 +51,7 @@ public class HypervisorManager {
     /**
      * Executes the shutdownHost method of the {@link HostVO} hypervisor. If the
      * hypervisor from {@link HostVO} does not supports shutdown, then it throws
-     * a {@link RuntimeException}.
-     *
-     * @throws RuntimeException
-     * @param hostVo
+     * a {@link CloudRuntimeException}.
      */
     public void shutdownHost(HostVO hostVo) {
         if (!Host.Type.Routing.equals(hostVo.getType())) {
@@ -65,7 +63,7 @@ public class HypervisorManager {
                 return;
             }
         }
-        throw new RuntimeException(String.format("The the hypervisor[%d] from host[%d] does not support shutdown to consolidate", hostVo.getHypervisorType(), hostVo.getId()));
+        throw new CloudRuntimeException(String.format("The the hypervisor[%s] from host[%d] does not support shutdown to consolidate", hostVo.getHypervisorType(), hostVo.getId()));
     }
 
     /**

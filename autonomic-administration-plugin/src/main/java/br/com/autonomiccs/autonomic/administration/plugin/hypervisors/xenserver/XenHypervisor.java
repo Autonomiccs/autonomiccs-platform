@@ -34,12 +34,6 @@ import javax.inject.Inject;
 import org.apache.xmlrpc.XmlRpcException;
 import org.springframework.stereotype.Component;
 
-import br.com.autonomiccs.autonomic.administration.plugin.hypervisors.HypervisorHost;
-import br.com.autonomiccs.autonomic.plugin.common.services.HostService;
-import br.com.autonomiccs.autonomic.plugin.common.utils.HostUtils;
-import br.com.autonomiccs.autonomic.plugin.common.utils.ShellCommandUtils;
-import br.com.autonomiccs.autonomic.plugin.common.utils.ThreadUtils;
-
 import com.cloud.host.HostVO;
 import com.cloud.hypervisor.Hypervisor.HypervisorType;
 import com.cloud.hypervisor.xenserver.resource.XenServerConnectionPool;
@@ -49,6 +43,12 @@ import com.xensource.xenapi.Host;
 import com.xensource.xenapi.Pool;
 import com.xensource.xenapi.Types.BadServerResponse;
 import com.xensource.xenapi.Types.XenAPIException;
+
+import br.com.autonomiccs.autonomic.administration.plugin.hypervisors.HypervisorHost;
+import br.com.autonomiccs.autonomic.plugin.common.services.HostService;
+import br.com.autonomiccs.autonomic.plugin.common.utils.HostUtils;
+import br.com.autonomiccs.autonomic.plugin.common.utils.ShellCommandUtils;
+import br.com.autonomiccs.autonomic.plugin.common.utils.ThreadUtils;
 
 @Component
 public class XenHypervisor implements HypervisorHost {
@@ -109,18 +109,12 @@ public class XenHypervisor implements HypervisorHost {
         if (matcher.find()) {
             return matcher.group(1);
         }
-        throw new RuntimeException(String.format("Could not find host [name=%s, privateAddress=%s] private mac address.", hostVo.getName(), hostVo.getPrivateIpAddress()));
+        throw new CloudRuntimeException(String.format("Could not find host [name=%s, privateAddress=%s] private mac address.", hostVo.getName(), hostVo.getPrivateIpAddress()));
     }
 
     /**
      * Disables the host (using {@link Host#disable(Connection)}) and shuts it down
      * using the {@link Host#shutdown(Connection)} method.
-     *
-     * @param conn
-     * @param host
-     * @throws BadServerResponse
-     * @throws XenAPIException
-     * @throws XmlRpcException
      */
     private void disableAndShutdownHost(Connection conn, Host host) throws BadServerResponse, XenAPIException, XmlRpcException {
         host.disable(conn);
@@ -131,15 +125,6 @@ public class XenHypervisor implements HypervisorHost {
      * It returns the master address. If the pool has more than one host and the
      * host to be powered off is the master, it changes the master using
      * {@link #changePoolMasterHost(Connection, String)}.
-     *
-     * @param conn
-     * @param master
-     * @param masterAddress
-     * @param hasMoreThanOneHostOnPool
-     * @return the master host of the cluster address
-     * @throws BadServerResponse
-     * @throws XenAPIException
-     * @throws XmlRpcException
      */
     private String changeMasterIfNeeded(Connection conn, Host master, String hostUuid, String masterAddress)
             throws BadServerResponse, XenAPIException, XmlRpcException {
@@ -163,28 +148,17 @@ public class XenHypervisor implements HypervisorHost {
 
     /**
      * Returns the {@link Host} that is the current master of this pool.
-     *
-     * @param conn
-     * @return
-     * @throws BadServerResponse
-     * @throws XenAPIException
-     * @throws XmlRpcException
      */
     private Host getMasterHost(Connection conn) throws BadServerResponse,XenAPIException, XmlRpcException {
         Iterator<Pool> poolIterator = Pool.getAll(conn).iterator();
         if (poolIterator.hasNext()) {
             return poolIterator.next().getMaster(conn);
         }
-        throw new RuntimeException("Could not find master server for pool");
+        throw new CloudRuntimeException("Could not find master server for pool.");
     }
 
     /**
      * The new master will be selected with no specific criteria.
-     *
-     * @param conn
-     * @throws BadServerResponse
-     * @throws XenAPIException
-     * @throws XmlRpcException
      */
     private void changePoolMasterHost(Connection conn, String hostUuid) throws BadServerResponse, XenAPIException, XmlRpcException {
         for (Host host : Host.getAll(conn)) {
@@ -201,12 +175,6 @@ public class XenHypervisor implements HypervisorHost {
     /**
      * Waits until the master of the pool changes, given a total of 90 tries,
      * each taking 3 seconds of wait.
-     *
-     * @param master
-     * @param conn
-     * @throws BadServerResponse
-     * @throws XenAPIException
-     * @throws XmlRpcException
      */
     private void waitChangePoolMasterHost(Host master, Connection conn, String hostUuid) throws BadServerResponse, XenAPIException, XmlRpcException {
         int count = 0;
@@ -223,9 +191,6 @@ public class XenHypervisor implements HypervisorHost {
      * Get connection with the
      * {@link XenServerConnectionPool#getConnect(String, String, Queue)},
      * passing the host uuid, pool, ip, username, password and wait time.
-     *
-     * @param host
-     * @return
      */
     private Connection getConnection(HostVO host) {
         Map<String, String> params = host.getDetails();
@@ -236,9 +201,6 @@ public class XenHypervisor implements HypervisorHost {
 
     /**
      * Returns the host user name.
-     *
-     * @param params
-     * @return
      */
     private String getUsername(Map<String, String> params) {
         return params.get("username");
@@ -246,9 +208,6 @@ public class XenHypervisor implements HypervisorHost {
 
     /**
      * Returns the host password.
-     *
-     * @param params
-     * @return
      */
     private Queue<String> getPasssword(Map<String, String> params) {
         Queue<String> password = new LinkedList<String>();

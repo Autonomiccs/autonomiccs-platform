@@ -38,6 +38,7 @@ public class AutonomiccsSystemVmJdbcDao extends JdbcDaoSupport {
         try {
             return getJdbcTemplate().queryForObject(sqlGetStartHostServiceVmIdFromPod, Long.class, podId, systemVmType.getNamePrefix() + "%");
         } catch (EmptyResultDataAccessException e) {
+            logger.debug(e);
             return null;
         }
     }

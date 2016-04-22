@@ -29,11 +29,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import br.com.autonomiccs.autonomic.plugin.common.daos.AutonomiccsVmTemplateJdbcDao;
-
 import com.cloud.hypervisor.Hypervisor.HypervisorType;
 import com.cloud.storage.VMTemplateVO;
 import com.cloud.storage.dao.VMTemplateDao;
+import com.cloud.utils.exception.CloudRuntimeException;
+
+import br.com.autonomiccs.autonomic.plugin.common.daos.AutonomiccsVmTemplateJdbcDao;
 
 /**
  * This class is responsible to manage the Autonomiccs System VMs templates
@@ -127,7 +128,7 @@ public class AutonomiccsSystemVmTemplateService implements InitializingBean {
         case KVM:
             return constructSystemVmTemplateUrl(hypervisor);
         default:
-            throw new RuntimeException(String.format("We do not have a Autonomiccs System VM template for the given Hypervisor [%s] .", hypervisor));
+            throw new CloudRuntimeException(String.format("We do not have a Autonomiccs System VM template for the given Hypervisor [%s] .", hypervisor));
         }
     }
 

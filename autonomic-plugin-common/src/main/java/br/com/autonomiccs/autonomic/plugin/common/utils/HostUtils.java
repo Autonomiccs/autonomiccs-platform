@@ -27,10 +27,14 @@ import java.net.InetSocketAddress;
 import java.net.Socket;
 
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 @Component
 public class HostUtils {
+
+    private Logger logger = LoggerFactory.getLogger(getClass());
 
     public boolean isHostReachable(String addrees) {
         return isHostReacheableOnPort22(addrees);
@@ -54,6 +58,7 @@ public class HostUtils {
             }
             return true;
         } catch (IOException ex) {
+            logger.debug(String.format("Error while checking if host[%s] on port [%d] is reacheable", addr, openPort), ex);
             return false;
         }
     }

@@ -29,6 +29,8 @@ import java.net.ProtocolException;
 import java.net.URL;
 
 import org.apache.commons.io.IOUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 /**
@@ -36,6 +38,9 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class HttpUtils {
+
+    private Logger logger = LoggerFactory.getLogger(getClass());
+
     /**
      * Send an HTTP get request to systemVM wake the host up.
      *
@@ -51,6 +56,7 @@ public class HttpUtils {
             URL url = new URL(String.format("http://%s:8080/boot/wakeonlan/%s", systemVmIp, hostMac));
             return executeHttpGetRequest(url);
         } catch (IOException e) {
+            logger.debug(String.format("Error while calling Wakeonlan service for host mac address[%s]", hostMac), e);
             return e.getMessage();
         }
 
