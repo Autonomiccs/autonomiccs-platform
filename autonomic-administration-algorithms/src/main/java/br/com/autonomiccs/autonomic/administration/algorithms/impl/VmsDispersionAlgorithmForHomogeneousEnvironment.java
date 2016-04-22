@@ -28,6 +28,7 @@ import java.util.Map;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.math3.stat.descriptive.moment.StandardDeviation;
+import org.apache.commons.math3.util.MathUtils;
 
 import br.com.autonomiccs.autonomic.algorithms.commons.resources.CloudResources;
 import br.com.autonomiccs.autonomic.algorithms.commons.resources.HostResources;
@@ -167,7 +168,7 @@ public class VmsDispersionAlgorithmForHomogeneousEnvironment extends Consolidati
      */
     @Override
     public Map<Long, HostResources> mapVMsToHost(List<HostResources> rankedHosts) {
-        if (standardDeviationHostsUsage == 0) {
+        if (MathUtils.equals(standardDeviationHostsUsage, 0)) {
             return new HashMap<Long, HostResources>();
         }
         List<HostResources> rankedHostsStdVms = cloneListOfHosts(rankedHosts);
