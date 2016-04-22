@@ -6,12 +6,12 @@
  * Licensed to the Autonomiccs, Inc. under one
  * or more contributor license agreements.  See the NOTICE file
  * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
+ * regarding copyright ownership. The Autonomiccs, Inc. licenses this file
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- *    http:www.apache.org/licenses/LICENSE-2.0
+ *    http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -34,15 +34,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.cloud.agent.AgentManager;
-import com.cloud.dc.ClusterVO;
-import com.cloud.dc.dao.ClusterDao;
-import com.cloud.host.HostVO;
-import com.cloud.host.Status;
-import com.cloud.host.dao.HostDao;
-import com.cloud.resource.ResourceManager;
-import com.cloud.utils.exception.CloudRuntimeException;
-
 import br.com.autonomiccs.autonomic.algorithms.commons.resources.ClusterResourcesAvailableToStart;
 import br.com.autonomiccs.autonomic.algorithms.commons.resources.HostResources;
 import br.com.autonomiccs.autonomic.algorithms.commons.services.ClusterResourcesService;
@@ -60,6 +51,14 @@ import br.com.autonomiccs.autonomic.plugin.common.utils.HostUtils;
 import br.com.autonomiccs.autonomic.plugin.common.utils.HttpUtils;
 import br.com.autonomiccs.autonomic.plugin.common.utils.ReflectionUtils;
 import br.com.autonomiccs.autonomic.plugin.common.utils.ThreadUtils;
+
+import com.cloud.agent.AgentManager;
+import com.cloud.dc.ClusterVO;
+import com.cloud.dc.dao.ClusterDao;
+import com.cloud.host.HostVO;
+import com.cloud.host.Status;
+import com.cloud.host.dao.HostDao;
+import com.cloud.resource.ResourceManager;
 
 /**
  * Manages the host starting process.
@@ -104,7 +103,7 @@ public class StartHostService {
             throw e;
         }
         for (HostResources hostResources : hostsToStart) {
-            HostVO hostVO = hostDao.findById(hostResources.getHostId());
+            HostVO hostVO = (HostVO)hostDao.findById(hostResources.getHostId());
             startHost(hostVO);
             if (isHostAlive(hostVO)) {
                 changeConsolidationStatusToUp(hostVO);
@@ -340,7 +339,7 @@ public class StartHostService {
             Process process = Runtime.getRuntime().exec(cmd);
             process.waitFor();
         } catch (Exception e) {
-            throw new CloudRuntimeException(e);
+            throw new RuntimeException(e);
         }
     }
 

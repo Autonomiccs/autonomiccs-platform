@@ -6,12 +6,12 @@
  * Licensed to the Autonomiccs, Inc. under one
  * or more contributor license agreements.  See the NOTICE file
  * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
+ * regarding copyright ownership. The Autonomiccs, Inc. licenses this file
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- *    http:www.apache.org/licenses/LICENSE-2.0
+ *    http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -34,11 +34,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import com.cloud.hypervisor.Hypervisor;
-import com.cloud.hypervisor.Hypervisor.HypervisorType;
-import com.cloud.template.TemplateApiService;
-import com.cloud.user.AccountService;
-
 import br.com.autonomiccs.autonomic.plugin.common.services.AutonomicClusterManagementHeuristicService;
 import br.com.autonomiccs.autonomic.plugin.common.services.AutonomiccsSystemVmTemplateService;
 import br.com.autonomiccs.autonomic.plugin.common.services.GuestOsService;
@@ -46,11 +41,16 @@ import br.com.autonomiccs.autonomic.plugin.common.services.HostService;
 import br.com.autonomiccs.autonomic.plugin.common.utils.NotifySmartAcsStartUpUtils;
 import br.com.autonomiccs.autonomic.plugin.common.utils.ReflectionUtils;
 
+import com.cloud.hypervisor.Hypervisor;
+import com.cloud.hypervisor.Hypervisor.HypervisorType;
+import com.cloud.template.TemplateApiService;
+import com.cloud.user.AccountService;
+
 /**
-* This class is intended to manage the register of Autonomiccs' SystemVMs templates.
-* The template (or future updates to it) will be registered at boot time using the normal flow of ACS template register.
-* Additionally, this class will monitor the addition of clusters of new hypervisors and download new templates if needed.
-**/
+ * This class is intended to manage the register of Autonomiccs' SystemVMs templates.
+ * The template (or future updates to it) will be registered at boot time using the normal flow of ACS template register.
+ * Additionally, this class will monitor the addition of clusters of new hypervisors and download new templates if needed.
+ **/
 @Component
 public class AutonomiccsSystemVirtualMachinesTemplateRegister implements InitializingBean {
     private final Logger logger = LoggerFactory.getLogger(getClass());

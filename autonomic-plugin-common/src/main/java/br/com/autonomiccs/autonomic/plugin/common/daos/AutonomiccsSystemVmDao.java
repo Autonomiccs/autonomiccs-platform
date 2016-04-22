@@ -6,12 +6,12 @@
  * Licensed to the Autonomiccs, Inc. under one
  * or more contributor license agreements.  See the NOTICE file
  * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
+ * regarding copyright ownership. The Autonomiccs, Inc. licenses this file
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- *    http:www.apache.org/licenses/LICENSE-2.0
+ *    http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -24,9 +24,9 @@ package br.com.autonomiccs.autonomic.plugin.common.daos;
 
 import org.springframework.stereotype.Component;
 
-import com.cloud.utils.db.GenericDaoBase;
-
 import br.com.autonomiccs.autonomic.plugin.common.pojos.AutonomiccsSystemVm;
+
+import com.cloud.utils.db.GenericDaoBase;
 
 /**
  * This DAO is meant to be used to execute a similar flow as the deployment of system VMs in CloudStack, to deploy Autonomiccs system VMs
