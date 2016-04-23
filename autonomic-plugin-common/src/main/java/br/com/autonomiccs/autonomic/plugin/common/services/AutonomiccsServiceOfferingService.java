@@ -30,6 +30,7 @@ import org.springframework.stereotype.Service;
 import com.cloud.service.ServiceOfferingVO;
 import com.cloud.service.dao.ServiceOfferingDao;
 import com.cloud.storage.Storage;
+import com.cloud.utils.exception.CloudRuntimeException;
 import com.cloud.vm.VirtualMachine;
 
 @Service
@@ -67,7 +68,7 @@ public class AutonomiccsServiceOfferingService {
                 AUTONOMICCS_SYSTEM_VM_SERVICE_OFFERING_UNIQUE_NAME, 1, AUTONOMICCS_SYSTEM_VM_VM_RAMSIZE, AUTONOMICCS_SYSTEM_VM_CPUMHZ, 0, 0, false, null,
                 Storage.ProvisioningType.THIN, true, null, true, VirtualMachine.Type.Instance, true);
         if (offerings == null || offerings.size() < 2) {
-            throw new RuntimeException("Data integrity problem : Autonomiccs System Offering For VMs has been removed?");
+            throw new CloudRuntimeException("Data integrity problem : Autonomiccs System Offering For VMs has been removed?");
         }
     }
 }

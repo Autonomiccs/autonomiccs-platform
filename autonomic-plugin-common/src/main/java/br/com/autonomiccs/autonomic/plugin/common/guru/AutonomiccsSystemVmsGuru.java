@@ -32,9 +32,6 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import br.com.autonomiccs.autonomic.plugin.common.daos.AutonomiccsSystemVmDao;
-import br.com.autonomiccs.autonomic.plugin.common.pojos.AutonomiccsSystemVm;
-
 import com.cloud.agent.api.Answer;
 import com.cloud.agent.manager.Commands;
 import com.cloud.configuration.Config;
@@ -53,10 +50,16 @@ import com.cloud.vm.VirtualMachineGuru;
 import com.cloud.vm.VirtualMachineManager;
 import com.cloud.vm.VirtualMachineProfile;
 
+import br.com.autonomiccs.autonomic.plugin.common.daos.AutonomiccsSystemVmDao;
+import br.com.autonomiccs.autonomic.plugin.common.pojos.AutonomiccsSystemVm;
+
 @Component
 public class AutonomiccsSystemVmsGuru implements VirtualMachineGuru, InitializingBean {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
+
+    private String ipAddressInternet = "0.0.0.0";
+    private String maskForIpAddressInternet = "0.0.0.0";
 
     @Autowired
     private VirtualMachineManager virtualMachineManager;
@@ -159,8 +162,8 @@ public class AutonomiccsSystemVmsGuru implements VirtualMachineGuru, Initializin
         for (NicProfile nic : profile.getNics()) {
             int deviceId = nic.getDeviceId();
             if (nic.getIPv4Address() == null) {
-                buf.append(" eth").append(deviceId).append("ip=").append("0.0.0.0");
-                buf.append(" eth").append(deviceId).append("mask=").append("0.0.0.0");
+                buf.append(" eth").append(deviceId).append("ip=").append(ipAddressInternet);
+                buf.append(" eth").append(deviceId).append("mask=").append(maskForIpAddressInternet);
             } else {
                 buf.append(" eth").append(deviceId).append("ip=").append(nic.getIPv4Address());
                 buf.append(" eth").append(deviceId).append("mask=").append(nic.getIPv4Netmask());

@@ -34,6 +34,14 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.cloud.dc.ClusterVO;
+import com.cloud.dc.DataCenterVO;
+import com.cloud.host.HostVO;
+import com.cloud.resource.ResourceManager;
+import com.cloud.utils.exception.CloudRuntimeException;
+import com.cloud.vm.UserVmService;
+import com.cloud.vm.VMInstanceVO;
+
 import br.com.autonomiccs.autonomic.administration.algorithms.ClusterAdministrationHeuristicAlgorithm;
 import br.com.autonomiccs.autonomic.administration.plugin.services.AutonomicClusterManagementService;
 import br.com.autonomiccs.autonomic.algorithms.commons.resources.CloudResources;
@@ -50,14 +58,6 @@ import br.com.autonomiccs.autonomic.plugin.common.services.VirtualMachineService
 import br.com.autonomiccs.autonomic.plugin.common.services.ZoneService;
 import br.com.autonomiccs.autonomic.plugin.common.utils.NotifySmartAcsStartUpUtils;
 import br.com.autonomiccs.autonomic.plugin.common.utils.ThreadUtils;
-
-import com.cloud.dc.ClusterVO;
-import com.cloud.dc.DataCenterVO;
-import com.cloud.host.HostVO;
-import com.cloud.resource.ResourceManager;
-import com.cloud.utils.exception.CloudRuntimeException;
-import com.cloud.vm.UserVmService;
-import com.cloud.vm.VMInstanceVO;
 
 /**
  * The administration agent keeps constantly searching for clusters to
@@ -340,7 +340,7 @@ public class AdministrationAgent implements InitializingBean {
             userVmService.migrateVirtualMachine(vmId, host);
             logger.info(String.format("VM [%d] was migrated from host[Id=%d] to host[Id=%d].", vmId, sourceHostId, targetHostId));
         } catch (Exception e) {
-            logger.debug(String.format("Could not migrate [vmId=%d] to [hostId=%d], [hostName=%d], from [hostId=%d]", vmId, targetHostId, host.getName(), sourceHostId), e);
+            logger.debug(String.format("Could not migrate [vmId=%d] to [hostId=%d], [hostName=%s], from [hostId=%d]", vmId, targetHostId, host.getName(), sourceHostId), e);
         }
     }
 
@@ -432,15 +432,13 @@ public class AdministrationAgent implements InitializingBean {
      * to update the host state to {@link com.cloud.resource.ResourceState#Maintenance}. If the
      * host state be {@link com.cloud.resource.ResourceState#ErrorInMaintenance} and not
      * {@link com.cloud.resource.ResourceState#PrepareForMaintenance}, it throws a
-     * RuntimeException.
-     *
-     * @param host
+     * {@link CloudRuntimeException}.
      */
     private void putHostInMaintenance(long hostId) {
         try {
             resourceManager.maintain(hostId);
         } catch (Exception e) {
-            throw new RuntimeException(String.format("Problems while putting host[%d] on maintenance", hostId), e);
+            throw new CloudRuntimeException(String.format("Problems while putting host[%d] on maintenance", hostId), e);
         }
         do {
             threadUtils.sleepThread(3);

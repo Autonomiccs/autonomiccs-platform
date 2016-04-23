@@ -25,6 +25,8 @@ package br.com.autonomiccs.autonomic.plugin.common.daos;
 import org.apache.commons.lang.BooleanUtils;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
 
+import com.cloud.utils.exception.CloudRuntimeException;
+
 public class AutonomiccsVmTemplateJdbcDao extends JdbcDaoSupport {
 
     private String sqlIsTemplateRegistered = "select count(id) from vm_template where removed is null and state <> 'Inactive' and name = ?";
@@ -35,8 +37,6 @@ public class AutonomiccsVmTemplateJdbcDao extends JdbcDaoSupport {
 
     /**
      * Checks if the template name is registered into the database.
-     *
-     * @param templateName
      * @return true if the template name is found in our database.
      */
     public boolean isTemplateRegistered(String templateName) {
@@ -46,7 +46,7 @@ public class AutonomiccsVmTemplateJdbcDao extends JdbcDaoSupport {
     private boolean executeTemplateQueryAndRetrieveBoolean(String templateName, String sql) {
         Integer numberOfRegister = getJdbcTemplate().queryForObject(sql, new Object[] {templateName}, Integer.class);
         if (numberOfRegister > 1) {
-            throw new RuntimeException(String.format("More than one template with name [%s]", templateName));
+            throw new CloudRuntimeException(String.format("More than one template with name [%s]", templateName));
         }
         return BooleanUtils.toBoolean(numberOfRegister);
     }
