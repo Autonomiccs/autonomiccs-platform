@@ -30,8 +30,8 @@ import br.com.autonomiccs.autonomic.plugin.common.services.AutonomicClusterManag
 
 /**
  * Configures the CloudStack database, inserting (if needed)
- * 'consolidation_status' and 'start_type' columns into 'host' table; It also
- * inserts 'consolidation_status' and 'last_consolidated' columns into 'cluster'
+ * 'administration_status' and 'start_type' columns into 'host' table; It also
+ * inserts 'administration_status' and 'last_consolidated' columns into 'cluster'
  * table.
  */
 public class ConfigureDatabaseDao extends JdbcDaoSupport {

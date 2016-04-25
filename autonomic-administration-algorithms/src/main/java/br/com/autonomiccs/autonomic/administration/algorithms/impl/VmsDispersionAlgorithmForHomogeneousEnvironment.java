@@ -88,8 +88,6 @@ public class VmsDispersionAlgorithmForHomogeneousEnvironment extends Consolidati
 
     /**
      * It sorts hosts downward using the {@link #sortHostsUpwardScore(List)} method.
-     *
-     * @param hosts
      */
     @Override
     protected void sortHosts(List<HostResources> hosts) {
@@ -107,8 +105,6 @@ public class VmsDispersionAlgorithmForHomogeneousEnvironment extends Consolidati
     /**
      * It calculates the host score based on its memory usage proportion (memory usage / total
      * memory)
-     *
-     * @param host
      */
     @Override
     protected double calculateHostScore(HostResources host) {
@@ -130,8 +126,6 @@ public class VmsDispersionAlgorithmForHomogeneousEnvironment extends Consolidati
      * It updates the cluster memory usage average, and the standard deviations (
      * {@link #clusterMemoryUsageAverage}, {@link #standardDeviationAverage},
      * {@link #standardDeviationHostsUsage}, {@link #standardDeviationVmsConfiguration})
-     *
-     * @param cloudResources
      */
     protected void clusterMemoryUsagePercentage(List<HostResources> hosts) {
         double clusterUsedMemory = 0;
@@ -224,9 +218,6 @@ public class VmsDispersionAlgorithmForHomogeneousEnvironment extends Consolidati
     /**
      * For a given a list of {@link HostResources} and a value that represents the standard
      * deviation it maps virtual machine migrations. The standar deviation is used as a
-     *
-     * @param rankedHosts
-     * @param standardDeviation
      */
     protected Map<Long, HostResources> simulateVmsMigrations(List<HostResources> rankedHosts, double standardDeviation) {
         Map<Long, HostResources> vmsToHost = new HashMap<Long, HostResources>();
@@ -272,9 +263,6 @@ public class VmsDispersionAlgorithmForHomogeneousEnvironment extends Consolidati
      * It returns true if a VM migration will maintain the VM's current host with a usage above the
      * {@link #hostMemoryMinimumUsageAllowedStdVms}; and if the target host usage will stay below
      * the {@link #hostMemoryMaximumUsageAllowedStdVms} after the migration.
-     *
-     * @param currentHost
-     * @param targetHost
      */
     private boolean isMemoryUsageOfHostsAfterVmMigration(VmResources vmResources, HostResources hostVmResidOn, HostResources targetHost, double standarDeviation) {
         if (hostVmResidOn.getUsedMemoryInMegaBytes() == targetHost.getUsedMemoryInMegaBytes()) {
@@ -289,5 +277,4 @@ public class VmsDispersionAlgorithmForHomogeneousEnvironment extends Consolidati
 
         return hostMemoryMinimumUsageAllowed <= hostMemoryAfterMigrateVm && targetHostMemoryUsageAfterReceiveVM < hostMemoryMaximumUsageAllowed;
     }
-
 }

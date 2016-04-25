@@ -89,9 +89,9 @@
 				
 	<bean class="br.com.autonomiccs.autonomic.plugin.common.daos.HostJdbcDao" parent="absctractDao" />
 	<bean class="br.com.autonomiccs.autonomic.plugin.common.daos.ClusterJdbcDao" parent="absctractDao" />
+	<bean class="br.com.autonomiccs.autonomic.plugin.common.daos.GuestOsJdbcDao" parent="absctractDao" />
 	<bean class="br.com.autonomiccs.autonomic.plugin.common.daos.configurations.ConfigureDatabaseDao" parent="absctractDao"/>
 	<bean class="br.com.autonomiccs.autonomic.plugin.common.daos.AutonomiccsSystemVmTemplateJdbcDao" parent="absctractDao" />
-	<bean class="br.com.autonomiccs.autonomic.plugin.common.daos.ClusterJdbcDao" parent="absctractDao" />
     <bean class="br.com.autonomiccs.autonomic.plugin.common.daos.AutonomiccsSystemVmJdbcDao" parent="absctractDao"/>
     
 	<bean id="autonomiccsSystemVmsTemplateUrlBase" class="java.lang.String">
@@ -100,5 +100,7 @@
 	<bean id="systemVmTemplateVersion" class="java.lang.String">
 		<constructor-arg value="1.0" />
 	</bean>
-	
+	<bean id="wakeOnLanHostApplicationVersion" class="java.lang.String">
+    	<constructor-arg value="0.0.1-SNAPSHOT" />
+    </bean>
 </beans>

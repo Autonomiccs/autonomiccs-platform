@@ -32,8 +32,4 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
 	<task:scheduler id="taskScheduler"/>
     <task:executor id="taskExecutor" pool-size="1" queue-capacity="1" />
     <task:annotation-driven executor="taskExecutor" scheduler="taskScheduler"/>
-    
-    <bean id="wakeOnLanHostApplicationVersion" class="java.lang.String">
-    	<constructor-arg value="0.0.1-SNAPSHOT" />
-    </bean>
 </beans>

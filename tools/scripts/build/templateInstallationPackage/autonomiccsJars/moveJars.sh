@@ -24,7 +24,7 @@
 cp autonomiccsJars/autonomic*.jar /usr/share/cloudstack-management/webapps/client/WEB-INF/lib/
 cp autonomiccsJars/starthost-plugin*.jar /usr/share/cloudstack-management/webapps/client/WEB-INF/lib/
 # Do not change this line, we remove the '.jar' extension on purpose.
-wakeOnLanNewFileName=$(ls jarsSmartCS/wakeonlan-service-*.jar) && wakeOnLanNewFileName=${wakeOnLanNewFileName##*/} && wakeOnLanNewFileName=${wakeOnLanNewFileName::-4}
+wakeOnLanNewFileName=$(ls autonomiccsJars/wakeonlan-service-*.jar) && wakeOnLanNewFileName=${wakeOnLanNewFileName##*/} && wakeOnLanNewFileName=${wakeOnLanNewFileName::-4}
 cp autonomiccsJars/wakeonlan-service-*.jar "/usr/share/cloudstack-management/webapps/client/WEB-INF/lib/$wakeOnLanNewFileName";
 
 # Autonomiccs platform dependencies.

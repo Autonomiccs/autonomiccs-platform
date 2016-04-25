@@ -30,13 +30,13 @@ import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
 
-import br.com.autonomiccs.autonomic.plugin.common.enums.HostAdministrationStatus;
-import br.com.autonomiccs.autonomic.plugin.common.enums.StartType;
-
 import com.cloud.host.Status;
 import com.cloud.hypervisor.Hypervisor;
 import com.cloud.hypervisor.Hypervisor.HypervisorType;
 import com.cloud.resource.ResourceState;
+
+import br.com.autonomiccs.autonomic.plugin.common.enums.HostAdministrationStatus;
+import br.com.autonomiccs.autonomic.plugin.common.enums.StartType;
 
 /**
  * Offers support for some 'select' and 'update' sql statements in table 'host'.
@@ -59,20 +59,14 @@ public class HostJdbcDao extends JdbcDaoSupport {
 
     /**
      * Updates the 'administration_status' column from the 'host' table.
-     *
-     * @param hostConsolidationStatus
-     * @param hostId
      */
-    public void setAdministrationStatus(HostAdministrationStatus hostConsolidationStatus, long hostId) {
-        Object[] args = {ObjectUtils.toString(hostConsolidationStatus), hostId};
+    public void setAdministrationStatus(HostAdministrationStatus hostAdministrationStatus, long hostId) {
+        Object[] args = {ObjectUtils.toString(hostAdministrationStatus), hostId};
         getJdbcTemplate().update(sqlSetAdministrationStatus, args);
     }
 
     /**
      * Selects the 'start_type' column from the 'host' table.
-     *
-     * @param hostId
-     * @return
      */
     public StartType getStartType(long hostId) {
         return StartType.valueOf(getJdbcTemplate().queryForObject(sqlGetStartType, String.class, hostId));
@@ -80,9 +74,6 @@ public class HostJdbcDao extends JdbcDaoSupport {
 
     /**
      * Selects the 'status' column from the 'host' table.
-     *
-     * @param hostId
-     * @return
      */
     public Status getStatus(long hostId) {
         return Status.valueOf(getJdbcTemplate().queryForObject(sqlGetStatus, String.class, hostId));
@@ -90,9 +81,6 @@ public class HostJdbcDao extends JdbcDaoSupport {
 
     /**
      * Selects the 'resource_state' column from the 'host' table.
-     *
-     * @param hostId
-     * @return
      */
     public ResourceState getResourceState(long hostId) {
         return ResourceState.valueOf(getJdbcTemplate().queryForObject(sqlGetResourceState, String.class, hostId));
@@ -102,7 +90,6 @@ public class HostJdbcDao extends JdbcDaoSupport {
 
     /**
      * It loads all of the hypervisors types in use in the whole cloud environment
-     * @return List<HypervisorType>
      */
     public List<HypervisorType> getAllHypervisorsTypeInCloud() {
         List<String> hypervisorTypesAsString = getJdbcTemplate().queryForList(sqlSetAllHypervisorsTypeInCloud, String.class);
@@ -113,13 +100,13 @@ public class HostJdbcDao extends JdbcDaoSupport {
         return hypervisorTypes;
     }
 
-    private String sqlCheckIsThereAnyHostOnCloudDeactivatedByOurManager = "select id from host where removed is null and consolidation_status = 'ShutDownToConsolidate'";
+    private String sqlCheckIsThereAnyHostOnCloudDeactivatedByOurManager = "select id from host where removed is null and administration_status = 'ShutDownToConsolidate'";
     public boolean isThereAnyHostOnCloudDeactivatedByOurManager() {
         List<Long> hostsIds = getJdbcTemplate().queryForList(sqlCheckIsThereAnyHostOnCloudDeactivatedByOurManager, Long.class);
         return CollectionUtils.isNotEmpty(hostsIds);
     }
 
-    private String sqlCheckIsThereAnyHostOnPodDeactivatedByOurManager = "select id from host where removed is null and consolidation_status = 'ShutDownToConsolidate' and pod_id = ?";
+    private String sqlCheckIsThereAnyHostOnPodDeactivatedByOurManager = "select id from host where removed is null and administration_status = 'ShutDownToConsolidate' and pod_id = ?";
     public boolean isThereAnyHostOnPodDeactivatedByOurManager(long id) {
         List<Long> hostsIds = getJdbcTemplate().queryForList(sqlCheckIsThereAnyHostOnPodDeactivatedByOurManager, Long.class, id);
         return CollectionUtils.isNotEmpty(hostsIds);

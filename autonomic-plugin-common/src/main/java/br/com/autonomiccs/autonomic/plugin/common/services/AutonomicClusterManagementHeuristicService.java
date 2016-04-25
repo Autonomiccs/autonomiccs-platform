@@ -66,7 +66,7 @@ public class AutonomicClusterManagementHeuristicService {
             Class<? extends ClusterAdministrationHeuristicAlgorithm> algorithmClass = loadAlgorithmClass(algorithmName);
             return getInstanceOfClass(algorithmClass);
         } catch (Exception e) {
-            logger.warn(String.format("Could not load heuristics from algorithm [algorithm class name=%s], using the Dummy management algorithm", algorithmName), e);
+            logger.debug(String.format("Could not load heuristics from algorithm [algorithm class name=%s], using the Dummy management algorithm", algorithmName), e);
             return getDummyClusterManagementHeuristc();
         }
     }

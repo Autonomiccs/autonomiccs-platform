@@ -2,13 +2,13 @@
 *****************************************************
 Summary
 -------
-Generated at: 2016-04-22T09:33:40-03:00
+Generated at: 2016-04-25T13:24:26-03:00
 Notes: 2
 Binaries: 10
 Archives: 3
-Standards: 127
+Standards: 128
 
-Apache Licensed: 127
+Apache Licensed: 128
 Generated Documents: 0
 
 JavaDocs are generated and so license header is optional
@@ -25,159 +25,160 @@ Unapproved licenses:
 
 Archives:
 
- + tools/figures/scenarios.odg
+ + tools/figures/consolidationManagers.odg
  
  + tools/figures/frameworkComponents.odg
  
- + tools/figures/consolidationManagers.odg
+ + tools/figures/scenarios.odg
  
 *****************************************************
   Files with Apache License headers will be marked AL
   Binary files (which do not require AL headers) will be marked B
   Compressed archives will be marked A
   Notices, licenses etc will be marked N
-  AL    autonomic-algorithms-commons/src/main/java/br/com/autonomiccs/autonomic/algorithms/commons/resources/ClusterResourcesAvailableToStart.java
-  AL    autonomic-algorithms-commons/src/main/java/br/com/autonomiccs/autonomic/algorithms/commons/resources/CloudResources.java
-  AL    autonomic-algorithms-commons/src/main/java/br/com/autonomiccs/autonomic/algorithms/commons/resources/ClusterResourcesUp.java
-  AL    autonomic-algorithms-commons/src/main/java/br/com/autonomiccs/autonomic/algorithms/commons/resources/VmResources.java
-  AL    autonomic-algorithms-commons/src/main/java/br/com/autonomiccs/autonomic/algorithms/commons/resources/ClusterResources.java
-  AL    autonomic-algorithms-commons/src/main/java/br/com/autonomiccs/autonomic/algorithms/commons/resources/HostResources.java
-  AL    autonomic-algorithms-commons/src/main/java/br/com/autonomiccs/autonomic/algorithms/commons/services/CloudResourcesService.java
-  AL    autonomic-algorithms-commons/src/main/java/br/com/autonomiccs/autonomic/algorithms/commons/services/HostResourcesService.java
-  AL    autonomic-algorithms-commons/src/main/java/br/com/autonomiccs/autonomic/algorithms/commons/services/ClusterResourcesService.java
-  AL    autonomic-algorithms-commons/src/test/java/br/com/autonomiccs/autonomic/algorithms/commons/services/HostResourcesTestUtils.java
-  AL    autonomic-algorithms-commons/src/test/java/br/com/autonomiccs/autonomic/algorithms/commons/services/ClusterResourcesServiceTest.java
-  AL    autonomic-algorithms-commons/src/test/java/br/com/autonomiccs/autonomic/algorithms/commons/services/CloudResourcesServiceTest.java
-  AL    autonomic-algorithms-commons/src/test/java/br/com/autonomiccs/autonomic/algorithms/commons/services/HostResourcesServiceTest.java
-  AL    autonomic-algorithms-commons/pom.xml
-  AL    autonomic-administration-plugin/src/main/java/br/com/autonomiccs/autonomic/administration/plugin/services/AutonomicClusterManagementService.java
-  AL    autonomic-administration-plugin/src/main/java/br/com/autonomiccs/autonomic/administration/plugin/HypervisorManager.java
-  AL    autonomic-administration-plugin/src/main/java/br/com/autonomiccs/autonomic/administration/plugin/hypervisors/xenserver/XenHypervisor.java
-  AL    autonomic-administration-plugin/src/main/java/br/com/autonomiccs/autonomic/administration/plugin/hypervisors/HypervisorHost.java
+  AL    autonomic-administration-algorithms/pom.xml
+  AL    autonomic-administration-algorithms/src/main/java/br/com/autonomiccs/autonomic/administration/algorithms/ClusterAdministrationHeuristicAlgorithm.java
+  AL    autonomic-administration-algorithms/src/main/java/br/com/autonomiccs/autonomic/administration/algorithms/impl/ClusterManagementDummyAlgorithm.java
+  AL    autonomic-administration-algorithms/src/main/java/br/com/autonomiccs/autonomic/administration/algorithms/impl/ConsolidationAlgorithmBase.java
+  AL    autonomic-administration-algorithms/src/main/java/br/com/autonomiccs/autonomic/administration/algorithms/impl/ConsolidationScoredPreferenceForBigHosts.java
+  AL    autonomic-administration-algorithms/src/main/java/br/com/autonomiccs/autonomic/administration/algorithms/impl/ConsolidationScoredPreferenceForSmallHosts.java
+  AL    autonomic-administration-algorithms/src/main/java/br/com/autonomiccs/autonomic/administration/algorithms/impl/ConsolidationXenHaPreferenceForBigHostsHomogeneousEnvironment.java
+  AL    autonomic-administration-algorithms/src/main/java/br/com/autonomiccs/autonomic/administration/algorithms/impl/VmsDispersionAlgorithmForHomogeneousEnvironment.java
+  AL    autonomic-administration-algorithms/src/main/java/br/com/autonomiccs/autonomic/administration/algorithms/pojos/ClusterVmProfile.java
+  AL    autonomic-administration-algorithms/src/main/java/br/com/autonomiccs/autonomic/administration/algorithms/pojos/HostProfile.java
+  AL    autonomic-administration-algorithms/src/main/java/br/com/autonomiccs/autonomic/administration/algorithms/profilers/HostProfiler.java
+  AL    autonomic-administration-algorithms/src/test/java/br/com/autonomiccs/autonomic/administration/algorithms/impl/ClusterManagementDummyAlgorithmTest.java
+  AL    autonomic-administration-algorithms/src/test/java/br/com/autonomiccs/autonomic/administration/algorithms/impl/ConsolidationAlgorithmBaseTest.java
+  AL    autonomic-administration-algorithms/src/test/java/br/com/autonomiccs/autonomic/administration/algorithms/impl/ConsolidationAlgorithmsTest.java
+  AL    autonomic-administration-algorithms/src/test/java/br/com/autonomiccs/autonomic/administration/algorithms/impl/ConsolidationScoredPreferenceForBigHostsTest.java
+  AL    autonomic-administration-algorithms/src/test/java/br/com/autonomiccs/autonomic/administration/algorithms/impl/ConsolidationScoredPreferenceForSmallHostsTest.java
+  AL    autonomic-administration-algorithms/src/test/java/br/com/autonomiccs/autonomic/administration/algorithms/impl/ConsolidationXenHaPreferenceForBigHostsHomogeneousEnvironmentTest.java
+  AL    autonomic-administration-algorithms/src/test/java/br/com/autonomiccs/autonomic/administration/algorithms/impl/VmsDispersionAlgorithmForHomogeneousEnvironmentTest.java
+  AL    autonomic-administration-algorithms/src/test/java/br/com/autonomiccs/autonomic/administration/algorithms/profilers/HostProfilerTest.java
+  AL    autonomic-administration-plugin/pom.xml
   AL    autonomic-administration-plugin/src/main/java/br/com/autonomiccs/autonomic/administration/plugin/AdministrationAgent.java
+  AL    autonomic-administration-plugin/src/main/java/br/com/autonomiccs/autonomic/administration/plugin/HypervisorManager.java
+  AL    autonomic-administration-plugin/src/main/java/br/com/autonomiccs/autonomic/administration/plugin/hypervisors/HypervisorHost.java
+  AL    autonomic-administration-plugin/src/main/java/br/com/autonomiccs/autonomic/administration/plugin/hypervisors/xenserver/XenHypervisor.java
+  AL    autonomic-administration-plugin/src/main/java/br/com/autonomiccs/autonomic/administration/plugin/services/AutonomicClusterManagementService.java
   AL    autonomic-administration-plugin/src/main/resources/META-INF/cloudstack/administration/module.properties
   AL    autonomic-administration-plugin/src/main/resources/META-INF/cloudstack/administration/spring-administration-context.xml
-  AL    autonomic-administration-plugin/pom.xml
-  AL    wakeonlan-service/log4j.properties
-  AL    wakeonlan-service/src/main/java/br/com/autonomiccs/wakeonlan/service/StartHostService.java
-  AL    wakeonlan-service/src/main/java/br/com/autonomiccs/wakeonlan/initialization/InicializeSystem.java
-  AL    wakeonlan-service/src/main/java/br/com/autonomiccs/wakeonlan/controller/WakeOnLanServiceEndPoint.java
-  AL    wakeonlan-service/src/main/java/br/com/autonomiccs/wakeonlan/jersey/JerseyConfig.java
-  AL    wakeonlan-service/src/main/java/br/com/autonomiccs/wakeonlan/installation/WakeOnLanInstallation.java
-  AL    wakeonlan-service/src/test/java/br/com/autonomiccs/wakeonlan/service/StartHostServiceTest.java
-  AL    wakeonlan-service/src/test/java/br/com/autonomiccs/wakeonlan/inicialization/InicializeSystemTest.java
-  AL    wakeonlan-service/src/test/java/br/com/autonomiccs/wakeonlan/controller/WakeOnLanServiceEndPointTest.java
-  AL    wakeonlan-service/src/test/java/br/com/autonomiccs/wakeonlan/jersey/JerseyConfigTest.java
-  AL    wakeonlan-service/src/test/java/br/com/autonomiccs/wakeonlan/installation/WakeOnLanInstallationTest.java
-  AL    wakeonlan-service/application.yml
-  AL    wakeonlan-service/pom.xml
+  AL    autonomic-algorithms-commons/pom.xml
+  AL    autonomic-algorithms-commons/src/main/java/br/com/autonomiccs/autonomic/algorithms/commons/resources/CloudResources.java
+  AL    autonomic-algorithms-commons/src/main/java/br/com/autonomiccs/autonomic/algorithms/commons/resources/ClusterResources.java
+  AL    autonomic-algorithms-commons/src/main/java/br/com/autonomiccs/autonomic/algorithms/commons/resources/ClusterResourcesAvailableToStart.java
+  AL    autonomic-algorithms-commons/src/main/java/br/com/autonomiccs/autonomic/algorithms/commons/resources/ClusterResourcesUp.java
+  AL    autonomic-algorithms-commons/src/main/java/br/com/autonomiccs/autonomic/algorithms/commons/resources/HostResources.java
+  AL    autonomic-algorithms-commons/src/main/java/br/com/autonomiccs/autonomic/algorithms/commons/resources/VmResources.java
+  AL    autonomic-algorithms-commons/src/main/java/br/com/autonomiccs/autonomic/algorithms/commons/services/CloudResourcesService.java
+  AL    autonomic-algorithms-commons/src/main/java/br/com/autonomiccs/autonomic/algorithms/commons/services/ClusterResourcesService.java
+  AL    autonomic-algorithms-commons/src/main/java/br/com/autonomiccs/autonomic/algorithms/commons/services/HostResourcesService.java
+  AL    autonomic-algorithms-commons/src/test/java/br/com/autonomiccs/autonomic/algorithms/commons/services/CloudResourcesServiceTest.java
+  AL    autonomic-algorithms-commons/src/test/java/br/com/autonomiccs/autonomic/algorithms/commons/services/ClusterResourcesServiceTest.java
+  AL    autonomic-algorithms-commons/src/test/java/br/com/autonomiccs/autonomic/algorithms/commons/services/HostResourcesServiceTest.java
+  AL    autonomic-algorithms-commons/src/test/java/br/com/autonomiccs/autonomic/algorithms/commons/services/HostResourcesTestUtils.java
+  AL    autonomic-allocation-algorithms/pom.xml
   AL    autonomic-allocation-algorithms/src/main/java/br/com/autonomiccs/autonomic/allocation/algorithms/AllocationAlgorithm.java
+  AL    autonomic-allocation-algorithms/src/main/java/br/com/autonomiccs/autonomic/allocation/algorithms/impl/AllocationAlgorithmBase.java
   AL    autonomic-allocation-algorithms/src/main/java/br/com/autonomiccs/autonomic/allocation/algorithms/impl/ScoredClustersAllocationAlgorithmPreferenceForBigHosts.java
   AL    autonomic-allocation-algorithms/src/main/java/br/com/autonomiccs/autonomic/allocation/algorithms/impl/ScoredClustersAllocationAlgorithmPreferenceForSmallHosts.java
-  AL    autonomic-allocation-algorithms/src/main/java/br/com/autonomiccs/autonomic/allocation/algorithms/impl/AllocationAlgorithmBase.java
-  AL    autonomic-allocation-algorithms/src/test/java/br/com/autonomiccs/autonomic/allocation/algorithms/impl/ScoredClustersAllocationAlgorithmPreferenceForSmallHostsTest.java
-  AL    autonomic-allocation-algorithms/src/test/java/br/com/autonomiccs/autonomic/allocation/algorithms/impl/ScoredClustersAllocationAlgorithm.java
-  AL    autonomic-allocation-algorithms/src/test/java/br/com/autonomiccs/autonomic/allocation/algorithms/impl/HostUpwardComparatorTest.java
-  AL    autonomic-allocation-algorithms/src/test/java/br/com/autonomiccs/autonomic/allocation/algorithms/impl/ScoredClustersAllocationAlgorithmPreferenceForBigHostsTest.java
-  AL    autonomic-allocation-algorithms/src/test/java/br/com/autonomiccs/autonomic/allocation/algorithms/impl/ClusterUpwardComparatorTest.java
   AL    autonomic-allocation-algorithms/src/test/java/br/com/autonomiccs/autonomic/allocation/algorithms/impl/AllocationAlgorithmBaseTest.java
-  AL    autonomic-allocation-algorithms/pom.xml
-  AL    starthost-plugin/src/main/java/br/com/autonomiccs/starthost/plugin/proxies/StartHostMethodInterceptorWorkAroundForProxy.java
+  AL    autonomic-allocation-algorithms/src/test/java/br/com/autonomiccs/autonomic/allocation/algorithms/impl/ClusterUpwardComparatorTest.java
+  AL    autonomic-allocation-algorithms/src/test/java/br/com/autonomiccs/autonomic/allocation/algorithms/impl/HostUpwardComparatorTest.java
+  AL    autonomic-allocation-algorithms/src/test/java/br/com/autonomiccs/autonomic/allocation/algorithms/impl/ScoredClustersAllocationAlgorithm.java
+  AL    autonomic-allocation-algorithms/src/test/java/br/com/autonomiccs/autonomic/allocation/algorithms/impl/ScoredClustersAllocationAlgorithmPreferenceForBigHostsTest.java
+  AL    autonomic-allocation-algorithms/src/test/java/br/com/autonomiccs/autonomic/allocation/algorithms/impl/ScoredClustersAllocationAlgorithmPreferenceForSmallHostsTest.java
+  AL    autonomic-plugin-common/pom.xml
+  AL    autonomic-plugin-common/src/main/java/br/com/autonomiccs/autonomic/plugin/common/daos/AutonomiccsSystemVmDao.java
+  AL    autonomic-plugin-common/src/main/java/br/com/autonomiccs/autonomic/plugin/common/daos/AutonomiccsSystemVmJdbcDao.java
+  AL    autonomic-plugin-common/src/main/java/br/com/autonomiccs/autonomic/plugin/common/daos/AutonomiccsVmTemplateJdbcDao.java
+  AL    autonomic-plugin-common/src/main/java/br/com/autonomiccs/autonomic/plugin/common/daos/ClusterJdbcDao.java
+  AL    autonomic-plugin-common/src/main/java/br/com/autonomiccs/autonomic/plugin/common/daos/configurations/ConfigureDatabaseDao.java
+  AL    autonomic-plugin-common/src/main/java/br/com/autonomiccs/autonomic/plugin/common/daos/configurations/ProvideDataBaseProperties.java
+  AL    autonomic-plugin-common/src/main/java/br/com/autonomiccs/autonomic/plugin/common/daos/GuestOsJdbcDao.java
+  AL    autonomic-plugin-common/src/main/java/br/com/autonomiccs/autonomic/plugin/common/daos/HostJdbcDao.java
+  AL    autonomic-plugin-common/src/main/java/br/com/autonomiccs/autonomic/plugin/common/enums/ClusterAdministrationStatus.java
+  AL    autonomic-plugin-common/src/main/java/br/com/autonomiccs/autonomic/plugin/common/enums/HostAdministrationStatus.java
+  AL    autonomic-plugin-common/src/main/java/br/com/autonomiccs/autonomic/plugin/common/enums/StartType.java
+  AL    autonomic-plugin-common/src/main/java/br/com/autonomiccs/autonomic/plugin/common/enums/SystemVmType.java
+  AL    autonomic-plugin-common/src/main/java/br/com/autonomiccs/autonomic/plugin/common/guru/AutonomiccsSystemVmsGuru.java
+  AL    autonomic-plugin-common/src/main/java/br/com/autonomiccs/autonomic/plugin/common/pojos/AutonomiccsSystemVm.java
+  AL    autonomic-plugin-common/src/main/java/br/com/autonomiccs/autonomic/plugin/common/services/AutonomicClusterManagementHeuristicService.java
+  AL    autonomic-plugin-common/src/main/java/br/com/autonomiccs/autonomic/plugin/common/services/AutonomiccsServiceOfferingService.java
+  AL    autonomic-plugin-common/src/main/java/br/com/autonomiccs/autonomic/plugin/common/services/AutonomiccsSystemVmDeploymentService.java
+  AL    autonomic-plugin-common/src/main/java/br/com/autonomiccs/autonomic/plugin/common/services/AutonomiccsSystemVmTemplateService.java
+  AL    autonomic-plugin-common/src/main/java/br/com/autonomiccs/autonomic/plugin/common/services/ClusterService.java
+  AL    autonomic-plugin-common/src/main/java/br/com/autonomiccs/autonomic/plugin/common/services/GuestOsService.java
+  AL    autonomic-plugin-common/src/main/java/br/com/autonomiccs/autonomic/plugin/common/services/HostService.java
+  AL    autonomic-plugin-common/src/main/java/br/com/autonomiccs/autonomic/plugin/common/services/PodService.java
+  AL    autonomic-plugin-common/src/main/java/br/com/autonomiccs/autonomic/plugin/common/services/StartHostSystemVmService.java
+  AL    autonomic-plugin-common/src/main/java/br/com/autonomiccs/autonomic/plugin/common/services/VirtualMachineService.java
+  AL    autonomic-plugin-common/src/main/java/br/com/autonomiccs/autonomic/plugin/common/services/ZoneService.java
+  AL    autonomic-plugin-common/src/main/java/br/com/autonomiccs/autonomic/plugin/common/template/AutonomiccsSystemVirtualMachinesTemplateRegister.java
+  AL    autonomic-plugin-common/src/main/java/br/com/autonomiccs/autonomic/plugin/common/utils/HostUtils.java
+  AL    autonomic-plugin-common/src/main/java/br/com/autonomiccs/autonomic/plugin/common/utils/HttpUtils.java
+  AL    autonomic-plugin-common/src/main/java/br/com/autonomiccs/autonomic/plugin/common/utils/NotifySmartAcsStartUpUtils.java
+  AL    autonomic-plugin-common/src/main/java/br/com/autonomiccs/autonomic/plugin/common/utils/ReflectionUtils.java
+  AL    autonomic-plugin-common/src/main/java/br/com/autonomiccs/autonomic/plugin/common/utils/ShellCommandUtils.java
+  AL    autonomic-plugin-common/src/main/java/br/com/autonomiccs/autonomic/plugin/common/utils/SshUtils.java
+  AL    autonomic-plugin-common/src/main/java/br/com/autonomiccs/autonomic/plugin/common/utils/ThreadUtils.java
+  AL    autonomic-plugin-common/src/main/resources/META-INF/cloudstack/autonomicPlugins/module.properties
+  AL    autonomic-plugin-common/src/main/resources/META-INF/cloudstack/autonomicPlugins/spring-autonomiccsPlugins-context.xml
+  AL    autonomic-plugin-common/src/test/java/br/com/autonomiccs/autonomic/plugin/common/utils/ShellCommandUtilsTest.java
+  N     LICENSE
+  N     NOTICE
+  AL    pom.xml
+  AL    starthost-plugin/pom.xml
   AL    starthost-plugin/src/main/java/br/com/autonomiccs/starthost/plugin/proxies/ScanDirectAgentToLoadMethodInterceptor.java
-  AL    starthost-plugin/src/main/java/br/com/autonomiccs/starthost/plugin/proxies/StartHostMethodInterceptor.java
   AL    starthost-plugin/src/main/java/br/com/autonomiccs/starthost/plugin/proxies/ScanDirectAgentToLoadMethodInterceptorWorkAroundForProxy.java
+  AL    starthost-plugin/src/main/java/br/com/autonomiccs/starthost/plugin/proxies/StartHostMethodInterceptor.java
+  AL    starthost-plugin/src/main/java/br/com/autonomiccs/starthost/plugin/proxies/StartHostMethodInterceptorWorkAroundForProxy.java
   AL    starthost-plugin/src/main/java/br/com/autonomiccs/starthost/plugin/services/StartHostService.java
   AL    starthost-plugin/src/main/java/br/com/autonomiccs/starthost/systemVm/AutonomiccsStartHostSystemVmManager.java
-  AL    starthost-plugin/src/main/resources/log4j.properties
-  AL    starthost-plugin/src/main/resources/META-INF/cloudstack/starthost/spring-starthost-context.xml
-  AL    starthost-plugin/src/main/resources/META-INF/cloudstack/starthost/module.properties
   AL    starthost-plugin/src/main/resources/application.yml
+  AL    starthost-plugin/src/main/resources/log4j.properties
+  AL    starthost-plugin/src/main/resources/META-INF/cloudstack/starthost/module.properties
+  AL    starthost-plugin/src/main/resources/META-INF/cloudstack/starthost/spring-starthost-context.xml
   AL    starthost-plugin/src/main/resources/proxyToStartHostConfigurations.xml
   AL    starthost-plugin/src/main/resources/startup
   AL    starthost-plugin/target/classes/startup
-  AL    starthost-plugin/pom.xml
-  AL    pom.xml
-  AL    autonomic-plugin-common/src/main/java/br/com/autonomiccs/autonomic/plugin/common/daos/AutonomiccsVmTemplateJdbcDao.java
-  AL    autonomic-plugin-common/src/main/java/br/com/autonomiccs/autonomic/plugin/common/daos/HostJdbcDao.java
-  AL    autonomic-plugin-common/src/main/java/br/com/autonomiccs/autonomic/plugin/common/daos/AutonomiccsSystemVmJdbcDao.java
-  AL    autonomic-plugin-common/src/main/java/br/com/autonomiccs/autonomic/plugin/common/daos/configurations/ProvideDataBaseProperties.java
-  AL    autonomic-plugin-common/src/main/java/br/com/autonomiccs/autonomic/plugin/common/daos/configurations/ConfigureDatabaseDao.java
-  AL    autonomic-plugin-common/src/main/java/br/com/autonomiccs/autonomic/plugin/common/daos/GuestOsJdbcDao.java
-  AL    autonomic-plugin-common/src/main/java/br/com/autonomiccs/autonomic/plugin/common/daos/AutonomiccsSystemVmDao.java
-  AL    autonomic-plugin-common/src/main/java/br/com/autonomiccs/autonomic/plugin/common/daos/ClusterJdbcDao.java
-  AL    autonomic-plugin-common/src/main/java/br/com/autonomiccs/autonomic/plugin/common/template/AutonomiccsSystemVirtualMachinesTemplateRegister.java
-  AL    autonomic-plugin-common/src/main/java/br/com/autonomiccs/autonomic/plugin/common/services/AutonomiccsSystemVmDeploymentService.java
-  AL    autonomic-plugin-common/src/main/java/br/com/autonomiccs/autonomic/plugin/common/services/HostService.java
-  AL    autonomic-plugin-common/src/main/java/br/com/autonomiccs/autonomic/plugin/common/services/StartHostSystemVmService.java
-  AL    autonomic-plugin-common/src/main/java/br/com/autonomiccs/autonomic/plugin/common/services/VirtualMachineService.java
-  AL    autonomic-plugin-common/src/main/java/br/com/autonomiccs/autonomic/plugin/common/services/ClusterService.java
-  AL    autonomic-plugin-common/src/main/java/br/com/autonomiccs/autonomic/plugin/common/services/ZoneService.java
-  AL    autonomic-plugin-common/src/main/java/br/com/autonomiccs/autonomic/plugin/common/services/AutonomicClusterManagementHeuristicService.java
-  AL    autonomic-plugin-common/src/main/java/br/com/autonomiccs/autonomic/plugin/common/services/AutonomiccsServiceOfferingService.java
-  AL    autonomic-plugin-common/src/main/java/br/com/autonomiccs/autonomic/plugin/common/services/GuestOsService.java
-  AL    autonomic-plugin-common/src/main/java/br/com/autonomiccs/autonomic/plugin/common/services/PodService.java
-  AL    autonomic-plugin-common/src/main/java/br/com/autonomiccs/autonomic/plugin/common/services/AutonomiccsSystemVmTemplateService.java
-  AL    autonomic-plugin-common/src/main/java/br/com/autonomiccs/autonomic/plugin/common/utils/ThreadUtils.java
-  AL    autonomic-plugin-common/src/main/java/br/com/autonomiccs/autonomic/plugin/common/utils/SshUtils.java
-  AL    autonomic-plugin-common/src/main/java/br/com/autonomiccs/autonomic/plugin/common/utils/ShellCommandUtils.java
-  AL    autonomic-plugin-common/src/main/java/br/com/autonomiccs/autonomic/plugin/common/utils/NotifySmartAcsStartUpUtils.java
-  AL    autonomic-plugin-common/src/main/java/br/com/autonomiccs/autonomic/plugin/common/utils/ReflectionUtils.java
-  AL    autonomic-plugin-common/src/main/java/br/com/autonomiccs/autonomic/plugin/common/utils/HttpUtils.java
-  AL    autonomic-plugin-common/src/main/java/br/com/autonomiccs/autonomic/plugin/common/utils/HostUtils.java
-  AL    autonomic-plugin-common/src/main/java/br/com/autonomiccs/autonomic/plugin/common/pojos/AutonomiccsSystemVm.java
-  AL    autonomic-plugin-common/src/main/java/br/com/autonomiccs/autonomic/plugin/common/guru/AutonomiccsSystemVmsGuru.java
-  AL    autonomic-plugin-common/src/main/java/br/com/autonomiccs/autonomic/plugin/common/enums/ClusterAdministrationStatus.java
-  AL    autonomic-plugin-common/src/main/java/br/com/autonomiccs/autonomic/plugin/common/enums/SystemVmType.java
-  AL    autonomic-plugin-common/src/main/java/br/com/autonomiccs/autonomic/plugin/common/enums/HostAdministrationStatus.java
-  AL    autonomic-plugin-common/src/main/java/br/com/autonomiccs/autonomic/plugin/common/enums/StartType.java
-  AL    autonomic-plugin-common/src/main/resources/META-INF/cloudstack/autonomicPlugins/spring-autonomicPlugins-context.xml
-  AL    autonomic-plugin-common/src/main/resources/META-INF/cloudstack/autonomicPlugins/module.properties
-  AL    autonomic-plugin-common/src/test/java/br/com/autonomiccs/autonomic/plugin/common/utils/ShellCommandUtilsTest.java
-  AL    autonomic-plugin-common/pom.xml
-  N     NOTICE
-  AL    autonomic-administration-algorithms/src/main/java/br/com/autonomiccs/autonomic/administration/algorithms/ClusterAdministrationHeuristicAlgorithm.java
-  AL    autonomic-administration-algorithms/src/main/java/br/com/autonomiccs/autonomic/administration/algorithms/profilers/HostProfiler.java
-  AL    autonomic-administration-algorithms/src/main/java/br/com/autonomiccs/autonomic/administration/algorithms/pojos/ClusterVmProfile.java
-  AL    autonomic-administration-algorithms/src/main/java/br/com/autonomiccs/autonomic/administration/algorithms/pojos/HostProfile.java
-  AL    autonomic-administration-algorithms/src/main/java/br/com/autonomiccs/autonomic/administration/algorithms/impl/ConsolidationXenHaPreferenceForBigHostsHomogeneousEnvironment.java
-  AL    autonomic-administration-algorithms/src/main/java/br/com/autonomiccs/autonomic/administration/algorithms/impl/ConsolidationAlgorithmBase.java
-  AL    autonomic-administration-algorithms/src/main/java/br/com/autonomiccs/autonomic/administration/algorithms/impl/ClusterManagementDummyAlgorithm.java
-  AL    autonomic-administration-algorithms/src/main/java/br/com/autonomiccs/autonomic/administration/algorithms/impl/ConsolidationScoredPreferenceForBigHosts.java
-  AL    autonomic-administration-algorithms/src/main/java/br/com/autonomiccs/autonomic/administration/algorithms/impl/VmsDispersionAlgorithmForHomogeneousEnvironment.java
-  AL    autonomic-administration-algorithms/src/main/java/br/com/autonomiccs/autonomic/administration/algorithms/impl/ConsolidationScoredPreferenceForSmallHosts.java
-  AL    autonomic-administration-algorithms/src/test/java/br/com/autonomiccs/autonomic/administration/algorithms/profilers/HostProfilerTest.java
-  AL    autonomic-administration-algorithms/src/test/java/br/com/autonomiccs/autonomic/administration/algorithms/impl/ConsolidationAlgorithmsTest.java
-  AL    autonomic-administration-algorithms/src/test/java/br/com/autonomiccs/autonomic/administration/algorithms/impl/ConsolidationScoredPreferenceForSmallHostsTest.java
-  AL    autonomic-administration-algorithms/src/test/java/br/com/autonomiccs/autonomic/administration/algorithms/impl/ConsolidationXenHaPreferenceForBigHostsHomogeneousEnvironmentTest.java
-  AL    autonomic-administration-algorithms/src/test/java/br/com/autonomiccs/autonomic/administration/algorithms/impl/ConsolidationAlgorithmBaseTest.java
-  AL    autonomic-administration-algorithms/src/test/java/br/com/autonomiccs/autonomic/administration/algorithms/impl/VmsDispersionAlgorithmForHomogeneousEnvironmentTest.java
-  AL    autonomic-administration-algorithms/src/test/java/br/com/autonomiccs/autonomic/administration/algorithms/impl/ClusterManagementDummyAlgorithmTest.java
-  AL    autonomic-administration-algorithms/src/test/java/br/com/autonomiccs/autonomic/administration/algorithms/impl/ConsolidationScoredPreferenceForBigHostsTest.java
-  AL    autonomic-administration-algorithms/pom.xml
-  N     LICENSE
-  AL    tools/scripts/build/buildAutonomiccs.sh
-  AL    tools/scripts/build/templateInstallationPackage/selectSystemVMsIPs.sql
-  AL    tools/scripts/build/templateInstallationPackage/removeReferencesOnCloudStackDB.sh
-  AL    tools/scripts/build/templateInstallationPackage/install.sh
-  AL    tools/scripts/build/templateInstallationPackage/removeCsDatabaseReferences.sql
-  AL    tools/scripts/build/templateInstallationPackage/unistall.sh
-  AL    tools/scripts/build/templateInstallationPackage/autonomiccsJars/moveJars.sh
-  AL    tools/scripts/build/templateInstallationPackage/autonomiccsJars/removeJars.sh
-  AL    tools/scripts/build/createAutonomiccsPlatformInstaller.sh
-  B     tools/project-logo/autonomiccsWhite.png
-  B     tools/project-logo/AutonomiccsProjectFirstFace.png
-  B     tools/project-logo/autonomiccsText.png
-  B     tools/project-logo/Thumbs.db
+  B     tools/figures/balancing.jpg
+  B     tools/figures/consolidation.jpg
+  A     tools/figures/consolidationManagers.odg
+  A     tools/figures/frameworkComponents.odg
+  B     tools/figures/managementAgents.jpg
+  A     tools/figures/scenarios.odg
+  B     tools/figures/Thumbs.db
+  AL    tools/licenses/licenses-header-template
   B     tools/project-logo/a.png
   B     tools/project-logo/autonomiccs.png
-  A     tools/figures/scenarios.odg
-  A     tools/figures/frameworkComponents.odg
-  B     tools/figures/consolidation.jpg
-  B     tools/figures/balancing.jpg
-  B     tools/figures/Thumbs.db
-  A     tools/figures/consolidationManagers.odg
-  B     tools/figures/managementAgents.jpg
-  AL    tools/licenses/licenses-header-template
+  B     tools/project-logo/AutonomiccsProjectFirstFace.png
+  B     tools/project-logo/autonomiccsText.png
+  B     tools/project-logo/autonomiccsWhite.png
+  B     tools/project-logo/Thumbs.db
+  AL    tools/scripts/build/buildAutonomiccs.sh
+  AL    tools/scripts/build/createAutonomiccsPlatformInstaller.sh
+  AL    tools/scripts/build/templateInstallationPackage/autonomiccsJars/moveJars.sh
+  AL    tools/scripts/build/templateInstallationPackage/autonomiccsJars/removeJars.sh
+  AL    tools/scripts/build/templateInstallationPackage/install.sh
+  AL    tools/scripts/build/templateInstallationPackage/removeCsDatabaseReferences.sql
+  AL    tools/scripts/build/templateInstallationPackage/removeReferencesOnCloudStackDB.sh
+  AL    tools/scripts/build/templateInstallationPackage/removeSelectProcedure.sql
+  AL    tools/scripts/build/templateInstallationPackage/selectSystemVMsIPs.sql
+  AL    tools/scripts/build/templateInstallationPackage/unistall.sh
+  AL    wakeonlan-service/application.yml
+  AL    wakeonlan-service/log4j.properties
+  AL    wakeonlan-service/pom.xml
+  AL    wakeonlan-service/src/main/java/br/com/autonomiccs/wakeonlan/controller/WakeOnLanServiceEndPoint.java
+  AL    wakeonlan-service/src/main/java/br/com/autonomiccs/wakeonlan/initialization/InicializeSystem.java
+  AL    wakeonlan-service/src/main/java/br/com/autonomiccs/wakeonlan/installation/WakeOnLanInstallation.java
+  AL    wakeonlan-service/src/main/java/br/com/autonomiccs/wakeonlan/jersey/JerseyConfig.java
+  AL    wakeonlan-service/src/main/java/br/com/autonomiccs/wakeonlan/service/StartHostService.java
+  AL    wakeonlan-service/src/test/java/br/com/autonomiccs/wakeonlan/controller/WakeOnLanServiceEndPointTest.java
+  AL    wakeonlan-service/src/test/java/br/com/autonomiccs/wakeonlan/inicialization/InicializeSystemTest.java
+  AL    wakeonlan-service/src/test/java/br/com/autonomiccs/wakeonlan/installation/WakeOnLanInstallationTest.java
+  AL    wakeonlan-service/src/test/java/br/com/autonomiccs/wakeonlan/jersey/JerseyConfigTest.java
+  AL    wakeonlan-service/src/test/java/br/com/autonomiccs/wakeonlan/service/StartHostServiceTest.java
  
 *****************************************************
  Printing headers for files without AL header...

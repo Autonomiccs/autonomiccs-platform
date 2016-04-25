@@ -27,7 +27,7 @@ import org.springframework.jdbc.core.support.JdbcDaoSupport;
 
 import com.cloud.utils.exception.CloudRuntimeException;
 
-public class AutonomiccsVmTemplateJdbcDao extends JdbcDaoSupport {
+public class AutonomiccsSystemVmTemplateJdbcDao extends JdbcDaoSupport {
 
     private String sqlIsTemplateRegistered = "select count(id) from vm_template where removed is null and state <> 'Inactive' and name = ?";
 

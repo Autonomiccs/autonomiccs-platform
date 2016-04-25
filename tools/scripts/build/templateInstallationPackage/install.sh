@@ -19,6 +19,10 @@
 # KIND, either express or implied.  See the License for the
 # specific language governing permissions and limitations
 # under the License.
+##########################################################################################################
+## This script needs the program called "jar", it comes with the JDK.
+## Be sure to export/install it properly before executing this script
+##########################################################################################################
 
 CSSTATUS=$(service cloudstack-management status);
 if [[ $CSSTATUS == *"is running"* ]]; then

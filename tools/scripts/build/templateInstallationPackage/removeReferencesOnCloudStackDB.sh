@@ -34,7 +34,7 @@ read USER;
 echo "Please inform the database password";
 read PASSWORD;
 
-IPS=$(mysql -N -h "$HOST" -P "$PORT" -u "$USER" "-p$PASSWORD" "cloud" < "selectSystemVMsIPs.sql");
+IPS=$(mysql -N -h "$HOST" -P "$PORT" -u "$USER" "-p$PASSWORD" --delimiter="//" "cloud" < "selectSystemVMsIPs.sql");
 echo "System VMs IPs:";
 echo "$IPS";
 for IP in $IPS
@@ -42,8 +42,8 @@ do
         echo "Shuting down System VM [ip=$IP]";
         ssh -oStrictHostKeyChecking=no -i id_rsa root@$IP 'halt -p'
 done
-
-mysql -h "$HOST" -P "$PORT" -u "$USER" "-p$PASSWORD" "cloud" < "removeCsDatabaseReferences.sql";
+mysql -h "$HOST" -P "$PORT" -u "$USER" "-p$PASSWORD" "cloud" < "removeSelectProcedure.sql";
+mysql -h "$HOST" -P "$PORT" -u "$USER" "-p$PASSWORD" --delimiter="//" "cloud" < "removeCsDatabaseReferences.sql";
 if [ "$?" -eq 0 ]; then
     echo "Autonomiccs platform references of the ACS database have been removed!";
 else

@@ -19,9 +19,80 @@
 -- specific language governing permissions and limitations
 -- under the License.
 
-ALTER TABLE host DROP COLUMN start_type;
+
+-- ----------------------------------------------------------------------------------------------------------------------------------
+-- Drops the administration_status column from host table
+-- ----------------------------------------------------------------------------------------------------------------------------------
+CREATE PROCEDURE drop_column_administrationStatus() BEGIN
+IF EXISTS(
+SELECT * FROM information_schema.COLUMNS
+WHERE table_name = 'host' AND column_name = 'administration_status'
+and table_schema ='cloud'
+)
+THEN
 ALTER TABLE host DROP COLUMN administration_status;
+END IF;
+END;
+
+CALL drop_column_administrationStatus();
+DROP PROCEDURE drop_column_administrationStatus;
+
+-- ----------------------------------------------------------------------------------------------------------------------------------
+-- Drops the start_type column from host table
+-- ----------------------------------------------------------------------------------------------------------------------------------
+CREATE PROCEDURE drop_column_startType() BEGIN
+IF EXISTS(
+SELECT * FROM information_schema.COLUMNS
+WHERE table_name = 'host' AND column_name = 'start_type'
+and table_schema ='cloud'
+)
+THEN
+ALTER TABLE host DROP COLUMN start_type;
+END IF;
+END;
+
+CALL drop_column_startType();
+DROP PROCEDURE drop_column_startType;
+
+-- ----------------------------------------------------------------------------------------------------------------------------------
+-- Drops the administration_status column from cluster table
+-- ----------------------------------------------------------------------------------------------------------------------------------
+CREATE PROCEDURE drop_column_cluster_administrationStatus() BEGIN
+IF EXISTS(
+SELECT * FROM information_schema.COLUMNS
+WHERE table_name = 'cluster' AND column_name = 'administration_status'
+and table_schema ='cloud'
+)
+THEN
 ALTER TABLE cluster DROP COLUMN administration_status;
+END IF;
+END;
+CALL drop_column_cluster_administrationStatus();
+DROP PROCEDURE drop_column_cluster_administrationStatus;
+
+-- ----------------------------------------------------------------------------------------------------------------------------------
+-- Drops the last_administration column from cluster table
+-- ----------------------------------------------------------------------------------------------------------------------------------
+CREATE PROCEDURE drop_column_cluster_lastAdministration() BEGIN
+IF EXISTS(
+SELECT * FROM information_schema.COLUMNS
+WHERE table_name = 'cluster' AND column_name = 'last_administration'
+and table_schema ='cloud'
+)
+THEN
 ALTER TABLE cluster DROP COLUMN last_administration;
+END IF;
+END;
+
+CALL drop_column_cluster_lastAdministration();
+DROP PROCEDURE drop_column_cluster_lastAdministration;
+
+-- ----------------------------------------------------------------------------------------------------------------------------------
+-- Remove configuration from configuration table
+-- ----------------------------------------------------------------------------------------------------------------------------------
 DELETE FROM configuration WHERE component="autonomicClusterManager";
-DROP TABLE AutonomiccsSystemVm;
+
+-- ----------------------------------------------------------------------------------------------------------------------------------
+-- Drops Autonomiccs system VMs table
+-- ----------------------------------------------------------------------------------------------------------------------------------
+DROP TABLE if exists AutonomiccsSystemVm;

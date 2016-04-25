@@ -21,12 +21,12 @@
 # under the License.
 
 # Removing Autonomiccs jars
-rm /usr/share/cloudstack-management/webapps/client/WEB-INF/lib/autonomic*.jar;
-rm /usr/share/cloudstack-management/webapps/client/WEB-INF/lib/starthost-plugin*.jar
-rm /usr/share/cloudstack-management/webapps/client/WEB-INF/lib/wakeonlan-service*;
+rm -f /usr/share/cloudstack-management/webapps/client/WEB-INF/lib/autonomic*.jar;
+rm -f /usr/share/cloudstack-management/webapps/client/WEB-INF/lib/starthost-plugin*.jar
+rm -f /usr/share/cloudstack-management/webapps/client/WEB-INF/lib/wakeonlan-service*;
 
 # Removing Autonomiccs dependencies
-rm /usr/share/cloudstack-management/webapps/client/WEB-INF/lib/commons-math3-3.6.jar
-rm /usr/share/cloudstack-management/webapps/client/WEB-INF/lib/spring-jdbc-3.2.12.RELEASE.jar;
-rm /usr/share/cloudstack-management/webapps/client/WEB-INF/lib/spring-integration-core-3.0.7.RELEASE.jar;
-rm /usr/share/cloudstack-management/webapps/client/WEB-INF/lib/spring-tx-3.2.12.RELEASE.jar;
+rm -f /usr/share/cloudstack-management/webapps/client/WEB-INF/lib/commons-math3-3.6.jar
+rm -f /usr/share/cloudstack-management/webapps/client/WEB-INF/lib/spring-jdbc-3.2.12.RELEASE.jar;
+rm -f /usr/share/cloudstack-management/webapps/client/WEB-INF/lib/spring-integration-core-3.0.7.RELEASE.jar;
+rm -f /usr/share/cloudstack-management/webapps/client/WEB-INF/lib/spring-tx-3.2.12.RELEASE.jar;

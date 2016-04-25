@@ -46,6 +46,19 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import com.cloud.dc.ClusterVO;
+import com.cloud.dc.DataCenterVO;
+import com.cloud.dc.HostPodVO;
+import com.cloud.deploy.DataCenterDeployment;
+import com.cloud.exception.ConcurrentOperationException;
+import com.cloud.exception.InsufficientCapacityException;
+import com.cloud.exception.OperationTimedoutException;
+import com.cloud.exception.ResourceUnavailableException;
+import com.cloud.host.HostVO;
+import com.cloud.service.ServiceOfferingVO;
+import com.cloud.vm.VMInstanceVO;
+import com.cloud.vm.VirtualMachineManager;
+
 import br.com.autonomiccs.autonomic.algorithms.commons.resources.HostResources;
 import br.com.autonomiccs.autonomic.algorithms.commons.services.HostResourcesService;
 import br.com.autonomiccs.autonomic.plugin.common.enums.SystemVmType;
@@ -62,19 +75,6 @@ import br.com.autonomiccs.autonomic.plugin.common.services.VirtualMachineService
 import br.com.autonomiccs.autonomic.plugin.common.services.ZoneService;
 import br.com.autonomiccs.autonomic.plugin.common.utils.NotifySmartAcsStartUpUtils;
 import br.com.autonomiccs.autonomic.plugin.common.utils.SshUtils;
-
-import com.cloud.dc.ClusterVO;
-import com.cloud.dc.DataCenterVO;
-import com.cloud.dc.HostPodVO;
-import com.cloud.deploy.DataCenterDeployment;
-import com.cloud.exception.ConcurrentOperationException;
-import com.cloud.exception.InsufficientCapacityException;
-import com.cloud.exception.OperationTimedoutException;
-import com.cloud.exception.ResourceUnavailableException;
-import com.cloud.host.HostVO;
-import com.cloud.service.ServiceOfferingVO;
-import com.cloud.vm.VMInstanceVO;
-import com.cloud.vm.VirtualMachineManager;
 
 @Component
 public class AutonomiccsStartHostSystemVmManager implements InitializingBean {

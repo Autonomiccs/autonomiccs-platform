@@ -34,7 +34,7 @@ import com.cloud.storage.VMTemplateVO;
 import com.cloud.storage.dao.VMTemplateDao;
 import com.cloud.utils.exception.CloudRuntimeException;
 
-import br.com.autonomiccs.autonomic.plugin.common.daos.AutonomiccsVmTemplateJdbcDao;
+import br.com.autonomiccs.autonomic.plugin.common.daos.AutonomiccsSystemVmTemplateJdbcDao;
 
 /**
  * This class is responsible to manage the Autonomiccs System VMs templates
@@ -45,7 +45,7 @@ public class AutonomiccsSystemVmTemplateService implements InitializingBean {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
-    private AutonomiccsVmTemplateJdbcDao autonomiccsSystemVmTemplateJdbcDao;
+    private AutonomiccsSystemVmTemplateJdbcDao autonomiccsSystemVmTemplateJdbcDao;
 
     @Autowired
     private VMTemplateDao templateDao;

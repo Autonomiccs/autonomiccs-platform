@@ -19,13 +19,4 @@
 -- specific language governing permissions and limitations
 -- under the License.
 
-CREATE PROCEDURE select_system_VMs() BEGIN 
-IF EXISTS( SELECT * FROM information_schema.COLUMNS WHERE table_name = 'AutonomiccsSystemVm' AND column_name = 'management_ip_address' and table_schema ='cloud' )
-THEN
-SELECT management_ip_address FROM AutonomiccsSystemVm WHERE management_ip_address IS NOT NULL;
-ELSE
-select c.id as management_ip_address from cluster c where 1=0;
-END IF;
-END;
-
-CALL select_system_VMs();
+DROP PROCEDURE select_system_VMs;
