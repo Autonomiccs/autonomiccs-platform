@@ -29,10 +29,9 @@
 	<parent>
 		<groupId>br.com.autonomiccs</groupId>
 		<artifactId>autonomic-platform</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
+		<version>1.0.0</version>
 	</parent>
 	<artifactId>autonomic-administration-algorithms</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
 	<name>autonomic-administration-algorithms</name>
 	
 	<description>This project contains the administration algorithms interface and a set of basic algorithms that can be used with the Autonomiccs cloud computing management platform. Those algorithms are used to feed our management agents.</description>
