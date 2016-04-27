@@ -1,7 +1,6 @@
-![Autonomiccs Platform](tools/project-logo/autonomiccs.png) 
+[![Autonomiccs Platform](tools/project-logo/autonomiccs.png)](http://autonomiccs.com.br)
 
 ###Project stats: [![Build Status](http://jenkins.autonomiccs.com.br/buildStatus/icon?job=Autonomiccs-platform)](http://jenkins.autonomiccs.com.br/job/Autonomiccs-platform/) <a href="https://scan.coverity.com/projects/autonomiccs-platform"><img alt="Coverity Scan Build Status" src="https://scan.coverity.com/projects/8610/badge.svg"/></a>
-<a href="autonomiccs.com.br">Autonomiccs website</a>
 
 Autonomiccs platform is an open source software that provides the vital components needed to manage a cloud computing environment autonomously; we act at the infrastructure as a service level by providing a plugin to <a href="https://github.com/apache/cloudstack">Apache CloudStack</a>.
 
