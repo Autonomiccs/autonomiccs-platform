@@ -1,6 +1,8 @@
 ![Autonomiccs Platform](tools/project-logo/autonomiccs.png) 
 
 ###Project stats: [![Build Status](http://jenkins.autonomiccs.com.br/buildStatus/icon?job=Autonomiccs-platform)](http://jenkins.autonomiccs.com.br/job/Autonomiccs-platform/) <a href="https://scan.coverity.com/projects/autonomiccs-platform"><img alt="Coverity Scan Build Status" src="https://scan.coverity.com/projects/8610/badge.svg"/></a>
+<a href="autonomiccs.com.br">Autonomiccs website</a>
+
 Autonomiccs platform is an open source software that provides the vital components needed to manage a cloud computing environment autonomously; we act at the infrastructure as a service level by providing a plugin to <a href="https://github.com/apache/cloudstack">Apache CloudStack</a>.
 
 Our mission is to take the orchestration of cloud computing infrastructures to the next level. To achieve that, we developed a distributed and autonomic plugin that can monitor the CC environment and take decisions in order to fulfill the goals of the given environment. We do not wish to remove the need for human administrators, but to improve their work. Our mission is to optimize and make CC environments more efficient and stable without needing to rely on human administrators.
@@ -87,6 +89,8 @@ Mailing lists:
 ## More details
 
 Please, go to our <a href="https://github.com/Autonomiccs/autonomiccs-platform/wiki">wiki</a> page for more details; there you can understand more of the <a href="https://github.com/Autonomiccs/autonomiccs-platform/wiki/Autonomiccs-platform">Autonomiccs platform</a>, some <a href="https://github.com/Autonomiccs/autonomiccs-platform/wiki/Basic-concepts">basic concepts</a>, what are <a href="https://github.com/Autonomiccs/autonomiccs-platform/wiki/Heuristics">heuristics</a> and how we use it, how to <a href="https://github.com/Autonomiccs/autonomiccs-platform/wiki/Installation">install</a> and <a href="https://github.com/Autonomiccs/autonomiccs-platform/wiki/Usage">use</a>.
+
+You can find more about Autonomiccs visiting the <a href="autonomiccs.com.br">website</a>.
 
 ## Licence
 
