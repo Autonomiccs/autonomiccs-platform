@@ -60,7 +60,7 @@ public class ShellCommandUtils {
             p.waitFor();
             IOUtils.copy(p.getInputStream(), output);
         } catch (IOException | InterruptedException e) {
-            logger.error(e.getMessage());
+            logger.error(String.format("An error happened while executing command[%s]", command), e);
         }
         return output.toString();
     }

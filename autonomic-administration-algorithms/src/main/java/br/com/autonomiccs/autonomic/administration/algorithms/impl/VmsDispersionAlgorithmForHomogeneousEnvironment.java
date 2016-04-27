@@ -163,7 +163,7 @@ public class VmsDispersionAlgorithmForHomogeneousEnvironment extends Consolidati
     @Override
     public Map<Long, HostResources> mapVMsToHost(List<HostResources> rankedHosts) {
         if (MathUtils.equals(standardDeviationHostsUsage, 0)) {
-            return new HashMap<Long, HostResources>();
+            return new HashMap<>();
         }
         List<HostResources> rankedHostsStdVms = cloneListOfHosts(rankedHosts);
         List<HostResources> rankedHostsStdHosts = cloneListOfHosts(rankedHosts);
@@ -220,7 +220,7 @@ public class VmsDispersionAlgorithmForHomogeneousEnvironment extends Consolidati
      * deviation it maps virtual machine migrations. The standar deviation is used as a
      */
     protected Map<Long, HostResources> simulateVmsMigrations(List<HostResources> rankedHosts, double standardDeviation) {
-        Map<Long, HostResources> vmsToHost = new HashMap<Long, HostResources>();
+        Map<Long, HostResources> vmsToHost = new HashMap<>();
 
         double hostMemoryMinimumUsageAllowed = clusterMemoryUsageAverage - standardDeviation;
         for (int i = rankedHosts.size() - 1; i > 0; i--) {

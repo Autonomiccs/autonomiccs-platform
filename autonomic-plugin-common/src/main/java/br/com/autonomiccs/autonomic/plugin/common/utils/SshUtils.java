@@ -34,6 +34,7 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.cloud.utils.exception.CloudRuntimeException;
 import com.trilead.ssh2.Connection;
 import com.trilead.ssh2.SCPClient;
 import com.trilead.ssh2.Session;
@@ -61,7 +62,7 @@ public class SshUtils implements InitializingBean {
     private Session authenticateSshSessionWithPublicKey(Connection sshConnection) throws IOException {
         sshConnection.connect(null, 60000, 60000);
         if (!sshConnection.authenticateWithPublicKey("root", certificate, null)) {
-            throw new RuntimeException(String.format("Unable to authenticate to (%s)", sshConnection.getHostname()));
+            throw new CloudRuntimeException(String.format("Unable to authenticate to (%s)", sshConnection.getHostname()));
         }
         return sshConnection.openSession();
     }

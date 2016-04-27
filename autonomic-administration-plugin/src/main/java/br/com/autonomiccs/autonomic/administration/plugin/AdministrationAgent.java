@@ -258,7 +258,7 @@ public class AdministrationAgent implements InitializingBean {
      * Returns a list of clusters resources for the whole environment.
      */
     public List<ClusterResourcesUp> createAllClustersResourcesUp() {
-        List<ClusterResourcesUp> clusters = new ArrayList<ClusterResourcesUp>();
+        List<ClusterResourcesUp> clusters = new ArrayList<>();
         List<ClusterVO> clustersVO = clusterService.listAllClusters();
         for (ClusterVO clusterVO : clustersVO) {
             if (clusterVO.getRemoved() != null) {
@@ -329,7 +329,7 @@ public class AdministrationAgent implements InitializingBean {
      */
     private List<HostResources> getClusterUpHosts(ClusterVO cluster) {
         List<HostVO> hostsVo = hostService.listAllHostsInCluster(cluster);
-        List<HostResources> hostsResources = new ArrayList<HostResources>();
+        List<HostResources> hostsResources = new ArrayList<>();
         for (HostVO host : hostsVo) {
             hostsResources.add(hostResourcesService.createHostResources(host));
         }
@@ -348,7 +348,7 @@ public class AdministrationAgent implements InitializingBean {
      */
     private List<HostResources> getClusterIdleHosts(ClusterVO cluster) {
         List<HostResources> hosts = getClusterUpHosts(cluster);
-        List<HostResources> hostsIdle = new ArrayList<HostResources>();
+        List<HostResources> hostsIdle = new ArrayList<>();
         for (HostResources currentHost : hosts) {
             if (CollectionUtils.isEmpty(currentHost.getVmsResources())) {
                 hostsIdle.add(currentHost);
@@ -361,7 +361,7 @@ public class AdministrationAgent implements InitializingBean {
      * Logs when the Administration agent starts.
      */
     @Override
-    public void afterPropertiesSet() throws Exception {
+    public void afterPropertiesSet() {
         logger.debug("Administration Administration initialized");
     }
 

@@ -103,4 +103,10 @@
 	<bean id="wakeOnLanHostApplicationVersion" class="java.lang.String">
     	<constructor-arg value="0.0.1-SNAPSHOT" />
     </bean>
+    <bean id="ipAddressInternet" class="java.lang.String">
+    	<constructor-arg value="0.0.0.0" />
+    </bean>
+    <bean id="maskForIpAddressInternet" class="java.lang.String">
+    	<constructor-arg value="0.0.0.0" />
+    </bean>
 </beans>

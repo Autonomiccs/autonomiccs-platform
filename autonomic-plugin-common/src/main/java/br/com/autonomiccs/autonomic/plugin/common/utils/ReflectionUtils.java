@@ -27,6 +27,8 @@ import java.lang.reflect.Field;
 import org.apache.cxf.common.util.ReflectionUtil;
 import org.springframework.stereotype.Component;
 
+import com.cloud.utils.exception.CloudRuntimeException;
+
 @Component
 public class ReflectionUtils {
 
@@ -36,7 +38,7 @@ public class ReflectionUtils {
         try {
             declaredField.set(registerTemplateCmd, value);
         } catch (IllegalArgumentException | IllegalAccessException e) {
-            throw new RuntimeException("Could not register Autonomiccs System VM templates.", e);
+            throw new CloudRuntimeException("Could not register Autonomiccs System VM templates.", e);
         }
     }
 
