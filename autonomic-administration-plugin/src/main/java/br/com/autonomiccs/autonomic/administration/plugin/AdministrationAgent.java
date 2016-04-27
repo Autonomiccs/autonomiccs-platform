@@ -56,7 +56,6 @@ import br.com.autonomiccs.autonomic.plugin.common.services.ClusterService;
 import br.com.autonomiccs.autonomic.plugin.common.services.HostService;
 import br.com.autonomiccs.autonomic.plugin.common.services.VirtualMachineService;
 import br.com.autonomiccs.autonomic.plugin.common.services.ZoneService;
-import br.com.autonomiccs.autonomic.plugin.common.utils.NotifySmartAcsStartUpUtils;
 import br.com.autonomiccs.autonomic.plugin.common.utils.ThreadUtils;
 
 /**
@@ -93,8 +92,6 @@ public class AdministrationAgent implements InitializingBean {
     private AutonomicClusterManagementHeuristicService autonomicManagementHeuristicService;
     @Autowired
     private VirtualMachineService virtualMachineService;
-    @Autowired
-    private NotifySmartAcsStartUpUtils notifySmartAcsStartUpUtils;
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -105,8 +102,6 @@ public class AdministrationAgent implements InitializingBean {
      * @note spring integration configuration is in
      *       '/autonomic-administration-plugin/resources/META-INF/cloudstack/
      *       administration/spring-administration-context.xml' file.
-     *
-     * @param clusterId
      */
     public void receiveClusterToBeManaged(Long clusterId) {
         if (clusterId == null) {
@@ -143,7 +138,6 @@ public class AdministrationAgent implements InitializingBean {
     /**
      * If the last management of a cluster has not happened in a given threshold that is configured by the {@link ClusterAdministrationHeuristicAlgorithm}), it returns null.
      *
-     * @param algorithm
      * @return a cluster to be managed
      */
     private ClusterVO getClusterToManage(ClusterAdministrationHeuristicAlgorithm algorithm) {
@@ -162,8 +156,6 @@ public class AdministrationAgent implements InitializingBean {
     /**
      * Returns a cluster to be managed from a given zone.
      *
-     * @param algorithm
-     * @param zoneId
      * @return a cluster to be managed
      */
     private ClusterVO getClusterToManageFromZone(ClusterAdministrationHeuristicAlgorithm algorithm, Long zoneId) {
@@ -188,9 +180,6 @@ public class AdministrationAgent implements InitializingBean {
      * executes the {@link #processCluster(ClusterVO, ClusterAdministrationHeuristicAlgorithm)} method;
      * then, it sets the cluster 'administration_status' to {@link ClusterAdministrationStatus#Done} and
      * 'last_administration' to the current date at the 'cloud.cluster' table.
-     *
-     * @param cluster
-     * @param administrationAlgorithm
      */
     private void workOnCluster(ClusterVO cluster, ClusterAdministrationHeuristicAlgorithm administrationAlgorithm) {
         long clusterId = cluster.getId();
@@ -212,9 +201,6 @@ public class AdministrationAgent implements InitializingBean {
      * {@link #mapAndExecuteVMsMigrations(ClusterVO, ClusterAdministrationHeuristicAlgorithm)}
      * method; then it shutdown idle hosts with (if possible)
      * {@link #shutdownIdleHosts(ClusterVO, ClusterAdministrationHeuristicAlgorithm)} method.
-     *
-     * @param cluster
-     * @param administrationAlgorithm
      */
     private void processCluster(ClusterVO cluster, ClusterAdministrationHeuristicAlgorithm administrationAlgorithm) {
         long clusterId = cluster.getId();
@@ -238,9 +224,6 @@ public class AdministrationAgent implements InitializingBean {
      * uses {@link ConsolidationAlgorithm#canPowerOffAnotherHostInCloud(
      * CloudResources). To shut down a host it calls the
      * {@link #shutDownHost(long)} method.
-     *
-     * @param cluster
-     * @param administrationAlgorithm
      */
     private void shutdownIdleHosts(ClusterVO cluster, ClusterAdministrationHeuristicAlgorithm administrationAlgorithm) {
         if (!administrationAlgorithm.canHeuristicShutdownHosts()) {
@@ -273,8 +256,6 @@ public class AdministrationAgent implements InitializingBean {
 
     /**
      * Returns a list of clusters resources for the whole environment.
-     *
-     * @return clusters
      */
     public List<ClusterResourcesUp> createAllClustersResourcesUp() {
         List<ClusterResourcesUp> clusters = new ArrayList<ClusterResourcesUp>();
@@ -294,9 +275,6 @@ public class AdministrationAgent implements InitializingBean {
      * migrations with {@link ClusterAdministrationHeuristicAlgorithm#mapVMsToHost(List)} method,
      * finally it tries every mapped migration with
      * {@link #migrateVM(VMInstanceVO, HostVO)} method.
-     *
-     * @param cluster
-     * @param administrationAlgorithm
      */
     private void mapAndExecuteVMsMigrations(ClusterVO cluster, ClusterAdministrationHeuristicAlgorithm administrationAlgorithm) {
         List<HostResources> hosts = getClusterUpHosts(cluster);
@@ -347,7 +325,6 @@ public class AdministrationAgent implements InitializingBean {
     /**
      * Returns a list of {@link HostResources} that are Up in the given cluster.
      *
-     * @param cluster
      * @return class which represents the cluster resources
      */
     private List<HostResources> getClusterUpHosts(ClusterVO cluster) {
@@ -386,15 +363,12 @@ public class AdministrationAgent implements InitializingBean {
     @Override
     public void afterPropertiesSet() throws Exception {
         logger.debug("Administration Administration initialized");
-        notifySmartAcsStartUpUtils.sendModuleStartUp(getClass());
     }
 
     /**
      * If the host is Up and enabled, it puts host in maintenance with
      * {@link #putHostInMaintenance(long)} and requests a host shutdown with
      * {@link HypervisorManager#shutdownHost(HostVO)}.
-     *
-     * @param hostId
      */
     private void shutdownHost(long hostId) {
         try {
@@ -416,10 +390,6 @@ public class AdministrationAgent implements InitializingBean {
     /**
      * Checks if the host is Up and Enabled; if not it throws a
      * {@link CloudRuntimeException}.
-     *
-     * @param hostId
-     * @param host
-     * @throws CloudRuntimeException
      */
     private void checkIfHostIsUpAndEnabled(long hostId) {
         if (!hostService.isHostUpAndEnabled(hostId)) {
