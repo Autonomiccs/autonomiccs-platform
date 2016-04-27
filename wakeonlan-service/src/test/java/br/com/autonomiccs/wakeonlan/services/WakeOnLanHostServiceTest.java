@@ -20,7 +20,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package br.com.autonomiccs.wakeonlan.service;
+package br.com.autonomiccs.wakeonlan.services;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -29,9 +29,10 @@ import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import br.com.autonomiccs.autonomic.plugin.common.utils.ShellCommandUtils;
+import br.com.autonomiccs.wakeonlan.services.WakeOnLanHostService;
 
 @RunWith(MockitoJUnitRunner.class)
-public class StartHostServiceTest {
+public class WakeOnLanHostServiceTest {
 
     @Test
     public void startHostTest() throws Exception {
@@ -41,7 +42,7 @@ public class StartHostServiceTest {
         ShellCommandUtils shellCommandUtils = Mockito.mock(ShellCommandUtils.class);
         Mockito.when(shellCommandUtils.executeCommand(commandToBeExecuted)).thenReturn("test");
 
-        StartHostService service = new StartHostService();
+        WakeOnLanHostService service = new WakeOnLanHostService();
         service.shellCommandUtils = shellCommandUtils;
 
         String commandReturn = service.startHost(mac);

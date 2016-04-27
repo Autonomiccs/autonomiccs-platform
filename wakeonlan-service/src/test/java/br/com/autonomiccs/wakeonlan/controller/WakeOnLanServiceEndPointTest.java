@@ -30,7 +30,7 @@ import org.mockito.Mockito;
 import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import br.com.autonomiccs.wakeonlan.service.StartHostService;
+import br.com.autonomiccs.wakeonlan.services.WakeOnLanHostService;
 
 @RunWith(MockitoJUnitRunner.class)
 public class WakeOnLanServiceEndPointTest {
@@ -38,7 +38,7 @@ public class WakeOnLanServiceEndPointTest {
     @InjectMocks
     private WakeOnLanServiceEndPoint wakeOnLanServiceEndPoint;
     @Spy
-    private StartHostService startHostService;
+    private WakeOnLanHostService startHostService;
 
     @Test
     public void consultarTest() {

@@ -20,7 +20,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package br.com.autonomiccs.wakeonlan.service;
+package br.com.autonomiccs.wakeonlan.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,7 +32,7 @@ import br.com.autonomiccs.autonomic.plugin.common.utils.ShellCommandUtils;
  * machine that runs this application
  */
 @Service
-public class StartHostService {
+public class WakeOnLanHostService {
 
     @Autowired
     protected ShellCommandUtils shellCommandUtils;
