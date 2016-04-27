@@ -73,7 +73,6 @@ import br.com.autonomiccs.autonomic.plugin.common.services.PodService;
 import br.com.autonomiccs.autonomic.plugin.common.services.StartHostSystemVmService;
 import br.com.autonomiccs.autonomic.plugin.common.services.VirtualMachineService;
 import br.com.autonomiccs.autonomic.plugin.common.services.ZoneService;
-import br.com.autonomiccs.autonomic.plugin.common.utils.NotifySmartAcsStartUpUtils;
 import br.com.autonomiccs.autonomic.plugin.common.utils.SshUtils;
 
 @Component
@@ -128,9 +127,6 @@ public class AutonomiccsStartHostSystemVmManager implements InitializingBean {
 
     @Autowired
     private AutonomiccsSystemVmTemplateService autonomiccsSystemVmTemplateService;
-
-    @Autowired
-    private NotifySmartAcsStartUpUtils notifySmartAcsStartUpUtils;
 
     @Autowired
     @Qualifier("wakeOnLanHostApplicationVersion")
@@ -359,8 +355,6 @@ public class AutonomiccsStartHostSystemVmManager implements InitializingBean {
         startHostApplicationConfiguration = createTempFileForResourceInJar("/application.yml");
         startHostApplicationInicializationScript = createTempFileForResourceInJar("/startup");
         startHostApplicationLogConfiguration = createTempFileForResourceInJar("/log4j.properties");
-
-        notifySmartAcsStartUpUtils.sendModuleStartUp(getClass());
     }
 
     private String getCloudStackWebappLibFolder() {

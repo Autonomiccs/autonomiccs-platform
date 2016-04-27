@@ -34,17 +34,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import br.com.autonomiccs.autonomic.plugin.common.services.AutonomicClusterManagementHeuristicService;
-import br.com.autonomiccs.autonomic.plugin.common.services.AutonomiccsSystemVmTemplateService;
-import br.com.autonomiccs.autonomic.plugin.common.services.GuestOsService;
-import br.com.autonomiccs.autonomic.plugin.common.services.HostService;
-import br.com.autonomiccs.autonomic.plugin.common.utils.NotifySmartAcsStartUpUtils;
-import br.com.autonomiccs.autonomic.plugin.common.utils.ReflectionUtils;
-
 import com.cloud.hypervisor.Hypervisor;
 import com.cloud.hypervisor.Hypervisor.HypervisorType;
 import com.cloud.template.TemplateApiService;
 import com.cloud.user.AccountService;
+
+import br.com.autonomiccs.autonomic.plugin.common.services.AutonomicClusterManagementHeuristicService;
+import br.com.autonomiccs.autonomic.plugin.common.services.AutonomiccsSystemVmTemplateService;
+import br.com.autonomiccs.autonomic.plugin.common.services.GuestOsService;
+import br.com.autonomiccs.autonomic.plugin.common.services.HostService;
+import br.com.autonomiccs.autonomic.plugin.common.utils.ReflectionUtils;
 
 /**
  * This class is intended to manage the register of Autonomiccs' SystemVMs templates.
@@ -78,9 +77,6 @@ public class AutonomiccsSystemVirtualMachinesTemplateRegister implements Initial
 
     @Autowired
     private ReflectionUtils reflectionUtils;
-
-    @Autowired
-    private NotifySmartAcsStartUpUtils notifySmartAcsStartUpUtils;
 
     /**
      * This attribute is used to indicate that the template can be used in any of the zones that exist in the Cloud environment.
@@ -120,7 +116,7 @@ public class AutonomiccsSystemVirtualMachinesTemplateRegister implements Initial
     /**
      * It creates and returns a {@link RegisterTemplateCmd} that aims to register the Autonomiccs SystemVms Template.
      * It will always register the template for all available zones, setting the {@link RegisterTemplateCmd#getZoneId()} attribute to {@link #allAvailableZoneMagicNumber}.
-     * @return {@link RegisterTemplateCmd}
+     * @return {@link RegisterTemplateCmd} to be used to register Autonomiccs system VMs template
      */
     private RegisterTemplateCmd createRegisterTemplateCommandForHypervisor(HypervisorType hypervisor) {
         RegisterTemplateCmd registerTemplateCmd = new RegisterTemplateCmd();
@@ -154,7 +150,6 @@ public class AutonomiccsSystemVirtualMachinesTemplateRegister implements Initial
      * It returns the supported image format for the given hypervisor.
      * It is used the method {@link Hypervisor.HypervisorType#getSupportedImageFormat(HypervisorType)} to retrieve the supported image format.
      *
-     * @param hypervisor
      * @return Supported Image Format
      */
     private String getSupportedImageFormat(HypervisorType hypervisor) {
@@ -164,6 +159,5 @@ public class AutonomiccsSystemVirtualMachinesTemplateRegister implements Initial
     @Override
     public void afterPropertiesSet() throws Exception {
         logger.info("Autonomiccs system VMs templates register initialized.");
-        notifySmartAcsStartUpUtils.sendModuleStartUp(getClass());
     }
 }
