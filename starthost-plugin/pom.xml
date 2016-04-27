@@ -40,12 +40,12 @@
 		<dependency>
 			<groupId>br.com.autonomiccs</groupId>
 			<artifactId>autonomic-plugin-common</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>br.com.autonomiccs</groupId>
 			<artifactId>autonomic-allocation-algorithms</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>${project.version}</version>
 		</dependency>
 
 		<!-- CloudStack dependency -->

@@ -39,7 +39,7 @@
 		<dependency>
 			<groupId>br.com.autonomiccs</groupId>
 			<artifactId>autonomic-algorithms-commons</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>${project.version}</version>
 		</dependency>
 	</dependencies>
 </project>
