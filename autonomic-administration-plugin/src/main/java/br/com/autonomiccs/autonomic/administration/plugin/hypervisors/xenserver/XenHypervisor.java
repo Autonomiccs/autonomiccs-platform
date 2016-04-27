@@ -81,15 +81,13 @@ public class XenHypervisor implements HypervisorHost {
         hostService.updateHostPrivaceMacAddress(hostVo, privateMacAddress);
 
         Connection conn = getConnection(hostVo);
-        String hostUuid = hostVo.getGuid();
+        String hostToDeactivatedUuid = hostVo.getGuid();
 
         try {
             Host master = getMasterHost(conn);
-            String masterAddress = master.getAddress(conn);
+            changeMasterIfNeeded(conn, master, hostToDeactivatedUuid);
 
-            masterAddress = changeMasterIfNeeded(conn, master, hostUuid, masterAddress);
-
-            Host host = Host.getByUuid(conn, hostUuid);
+            Host host = Host.getByUuid(conn, hostToDeactivatedUuid);
             String hostAddress = host.getAddress(conn);
 
             disableAndShutdownHost(conn, host);
@@ -99,7 +97,7 @@ public class XenHypervisor implements HypervisorHost {
             } while (hostUtils.isHostReachable(hostAddress));
 
         } catch (Exception e) {
-            throw new CloudRuntimeException(String.format("Could not shut down host [uuid=%s]", hostUuid), e);
+            throw new CloudRuntimeException(String.format("Could not shut down host [uuid=%s]", hostToDeactivatedUuid), e);
         }
     }
 
@@ -122,21 +120,17 @@ public class XenHypervisor implements HypervisorHost {
     }
 
     /**
-     * It returns the master address. If the pool has more than one host and the
+     * If the pool has more than one host and the
      * host to be powered off is the master, it changes the master using
      * {@link #changePoolMasterHost(Connection, String)}.
      */
-    private String changeMasterIfNeeded(Connection conn, Host master, String hostUuid, String masterAddress)
+    private void changeMasterIfNeeded(Connection conn, Host master, String hostUuid)
             throws BadServerResponse, XenAPIException, XmlRpcException {
 
         if (hostUuid.equals(master.getUuid(conn)) && !isLastHostOnPool(conn)) {
             changePoolMasterHost(conn, hostUuid);
             waitChangePoolMasterHost(master, conn, hostUuid);
-
-            master = getMasterHost(conn);
-            masterAddress = master.getAddress(conn);
         }
-        return masterAddress;
     }
 
     /**
@@ -167,7 +161,7 @@ public class XenHypervisor implements HypervisorHost {
             }
             if (hostUtils.isHostReachable(host.getAddress(conn))) {
                 Pool.designateNewMaster(conn, host);
-                break;
+                return;
             }
         }
     }
@@ -210,7 +204,7 @@ public class XenHypervisor implements HypervisorHost {
      * Returns the host password.
      */
     private Queue<String> getPasssword(Map<String, String> params) {
-        Queue<String> password = new LinkedList<String>();
+        Queue<String> password = new LinkedList<>();
         password.add(params.get("password"));
         return password;
     }

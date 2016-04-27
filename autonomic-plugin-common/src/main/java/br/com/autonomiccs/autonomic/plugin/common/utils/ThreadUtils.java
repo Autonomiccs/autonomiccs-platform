@@ -32,15 +32,19 @@ import com.cloud.utils.exception.CloudRuntimeException;
 @Component
 public class ThreadUtils {
 
+    private final static long ONE_SECOND_IN_MILLISECONDS = 1000l;
+
     /**
      * The thread executing this method sleeps a given amount of seconds.
-     *
-     * @param secondsToSleep
+     * If an {@link InterruptedException} occurs, we do not swallow the exception;
+     * we want to throw a runtime exception and we also do as described
+     * in http://www.ibm.com/developerworks/library/j-jtp05236/ to restore the interrupt context.
      */
     public void sleepThread(int secondsToSleep) {
         try {
-            Thread.sleep(secondsToSleep * 1000);
+            Thread.sleep(secondsToSleep * ONE_SECOND_IN_MILLISECONDS);
         } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
             throw new CloudRuntimeException(e);
         }
     }

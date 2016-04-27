@@ -75,7 +75,7 @@ public class ShellCommandUtilsTest {
 
         String commandOutput = shellCommandUtils.executeCommand(command);
 
-        executeChecksForExceptionTests(commandOutput);
+        executeChecksForExceptionTests(commandOutput, IOException.class);
     }
 
     @Test
@@ -91,11 +91,11 @@ public class ShellCommandUtilsTest {
         String commandOutput = shellCommandUtils.executeCommand(command);
 
         Mockito.verify(processMock).waitFor();
-        executeChecksForExceptionTests(commandOutput);
+        executeChecksForExceptionTests(commandOutput, InterruptedException.class);
     }
 
-    private void executeChecksForExceptionTests(String commandOutput) {
-        Mockito.verify(shellCommandUtils.logger).error(Mockito.anyString());
+    private void executeChecksForExceptionTests(String commandOutput, Class<? extends Exception> expectedException) {
+        Mockito.verify(shellCommandUtils.logger).error(Mockito.startsWith(String.format("An error happened while executing command[%s]", command)), Mockito.any(expectedException));
         Assert.assertEquals("", commandOutput);
     }
 

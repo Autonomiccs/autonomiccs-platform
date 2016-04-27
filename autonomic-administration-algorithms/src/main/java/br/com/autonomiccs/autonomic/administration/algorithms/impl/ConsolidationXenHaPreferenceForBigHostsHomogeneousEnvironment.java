@@ -58,7 +58,7 @@ public class ConsolidationXenHaPreferenceForBigHostsHomogeneousEnvironment exten
      */
     @Override
     public Map<Long, HostResources> mapVMsToHost(List<HostResources> rankedHosts) {
-        Map<Long, HostResources> vmsToHost = new HashMap<Long, HostResources>();
+        Map<Long, HostResources> vmsToHost = new HashMap<>();
         if (rankedHosts.size() > 3) {
             for (int i = rankedHosts.size() - 1; i > 2; i--) {
                 for (VmResources vmResources : rankedHosts.get(i).getVmsResources()) {
@@ -85,7 +85,7 @@ public class ConsolidationXenHaPreferenceForBigHostsHomogeneousEnvironment exten
     @Override
     public List<HostResources> rankHostToPowerOff(List<HostResources> idleHosts) {
         if(totalNumbersOfHostsInCluster < 4){
-            return new ArrayList<HostResources>();
+            return new ArrayList<>();
         }
         List<HostResources> rankedHostToPowerOff = super.rankHostToPowerOff(idleHosts);
         long hostsThatAreBeingKeptUp = totalNumbersOfHostsInCluster - idleHosts.size();

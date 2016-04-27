@@ -58,8 +58,10 @@ public class AutonomiccsSystemVmsGuru implements VirtualMachineGuru, Initializin
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
-    private String ipAddressInternet = "0.0.0.0";
-    private String maskForIpAddressInternet = "0.0.0.0";
+    @Autowired
+    private String ipAddressInternet;
+    @Autowired
+    private String maskForIpAddressInternet;
 
     @Autowired
     private VirtualMachineManager virtualMachineManager;
