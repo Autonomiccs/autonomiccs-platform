@@ -31,7 +31,7 @@ import org.apache.commons.lang3.ObjectUtils;
 import br.com.autonomiccs.autonomic.algorithms.commons.resources.HostResources;
 import br.com.autonomiccs.autonomic.algorithms.commons.resources.VmResources;
 
-public class ConsolidationAlgorithmsTest {
+public abstract class ConsolidationAlgorithmsTest {
 
     protected int BYTES_TO_MEGA_BYTES = 1000000;
     protected Random random = new Random();

@@ -87,7 +87,7 @@ public class ConfigureDatabaseDao extends JdbcDaoSupport {
      * @return
      */
     private boolean hasHostConsolidationStatusColumn() {
-        return (!getJdbcTemplate().queryForList(sqlHasHostAdministrationStatusColumn).isEmpty());
+        return !getJdbcTemplate().queryForList(sqlHasHostAdministrationStatusColumn).isEmpty();
     }
 
     /**

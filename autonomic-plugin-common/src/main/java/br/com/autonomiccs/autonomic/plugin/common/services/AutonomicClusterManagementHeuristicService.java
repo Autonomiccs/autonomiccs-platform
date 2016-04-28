@@ -41,7 +41,7 @@ public class AutonomicClusterManagementHeuristicService {
     public final static String CLUSTER_ADMINISTRATION_ALGORITHMS_IN_CONFIGURATION_KEY = "autonomiccs.clustermanager.algorithm";
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
-    private final Map<String, Class<? extends ClusterAdministrationHeuristicAlgorithm>> algorithmsMap = new HashMap<String, Class<? extends ClusterAdministrationHeuristicAlgorithm>>();
+    private final Map<String, Class<? extends ClusterAdministrationHeuristicAlgorithm>> algorithmsMap = new HashMap<>();
 
     @Autowired
     private ConfigurationDao configurationDao;

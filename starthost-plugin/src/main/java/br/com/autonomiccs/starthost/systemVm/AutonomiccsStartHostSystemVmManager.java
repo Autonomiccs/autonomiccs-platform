@@ -56,6 +56,7 @@ import com.cloud.exception.OperationTimedoutException;
 import com.cloud.exception.ResourceUnavailableException;
 import com.cloud.host.HostVO;
 import com.cloud.service.ServiceOfferingVO;
+import com.cloud.utils.exception.CloudRuntimeException;
 import com.cloud.vm.VMInstanceVO;
 import com.cloud.vm.VirtualMachineManager;
 
@@ -367,7 +368,7 @@ public class AutonomiccsStartHostSystemVmManager implements InitializingBean {
         if(matcher.find()){
             return matcher.group(1) + "/";
         }
-        throw new RuntimeException("Could not find cloudstack lib folder.");
+        throw new CloudRuntimeException("Could not find cloudstack lib folder.");
     }
 
     private File createTempFileForResourceInJar(String resourceNameInClasspath) throws IOException {

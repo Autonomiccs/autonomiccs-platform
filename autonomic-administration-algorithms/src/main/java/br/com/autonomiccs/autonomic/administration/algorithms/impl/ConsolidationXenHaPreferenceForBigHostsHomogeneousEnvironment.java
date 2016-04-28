@@ -90,14 +90,15 @@ public class ConsolidationXenHaPreferenceForBigHostsHomogeneousEnvironment exten
         List<HostResources> rankedHostToPowerOff = super.rankHostToPowerOff(idleHosts);
         long hostsThatAreBeingKeptUp = totalNumbersOfHostsInCluster - idleHosts.size();
         for (int i = 0; i < 3 - hostsThatAreBeingKeptUp; i++) {
-            removeOnIfPossible(rankedHostToPowerOff);
+            removeOneIfPossible(rankedHostToPowerOff);
         }
         return rankedHostToPowerOff;
     }
 
-    protected void removeOnIfPossible(List<HostResources> rankedHostToPowerOff) {
-        if (rankedHostToPowerOff.size() > 0) {
-            rankedHostToPowerOff.remove(rankedHostToPowerOff.size() - 1);
+    protected void removeOneIfPossible(List<HostResources> rankedHostToPowerOff) {
+        if (rankedHostToPowerOff.isEmpty()) {
+            return;
         }
+        rankedHostToPowerOff.remove(rankedHostToPowerOff.size() - 1);
     }
 }

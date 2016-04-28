@@ -135,12 +135,11 @@ public class AutonomiccsSystemVmTemplateService implements InitializingBean {
     /**
      * It looks for the {@link VMTemplateVO} that represents the template of the system VM for the given hypervisor
      *
-     * @param hypervisor
      * @return {@link VMTemplateVO} that represents the Autonomiccs system VM for the given hypervisor
      */
     public VMTemplateVO findAutonomiccsSystemVmTemplate(HypervisorType hypervisor) {
-        String autonomiccsSystemVmTemplateName = getAutonomiccsSystemVmTemplateName(hypervisor);
-        long templateId = autonomiccsSystemVmTemplateJdbcDao.searchAutonomiccsSystemVmTemplateIdForHypervisor(autonomiccsSystemVmTemplateName);
+        String autonomiccsSystemVmTemplateNameString = getAutonomiccsSystemVmTemplateName(hypervisor);
+        long templateId = autonomiccsSystemVmTemplateJdbcDao.searchAutonomiccsSystemVmTemplateIdForHypervisor(autonomiccsSystemVmTemplateNameString);
         return templateDao.findById(templateId);
     }
 

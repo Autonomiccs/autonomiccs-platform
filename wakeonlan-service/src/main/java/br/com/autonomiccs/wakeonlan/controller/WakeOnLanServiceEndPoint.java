@@ -31,18 +31,18 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import br.com.autonomiccs.wakeonlan.service.StartHostService;
+import br.com.autonomiccs.wakeonlan.services.WakeOnLanHostService;
 
 /**
  * This class listens the /boot/wakeonlan/macaddress endpoint url
- * and calls the {@link StartHostService} when endpoint is accessed
+ * and calls the {@link WakeOnLanHostService} when endpoint is accessed
  */
 @Path("/")
 @Component
 public class WakeOnLanServiceEndPoint {
 
     @Autowired
-    private StartHostService startHostService;
+    private WakeOnLanHostService startHostService;
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
