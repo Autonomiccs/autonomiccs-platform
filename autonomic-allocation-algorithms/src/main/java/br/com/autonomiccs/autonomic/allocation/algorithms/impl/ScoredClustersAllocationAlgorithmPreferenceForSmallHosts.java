@@ -199,7 +199,7 @@ public class ScoredClustersAllocationAlgorithmPreferenceForSmallHosts extends Al
          */
         @Override
         public int compare(HostResources h1, HostResources h2) {
-            return Double.valueOf(h1.getScore() - h2.getScore()).intValue();
+            return Double.compare(h1.getScore(), h2.getScore());
         }
     }
 

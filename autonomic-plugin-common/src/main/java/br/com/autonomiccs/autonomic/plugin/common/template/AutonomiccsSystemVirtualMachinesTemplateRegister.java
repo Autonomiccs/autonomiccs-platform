@@ -139,8 +139,8 @@ public class AutonomiccsSystemVirtualMachinesTemplateRegister implements Initial
     }
 
     private Map<Object, Object> createTemplateDetails() {
-        Map<Object, Object> details = new HashMap<Object, Object>();
-        Map<Object, Object> innerMap = new HashMap<Object, Object>();
+        Map<Object, Object> details = new HashMap<>();
+        Map<Object, Object> innerMap = new HashMap<>();
         innerMap.put("hypervisortoolsversion", "xenserver56");
         details.put(0, innerMap);
         return details;

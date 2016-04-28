@@ -34,6 +34,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.cloud.agent.AgentManager;
+import com.cloud.dc.ClusterVO;
+import com.cloud.dc.dao.ClusterDao;
+import com.cloud.host.HostVO;
+import com.cloud.host.Status;
+import com.cloud.host.dao.HostDao;
+import com.cloud.resource.ResourceManager;
+import com.cloud.utils.exception.CloudRuntimeException;
+
 import br.com.autonomiccs.autonomic.algorithms.commons.resources.ClusterResourcesAvailableToStart;
 import br.com.autonomiccs.autonomic.algorithms.commons.resources.HostResources;
 import br.com.autonomiccs.autonomic.algorithms.commons.services.ClusterResourcesService;
@@ -51,14 +60,6 @@ import br.com.autonomiccs.autonomic.plugin.common.utils.HostUtils;
 import br.com.autonomiccs.autonomic.plugin.common.utils.HttpUtils;
 import br.com.autonomiccs.autonomic.plugin.common.utils.ReflectionUtils;
 import br.com.autonomiccs.autonomic.plugin.common.utils.ThreadUtils;
-
-import com.cloud.agent.AgentManager;
-import com.cloud.dc.ClusterVO;
-import com.cloud.dc.dao.ClusterDao;
-import com.cloud.host.HostVO;
-import com.cloud.host.Status;
-import com.cloud.host.dao.HostDao;
-import com.cloud.resource.ResourceManager;
 
 /**
  * Manages the host starting process.
@@ -103,7 +104,7 @@ public class StartHostService {
             throw e;
         }
         for (HostResources hostResources : hostsToStart) {
-            HostVO hostVO = (HostVO)hostDao.findById(hostResources.getHostId());
+            HostVO hostVO = hostDao.findById(hostResources.getHostId());
             startHost(hostVO);
             if (isHostAlive(hostVO)) {
                 changeConsolidationStatusToUp(hostVO);
@@ -115,9 +116,6 @@ public class StartHostService {
 
     /**
      * If the host status in database is Up then returns true.
-     *
-     * @param hostVO
-     * @return
      */
     public boolean isHostStatusUpInDataBase(HostVO hostVO) {
         return hostDaoJdbc.getStatus(hostVO.getId()) == Status.Up;
@@ -126,9 +124,6 @@ public class StartHostService {
     /**
      * Returns a ranked list of hosts to start. If there is no host available to
      * start, it returns an empty list.
-     *
-     * @param vmEntity
-     * @return List<HostResources>
      */
     private List<HostResources> getHostsToStart(VMEntityVO vmEntity) {
         List<ClusterVO> clusters = getClustersByHypervisorType(vmEntity);
@@ -157,9 +152,6 @@ public class StartHostService {
 
     /**
      * Calculates clusters resources available to start.
-     *
-     * @param clusters
-     * @return
      */
     private List<ClusterResourcesAvailableToStart> getClusterResourcesWithServersToBeStarted(List<ClusterVO> clusters) {
         List<ClusterResourcesAvailableToStart> clustersResourcesAvailableToStart = new ArrayList<ClusterResourcesAvailableToStart>();
@@ -190,8 +182,6 @@ public class StartHostService {
      * to start the host. If the host status is updated to Up, then logs the
      * success of this operation and finishes. If the waiting time elapsed or an
      * exception happens, it logs the issue.
-     *
-     * @param hostVO
      */
     private void startHost(HostVO hostVO) {
         try {
@@ -206,8 +196,6 @@ public class StartHostService {
     /**
      * Returns a Allocation algorithm to be used, currently is hard-coded to
      * select {@link ScoredClustersAllocationAlgorithmPreferenceForBigHosts}
-     *
-     * @return
      */
     public ScoredClustersAllocationAlgorithmPreferenceForSmallHosts getAllocationAlgorithm() {
         // TODO Este metodo deverá ser implementado usando um parametro de
@@ -220,9 +208,6 @@ public class StartHostService {
      * Executes the start host command; if it cannot get a ping response using
      * {@link #isHostAlive(HostVO)}, it assumes the host will not wake up; as a
      * consequence of that the host will be marked as failed to start.
-     *
-     * @param
-     * @throws Exception
      */
     public void sendStartHostCommand(HostVO host) throws Exception {
         executeCommandToStartHost(host);
@@ -232,9 +217,6 @@ public class StartHostService {
             return;
         }
         threadUtils.sleepThread(10);
-        //        if (host.getHypervisorType().equals("XenServer")) {
-        //            reAddHostToXenPool(host);
-        //        }
     }
 
     /**
@@ -246,8 +228,6 @@ public class StartHostService {
      * parameters, the host private IP address and name.
      *
      * It is used a database column called 'start_type' at table host.
-     *
-     * @param host
      */
     private void executeCommandToStartHost(HostVO host) {
         if (hostDaoJdbc.getStartType(host.getId()) == StartType.Script) {
@@ -266,8 +246,6 @@ public class StartHostService {
      * Updates the host consolidation status to Up. It will use the
      * {@link HostJdbcDao#setConsolidationStatus(HostConsolidationStatus, long)}
      * to update the host Consolidation status to 'Up'
-     *
-     * @param host
      */
     private void changeConsolidationStatusToUp(HostVO host) {
         hostDaoJdbc.setAdministrationStatus(HostAdministrationStatus.Up, host.getId());
@@ -277,8 +255,6 @@ public class StartHostService {
      * Updates the host consolidation status as FailedToStart. It is used
      * {@link HostJdbcDao#setConsolidationStatus(HostConsolidationStatus, long)}
      * to update the host consolidation status.
-     *
-     * @param host
      */
     @Transactional(readOnly = false)
     public void markHostAsFailedToStart(HostVO host) {
@@ -288,9 +264,6 @@ public class StartHostService {
     /**
      * Returns true if the host is responding. It tries 50 times to get a
      * response with {@link #isHostReachable(HostVO)} method.
-     *
-     * @param host
-     * @return
      */
     private boolean isHostAlive(HostVO host) {
         logger.debug(String.format("Checking if host[%d] is reachable.", host.getId()));
@@ -312,34 +285,30 @@ public class StartHostService {
      * method, which is protected. The
      * {@link com.cloud.agent.manager.AgentManagerImpl#loadDirectlyConnectedHost( HostVO, boolean)} is
      * invoked using reflection.
-     *
-     * @param host
      */
     private void forceAgentManagerToUpdateHostStatus(HostVO host) {
         Method declaredMethod = org.springframework.util.ReflectionUtils.findMethod(agentMgr.getClass(), "loadDirectlyConnectedHost", HostVO.class, boolean.class);
         if (declaredMethod == null) {
-            throw new RuntimeException("Could not find method 'loadDirectlyConnectedHost' at " + agentMgr.getClass());
+            throw new CloudRuntimeException("Could not find method 'loadDirectlyConnectedHost' at " + agentMgr.getClass());
         }
         declaredMethod.setAccessible(true);
         try {
             declaredMethod.invoke(agentMgr, host, true);
         } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-            throw new RuntimeException(e);
+            throw new CloudRuntimeException(e);
         }
     }
 
     /**
      * Executes an Operating System program. It will wait until the program
      * finishes.
-     *
-     * @param cmd
      */
     private void executeProgram(String cmd) {
         try {
             Process process = Runtime.getRuntime().exec(cmd);
             process.waitFor();
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            throw new CloudRuntimeException(e);
         }
     }
 

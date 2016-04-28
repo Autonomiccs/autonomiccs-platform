@@ -32,15 +32,15 @@ import org.apache.cloudstack.framework.config.dao.ConfigurationDao;
 import org.apache.cloudstack.framework.config.impl.ConfigurationVO;
 import org.springframework.stereotype.Component;
 
-import br.com.autonomiccs.autonomic.algorithms.commons.resources.HostResources;
-import br.com.autonomiccs.autonomic.algorithms.commons.resources.VmResources;
-
 import com.cloud.host.HostVO;
 import com.cloud.service.ServiceOfferingVO;
 import com.cloud.service.dao.ServiceOfferingDao;
 import com.cloud.vm.VMInstanceVO;
 import com.cloud.vm.VirtualMachine;
 import com.cloud.vm.dao.VMInstanceDao;
+
+import br.com.autonomiccs.autonomic.algorithms.commons.resources.HostResources;
+import br.com.autonomiccs.autonomic.algorithms.commons.resources.VmResources;
 
 /**
  * This class provides services related with {@link HostResources} objects.
@@ -105,7 +105,7 @@ public class HostResourcesService {
      */
     protected List<VmResources> listVmsFromHost(HostResources host) {
         List<VMInstanceVO> vmInstanceList = vmInstanceDao.listByHostId(host.getHostId());
-        List<VmResources> vmResourcesList = new ArrayList<VmResources>();
+        List<VmResources> vmResourcesList = new ArrayList<>();
 
         for (VMInstanceVO vmInstance : vmInstanceList) {
             if (!isVmCurrentlyUsingHostResource(vmInstance)) {

@@ -85,16 +85,16 @@ public class ConsolidationXenHaPreferenceForBigHostsHomogeneousEnvironmentTest e
     }
 
     @Test
-    public void removeOnIfPossibleTestListNotEmpty() {
+    public void removeOneIfPossibleTestListNotEmpty() {
         List<HostResources> hosts = createClusterHomogeneousHosts(2);
-        consolidationAlgorithm.removeOnIfPossible(hosts);
+        consolidationAlgorithm.removeOneIfPossible(hosts);
         Assert.assertEquals(1, hosts.size());
     }
 
     @Test
-    public void removeOnIfPossibleTestListEmpty() {
+    public void removeOneIfPossibleTestListEmpty() {
         List<HostResources> hosts = createClusterHomogeneousHosts(0);
-        consolidationAlgorithm.removeOnIfPossible(hosts);
+        consolidationAlgorithm.removeOneIfPossible(hosts);
         Assert.assertEquals(0, hosts.size());
     }
 

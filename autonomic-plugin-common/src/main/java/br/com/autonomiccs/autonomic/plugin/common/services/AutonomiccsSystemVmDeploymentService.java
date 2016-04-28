@@ -31,6 +31,7 @@ import java.util.Map;
 
 import org.apache.cloudstack.engine.orchestration.service.NetworkOrchestrationService;
 import org.apache.cloudstack.framework.config.dao.ConfigurationDao;
+import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
@@ -179,7 +180,7 @@ public class AutonomiccsSystemVmDeploymentService implements InitializingBean {
 
         NetworkVO defaultNetwork = getDefaultNetwork(dataCenterId);
         List<? extends NetworkOffering> offerings = networkModel.getSystemAccountNetworkOfferings(NetworkOffering.SystemControlNetwork, NetworkOffering.SystemManagementNetwork);
-        LinkedHashMap<Network, List<? extends NicProfile>> networks = new LinkedHashMap<Network, List<? extends NicProfile>>(offerings.size() + 1);
+        LinkedHashMap<Network, List<? extends NicProfile>> networks = new LinkedHashMap<>(offerings.size() + 1);
         NicProfile defaultNic = new NicProfile();
         defaultNic.setDefaultNic(true);
         defaultNic.setDeviceId(2);
@@ -229,7 +230,7 @@ public class AutonomiccsSystemVmDeploymentService implements InitializingBean {
         DataCenterVO dc = dataCenterDao.findById(dataCenterId);
         if (dc.getNetworkType() == NetworkType.Advanced && dc.isSecurityGroupEnabled()) {
             List<NetworkVO> networks = networkDao.listByZoneSecurityGroup(dataCenterId);
-            if (networks == null || networks.size() == 0) {
+            if (CollectionUtils.isEmpty(networks)) {
                 throw new CloudRuntimeException("Can not found security enabled network in SG Zone " + dc);
             }
             return networks.get(0);
