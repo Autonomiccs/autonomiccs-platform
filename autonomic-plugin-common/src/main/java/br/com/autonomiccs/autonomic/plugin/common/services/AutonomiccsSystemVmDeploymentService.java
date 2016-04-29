@@ -193,7 +193,7 @@ public class AutonomiccsSystemVmDeploymentService implements InitializingBean {
         }
 
         AutonomiccsSystemVm autonomiccsSystemVm = new AutonomiccsSystemVm(id, autonomiccsSystemVmServiceOffering.getId(), name, systemVmTemplate.getId(),
-                systemVmTemplate.getHypervisorType(), systemVmTemplate.getGuestOSId(), dataCenterId, systemAcct.getDomainId(), systemAcct.getId(),
+                systemVmTemplate.getHypervisorType(), systemVmTemplate.getGuestOSId(), systemAcct.getDomainId(), systemAcct.getId(),
                 accountManager.getSystemUser().getId(), autonomiccsSystemVmServiceOffering.getOfferHA());
         autonomiccsSystemVm.setDynamicallyScalable(systemVmTemplate.isDynamicallyScalable());
         autonomiccsSystemVm = autonomiccsSystemVmDao.persist(autonomiccsSystemVm);

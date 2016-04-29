@@ -32,9 +32,9 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import br.com.autonomiccs.autonomic.plugin.common.services.HostService;
-
 import com.cloud.host.HostVO;
+
+import br.com.autonomiccs.autonomic.plugin.common.services.HostService;
 
 @Component
 public class ScanDirectAgentToLoadMethodInterceptor implements MethodInterceptor, InitializingBean {
@@ -55,7 +55,7 @@ public class ScanDirectAgentToLoadMethodInterceptor implements MethodInterceptor
         if (CollectionUtils.isEmpty(hosts)) {
             return hosts;
         }
-        List<HostVO> onlyActiveHosts = new ArrayList<HostVO>();
+        List<HostVO> onlyActiveHosts = new ArrayList<>();
         for (HostVO host : hosts) {
             if(hostService.isHostDown(host.getId())){
                 continue;

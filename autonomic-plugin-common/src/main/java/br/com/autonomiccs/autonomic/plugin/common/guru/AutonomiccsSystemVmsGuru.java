@@ -139,6 +139,7 @@ public class AutonomiccsSystemVmsGuru implements VirtualMachineGuru, Initializin
      */
     @Override
     public void finalizeStop(VirtualMachineProfile arg0, Answer arg1) {
+        logger.debug("finalize stop executed for VM[id=%d, name=%s]", arg0.getId(), arg0.getInstanceName());
     }
 
     @Override
@@ -206,6 +207,7 @@ public class AutonomiccsSystemVmsGuru implements VirtualMachineGuru, Initializin
      */
     @Override
     public void prepareStop(VirtualMachineProfile arg0) {
+        logger.debug("prepare stop executed for VM[id=%d, name=%s]", arg0.getId(), arg0.getInstanceName());
     }
 
 }

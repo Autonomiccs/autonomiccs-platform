@@ -36,7 +36,7 @@ import com.cloud.vm.VMInstanceVO;
 @DiscriminatorValue(value = "AutonomiccsSystemVm")
 public class AutonomiccsSystemVm extends VMInstanceVO {
 
-    public AutonomiccsSystemVm(long id, long serviceOfferingId, String name, long templateId, HypervisorType hypervisorType, long guestOSId, long dataCenterId, long domainId,
+    public AutonomiccsSystemVm(long id, long serviceOfferingId, String name, long templateId, HypervisorType hypervisorType, long guestOSId, long domainId,
             long accountId, long userId, boolean haEnabled) {
         super(id, serviceOfferingId, name, name, Type.Instance, templateId, hypervisorType, guestOSId, domainId, accountId, userId, haEnabled);
     }

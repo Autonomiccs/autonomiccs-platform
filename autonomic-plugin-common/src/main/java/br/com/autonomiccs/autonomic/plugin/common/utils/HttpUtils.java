@@ -25,7 +25,6 @@ package br.com.autonomiccs.autonomic.plugin.common.utils;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.net.HttpURLConnection;
-import java.net.ProtocolException;
 import java.net.URL;
 
 import org.apache.commons.io.IOUtils;
@@ -62,7 +61,7 @@ public class HttpUtils {
 
     }
 
-    public String executeHttpGetRequest(URL url) throws IOException, ProtocolException {
+    public String executeHttpGetRequest(URL url) throws IOException {
         HttpURLConnection con = (HttpURLConnection)url.openConnection();
         con.setRequestMethod("GET");
         int responseCode = con.getResponseCode();

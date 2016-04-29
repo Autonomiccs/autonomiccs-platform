@@ -129,7 +129,7 @@ public class StartHostService {
         List<ClusterVO> clusters = getClustersByHypervisorType(vmEntity);
         List<ClusterResourcesAvailableToStart> clustersResourcesAvailableToStart = getClusterResourcesWithServersToBeStarted(clusters);
         if (clustersResourcesAvailableToStart.isEmpty()) {
-            return new ArrayList<HostResources>();
+            return new ArrayList<>();
         }
 
         AllocationAlgorithm allocationAlgorithm = getAllocationAlgorithm();
@@ -154,10 +154,10 @@ public class StartHostService {
      * Calculates clusters resources available to start.
      */
     private List<ClusterResourcesAvailableToStart> getClusterResourcesWithServersToBeStarted(List<ClusterVO> clusters) {
-        List<ClusterResourcesAvailableToStart> clustersResourcesAvailableToStart = new ArrayList<ClusterResourcesAvailableToStart>();
+        List<ClusterResourcesAvailableToStart> clustersResourcesAvailableToStart = new ArrayList<>();
         for (ClusterVO cluster : clusters) {
             List<HostVO> hosts = hostDao.findByClusterId(cluster.getId());
-            List<HostResources> hostsToStart = new ArrayList<HostResources>();
+            List<HostResources> hostsToStart = new ArrayList<>();
             for (HostVO hostVO : hosts) {
                 if (!startHostSystemVmService.isStartHostServiceVmRunningOnPod(hostVO.getPodId())) {
                     continue;
@@ -209,7 +209,7 @@ public class StartHostService {
      * {@link #isHostAlive(HostVO)}, it assumes the host will not wake up; as a
      * consequence of that the host will be marked as failed to start.
      */
-    public void sendStartHostCommand(HostVO host) throws Exception {
+    public void sendStartHostCommand(HostVO host) {
         executeCommandToStartHost(host);
 
         if (!isHostAlive(host)) {
