@@ -31,7 +31,6 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
 
 import com.cloud.host.Status;
-import com.cloud.hypervisor.Hypervisor;
 import com.cloud.hypervisor.Hypervisor.HypervisorType;
 import com.cloud.resource.ResourceState;
 
@@ -93,7 +92,7 @@ public class HostJdbcDao extends JdbcDaoSupport {
      */
     public List<HypervisorType> getAllHypervisorsTypeInCloud() {
         List<String> hypervisorTypesAsString = getJdbcTemplate().queryForList(sqlSetAllHypervisorsTypeInCloud, String.class);
-        List<HypervisorType> hypervisorTypes = new ArrayList<Hypervisor.HypervisorType>();
+        List<HypervisorType> hypervisorTypes = new ArrayList<>();
         for (String s : hypervisorTypesAsString) {
             hypervisorTypes.add(HypervisorType.valueOf(s));
         }

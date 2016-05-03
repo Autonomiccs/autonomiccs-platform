@@ -28,7 +28,7 @@ import java.util.List;
 
 public class HostResources implements Cloneable {
 
-    private List<VmResources> vmsResources = new ArrayList<VmResources>();
+    private List<VmResources> vmsResources = new ArrayList<>();
     private float cpuOverprovisioning, memoryOverprovisioning;
     private long usedCpu, usedMemory, hostId, speed, totalMemory;
     private double score;

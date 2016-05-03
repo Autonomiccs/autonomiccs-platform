@@ -38,7 +38,7 @@ import br.com.autonomiccs.autonomic.plugin.common.utils.ShellCommandUtils;
 @Component
 public class WakeOnLanInstallation implements InitializingBean {
 
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
+    protected Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     protected ShellCommandUtils shellCommandUtils;

@@ -27,10 +27,12 @@ import java.io.File;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InOrder;
 import org.mockito.Mockito;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
+import org.slf4j.Logger;
 
 import br.com.autonomiccs.autonomic.plugin.common.utils.ShellCommandUtils;
 
@@ -44,6 +46,7 @@ public class WakeOnLanInstallationTest {
     public void beforeTest() {
         wakeOnLanInstallation = Mockito.spy(new WakeOnLanInstallation());
         wakeOnLanInstallation.shellCommandUtils = Mockito.mock(ShellCommandUtils.class);
+        wakeOnLanInstallation.logger = Mockito.mock(Logger.class);
     }
 
     @Test
@@ -52,10 +55,19 @@ public class WakeOnLanInstallationTest {
         prepareMockedFileThatRepresentsTheWakeOnLanCommand(false);
 
         String command = "aptitude -y install wakeonlan";
-        Mockito.when(wakeOnLanInstallation.shellCommandUtils.executeCommand(command)).thenReturn("return of command");
+        final String returnOfInstallationCommand = "return of command";
+        Mockito.when(wakeOnLanInstallation.shellCommandUtils.executeCommand(command)).thenReturn(returnOfInstallationCommand);
 
         wakeOnLanInstallation.installWakeOnLan();
-        Mockito.verify(wakeOnLanInstallation.shellCommandUtils, Mockito.times(1)).executeCommand(command);
+        InOrder inOrder = Mockito.inOrder(wakeOnLanInstallation.shellCommandUtils, wakeOnLanInstallation.logger);
+        inOrder.verify(wakeOnLanInstallation.logger).info("Checking if wakeonlan is installed.");
+        inOrder.verify(wakeOnLanInstallation.logger).info("Wakeonlan is not installed.");
+        inOrder.verify(wakeOnLanInstallation.logger).info("Installing wakeonlan.");
+        inOrder.verify(wakeOnLanInstallation.shellCommandUtils).executeCommand(command);
+        inOrder.verify(wakeOnLanInstallation.logger).info(returnOfInstallationCommand);
+        inOrder.verify(wakeOnLanInstallation.logger).info("Installation finished.");
+
+        Mockito.verify(wakeOnLanInstallation.logger, Mockito.times(0)).info("Wakeonlan is already installed.");
     }
 
     @Test
@@ -64,7 +76,10 @@ public class WakeOnLanInstallationTest {
         prepareMockedFileThatRepresentsTheWakeOnLanCommand(true);
 
         wakeOnLanInstallation.installWakeOnLan();
+        Mockito.verify(wakeOnLanInstallation.logger).info("Checking if wakeonlan is installed.");
+        Mockito.verify(wakeOnLanInstallation.logger).info("Wakeonlan is already installed.");
         Mockito.verify(wakeOnLanInstallation.shellCommandUtils, Mockito.times(0)).executeCommand(Mockito.anyString());
+
     }
 
     private void prepareMockedFileThatRepresentsTheWakeOnLanCommand(boolean isIsInstalled) throws Exception {
