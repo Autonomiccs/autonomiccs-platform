@@ -72,7 +72,7 @@ The first user of this solution is the Network and Management Laboratory of the 
  
 ## Getting source repository
 
-Autonomiccs Platform project uses Git and a mirror is hosted on <a href="https://github.com/Autonomiccs/autonomiccs-platform">GitHub</a>.
+Autonomiccs Platform project uses Git and a mirror is hosted on GitHub. To access our master source code, click <a href="https://github.com/Autonomiccs/autonomiccs-platform">here</a>. The latest stable version of Autonomiccs platform source code is: <a href="https://github.com/Autonomiccs/autonomiccs-platform/tree/1.0.0">1.0.0</a>.
 
 The Github mirror allows users and developers to explore the code; contributions from the community can be done only via Github pull requests.
 
@@ -89,7 +89,7 @@ Mailing lists:
 
 Please, go to our <a href="https://github.com/Autonomiccs/autonomiccs-platform/wiki">wiki</a> page for more details; there you can understand more of the <a href="https://github.com/Autonomiccs/autonomiccs-platform/wiki/Autonomiccs-platform">Autonomiccs platform</a>, some <a href="https://github.com/Autonomiccs/autonomiccs-platform/wiki/Basic-concepts">basic concepts</a>, what are <a href="https://github.com/Autonomiccs/autonomiccs-platform/wiki/Heuristics">heuristics</a> and how we use it, how to <a href="https://github.com/Autonomiccs/autonomiccs-platform/wiki/Installation">install</a> and <a href="https://github.com/Autonomiccs/autonomiccs-platform/wiki/Usage">use</a>.
 
-You can find more about Autonomiccs visiting the <a href="autonomiccs.com.br">website</a>.
+You can find more about Autonomiccs visiting the [website](http://autonomiccs.com.br).
 
 ## Licence
 
