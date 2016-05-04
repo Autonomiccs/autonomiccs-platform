@@ -76,17 +76,26 @@ Autonomiccs Platform project uses Git and a mirror is hosted on GitHub. To acces
 
 The Github mirror allows users and developers to explore the code; contributions from the community can be done only via Github pull requests.
 
-## Getting involved contributing
-
+## Getting involved
 The Autonomiccs project welcomes anybody interested in working towards the development of Cloud Computing autonomic management solution.
 
 You don't need to be a developer to contribute to this project, we are pleased with any contribution. We need people that can help with documentation, promotion, design, research and other tasks that are essential to the project life cycle.
 
-Mailing lists:
-- Hold on, we are working on that.
+### Mailing lists
+If you have doubts, problems, suggestions, critics or anything else that can help us improve, you are more than welcome to join us in our mailing lists. We have two distinct mailing lists; one that focus on users of the Autonomiccs platform; and the other that is directed to the developers of the platform. 
+
+We highlight that it is expected that all participants on the mailing lists treat one another professionally and politely.
+#### Subscribing
+If you want to subscribe to a list, send an email to <listname>-subscribe@autonomiccs.com.br:
+* To join the users mailing list you have to send an email to: users-subscribe@autonomiccs.com.br
+* To join the developers mailing list you have to send an email to: devs-subscribe@autonomiccs.com.br
+
+#### Unsubscribing
+If you have decided that you're getting too much mail? To cancel your subscription from one of the lists you have to send an email to <listname>-unsubscribe@autonomiccs.com.br from the same email you subscribed with.
+* To leave the users mailing list you should end an email to: users-unsubscribe@autonomiccs.com.br
+* To leave the developers mailing list you have to send an email to: devs-unsubscribe@autonomiccs.com.br
 
 ## More details
-
 Please, go to our <a href="https://github.com/Autonomiccs/autonomiccs-platform/wiki">wiki</a> page for more details; there you can understand more of the <a href="https://github.com/Autonomiccs/autonomiccs-platform/wiki/Autonomiccs-platform">Autonomiccs platform</a>, some <a href="https://github.com/Autonomiccs/autonomiccs-platform/wiki/Basic-concepts">basic concepts</a>, what are <a href="https://github.com/Autonomiccs/autonomiccs-platform/wiki/Heuristics">heuristics</a> and how we use it, how to <a href="https://github.com/Autonomiccs/autonomiccs-platform/wiki/Installation">install</a> and <a href="https://github.com/Autonomiccs/autonomiccs-platform/wiki/Usage">use</a>.
 
 You can find more about Autonomiccs visiting the [website](http://autonomiccs.com.br).
