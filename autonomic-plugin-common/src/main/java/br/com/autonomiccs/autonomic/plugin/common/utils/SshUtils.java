@@ -136,7 +136,13 @@ public class SshUtils implements InitializingBean {
     @Override
     public void afterPropertiesSet() throws Exception {
         certificate = File.createTempFile(UUID.randomUUID().toString(), ".tmp");
-        InputStream certificateStream = getClass().getResourceAsStream("/id_rsa.ppk");
-        IOUtils.copy(certificateStream, new FileOutputStream(certificate));
+
+        InputStream certificateStreamOriginal = getClass().getResourceAsStream("/id_rsa.ppk");
+        FileOutputStream certificateStreamWorkingFile = new FileOutputStream(certificate);
+
+        IOUtils.copy(certificateStreamOriginal, certificateStreamWorkingFile);
+
+        IOUtils.closeQuietly(certificateStreamOriginal);
+        IOUtils.closeQuietly(certificateStreamWorkingFile);
     }
 }

@@ -40,6 +40,11 @@ import br.com.autonomiccs.autonomic.algorithms.commons.resources.HostResources;
  */
 public class ConsolidationScoredPreferenceForSmallHosts extends ConsolidationAlgorithmBase {
 
+    /**
+     * This constant is the same as {@link ConsolidationAlgorithmBase#BYTES_TO_MEGA_BYTES}, but it is of type double.
+     */
+    protected final static double BYTES_TO_MEGA_BYTES_AS_DOUBLE = ConsolidationAlgorithmBase.BYTES_TO_MEGA_BYTES;
+
     protected HostProfiler profiler;
 
     /**
@@ -246,8 +251,8 @@ public class ConsolidationScoredPreferenceForSmallHosts extends ConsolidationAlg
      * @return
      */
     protected double cloudMemoryUsagePercentage(CloudResources cloudResources) {
-        double cloudMemory = cloudResources.getMemoryInBytes() / BYTES_TO_MEGA_BYTES;
-        double cloudUsedMemory = cloudResources.getUsedMemory() / BYTES_TO_MEGA_BYTES;
+        double cloudMemory = cloudResources.getMemoryInBytes() / BYTES_TO_MEGA_BYTES_AS_DOUBLE;
+        double cloudUsedMemory = cloudResources.getUsedMemory() / BYTES_TO_MEGA_BYTES_AS_DOUBLE;
         return cloudUsedMemory / cloudMemory;
     }
 
