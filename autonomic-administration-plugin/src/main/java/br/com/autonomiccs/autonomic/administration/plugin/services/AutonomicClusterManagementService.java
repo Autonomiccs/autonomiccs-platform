@@ -25,7 +25,6 @@ package br.com.autonomiccs.autonomic.administration.plugin.services;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-
 import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,12 +33,12 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.cloud.dc.ClusterVO;
+import com.cloud.dc.dao.ClusterDao;
+
 import br.com.autonomiccs.autonomic.administration.algorithms.ClusterAdministrationHeuristicAlgorithm;
 import br.com.autonomiccs.autonomic.plugin.common.daos.ClusterJdbcDao;
 import br.com.autonomiccs.autonomic.plugin.common.enums.ClusterAdministrationStatus;
-
-import com.cloud.dc.ClusterVO;
-import com.cloud.dc.dao.ClusterDao;
 
 /**
  * Provides methods to use the {@link ClusterJdbcDao} operations,
@@ -55,15 +54,12 @@ public class AutonomicClusterManagementService {
     private static final int NUMBER_OF_MINUTES_BETWEEN_CHECKS = 180;
 
     @Autowired
-    private ClusterJdbcDao clusterDaoJdbc;
+    protected ClusterJdbcDao clusterDaoJdbc;
     @Autowired
-    private ClusterDao clusterDao;
+    protected ClusterDao clusterDao;
 
     /**
      * Returns true if the cluster is in {@link ClusterAdministrationStatus#InProgress} state.
-     *
-     * @param id
-     * @return
      */
     public boolean isClusterBeingAdministrated(long id) {
         return ClusterAdministrationStatus.isClusterBeingManaged(clusterDaoJdbc.getClusterAdministrationStatus(id));
@@ -74,9 +70,6 @@ public class AutonomicClusterManagementService {
      * administration algorithm management interval). If the host has no last administration value
      * ('last_administration' column is null), then we consider that the cluster
      * has never been processed; therefore, we will put it into the management queue.
-     *
-     * @param cluster
-     * @param algorithm
      * @return true if the cluster can be processed
      */
     public boolean canProcessCluster(long clusterId, ClusterAdministrationHeuristicAlgorithm algorithm) {
@@ -87,13 +80,14 @@ public class AutonomicClusterManagementService {
         Calendar lastAdministrationCalendar = Calendar.getInstance();
         lastAdministrationCalendar.setTime(lastAdministration);
         lastAdministrationCalendar.add(Calendar.SECOND, algorithm.getClusterIntervalBetweenConsolidation());
-        return lastAdministrationCalendar.before(Calendar.getInstance());
+        Calendar calendarNow = Calendar.getInstance();
+        return lastAdministrationCalendar.before(calendarNow);
     }
 
     /**
-     * Sets the cluster administration status to {@link ClusterAdministrationStatus#InProgress} using  {@link ClusterJdbcDao#setClusterAdministrationStatus(ClusterConsolidationStatus, long)} method.
-     *
-     * @param cluster
+     * Sets the cluster administration status to {@link ClusterAdministrationStatus#InProgress}
+     * using {@link ClusterJdbcDao#setClusterAdministrationStatus(ClusterConsolidationStatus, long)}
+     * method.
      */
     @Transactional(readOnly = false)
     public void setClusterWorkInProgress(long clusterId) {
@@ -105,8 +99,6 @@ public class AutonomicClusterManagementService {
      * Mark the cluster (with the given id) as in
      * {@link ClusterAdministrationStatus#Done} state and sets the last
      * administration to the current Date.
-     *
-     * @param cluster
      */
     @Transactional(readOnly = false)
     public void markAdministrationStatusInClusterAsDone(long clusterId) {
@@ -114,6 +106,14 @@ public class AutonomicClusterManagementService {
         clusterDaoJdbc.setClusterAdministrationStatus(ClusterAdministrationStatus.Done, clusterId);
     }
 
+    /**
+     * Sometimes a cluster may be stuck as being processed; this happens when the database was
+     * updated when the agent started to manage, but for some reason, the agent did not mark it as
+     * finished. An example is when an agent (at the end it is a machine prone to failures) stops
+     * for some reason while processing the cluster. To correct possible problems, this method
+     * "restarts" the status of clusters that are over six (6) hours being managed (a clear case
+     * that something wrong has happened, and we hope the next execution will have success).
+     */
     @Transactional(readOnly = false)
     @Scheduled(initialDelay = ONE_MINUTE_IN_MILLISECONDS, fixedDelay = ONE_MINUTE_IN_MILLISECONDS * NUMBER_OF_MINUTES_BETWEEN_CHECKS)
     public void removeClusterStuckProcessing() {

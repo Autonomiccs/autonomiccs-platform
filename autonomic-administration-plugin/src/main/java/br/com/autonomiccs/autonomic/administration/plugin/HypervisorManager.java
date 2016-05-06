@@ -46,7 +46,7 @@ public class HypervisorManager {
     private HostService hostService;
 
     @Inject
-    private List<HypervisorHost> hypervisorHosts;
+    protected List<HypervisorHost> hypervisorHosts;
 
     /**
      * Executes the shutdownHost method of the {@link HostVO} hypervisor. If the
@@ -63,18 +63,16 @@ public class HypervisorManager {
                 return;
             }
         }
-        throw new CloudRuntimeException(String.format("The the hypervisor[%s] from host[%d] does not support shutdown to consolidate", hostVo.getHypervisorType(), hostVo.getId()));
+        throw new CloudRuntimeException(
+                String.format("The the hypervisor[%s] from host[id=%d] does not support shutdown to consolidate", hostVo.getHypervisorType(), hostVo.getId()));
     }
 
     /**
      * Calls the {@link HypervisorHost#shutdownHost(HostVO)} method and mark the
      * host administration process as {@link HostAdministrationStatus#ShutDownToConsolidate} using
      * {@link HostService#markHostAsShutdownByAdministrationAgent(long)}.
-     *
-     * @param hostVo
-     * @param currentHypervisorHost
      */
-    private void shutdown(HostVO hostVo, HypervisorHost currentHypervisorHost) {
+    protected void shutdown(HostVO hostVo, HypervisorHost currentHypervisorHost) {
         hostService.loadHostDetails(hostVo);
         currentHypervisorHost.shutdownHost(hostVo);
         hostService.markHostAsShutdownByAdministrationAgent(hostVo.getId());
