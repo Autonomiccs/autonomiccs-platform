@@ -26,8 +26,8 @@ import com.cloud.host.HostVO;
 import com.cloud.hypervisor.Hypervisor.HypervisorType;
 
 /**
- * All Host Hypervisors basic operations developed in the consolidation plugin
- * are in this class.
+ * This interface provides all Host Hypervisors basic operations developed by the Autonomiccs
+ * platform.
  */
 public interface HypervisorHost {
 

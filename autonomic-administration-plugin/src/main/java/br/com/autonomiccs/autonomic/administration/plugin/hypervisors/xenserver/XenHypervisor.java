@@ -53,20 +53,20 @@ import br.com.autonomiccs.autonomic.plugin.common.utils.ThreadUtils;
 @Component
 public class XenHypervisor implements HypervisorHost {
 
-    private static final String FIND_ARP_FOR_HOST_COMMAND = "arp -n %s";
-    private static final String REGEX_GET_ARP_FROM_ARP_COMMAND_OUTPUT = ".+([A-Fa-f0-9]{2}:[A-Fa-f0-9]{2}:[A-Fa-f0-9]{2}:[A-Fa-f0-9]{2}:[A-Fa-f0-9]{2}:[A-Fa-f0-9]{2}).+";
-    private static final XenServerConnectionPool connPool = XenServerConnectionPool.getInstance();
+    protected static final String FIND_ARP_FOR_HOST_COMMAND = "arp -n %s";
+    protected static final String REGEX_GET_ARP_FROM_ARP_COMMAND_OUTPUT = ".+([A-Fa-f0-9]{2}:[A-Fa-f0-9]{2}:[A-Fa-f0-9]{2}:[A-Fa-f0-9]{2}:[A-Fa-f0-9]{2}:[A-Fa-f0-9]{2}).+";
+    protected XenServerConnectionPool connPool = XenServerConnectionPool.getInstance();
 
-    private final Pattern compileRegexToGetArp = Pattern.compile(REGEX_GET_ARP_FROM_ARP_COMMAND_OUTPUT);
+    protected final Pattern compileRegexToGetArp = Pattern.compile(REGEX_GET_ARP_FROM_ARP_COMMAND_OUTPUT);
 
     @Inject
-    private ThreadUtils threadUtils;
+    protected ThreadUtils threadUtils;
     @Inject
-    private HostUtils hostUtils;
+    protected HostUtils hostUtils;
     @Inject
-    private ShellCommandUtils shellCommandUtils;
+    protected ShellCommandUtils shellCommandUtils;
     @Inject
-    private HostService hostService;
+    protected HostService hostService;
 
     /**
      * This method shuts down the given host. It checks if the host to be powered off is the
@@ -101,7 +101,7 @@ public class XenHypervisor implements HypervisorHost {
         }
     }
 
-    private String getHostPrivateMacAddress(HostVO hostVo) {
+    protected String getHostPrivateMacAddress(HostVO hostVo) {
         String returnOfArpCommand = shellCommandUtils.executeCommand(String.format(FIND_ARP_FOR_HOST_COMMAND, hostVo.getPrivateIpAddress()));
         Matcher matcher = compileRegexToGetArp.matcher(returnOfArpCommand);
         if (matcher.find()) {
@@ -111,10 +111,10 @@ public class XenHypervisor implements HypervisorHost {
     }
 
     /**
-     * Disables the host (using {@link Host#disable(Connection)}) and shuts it down
+     * It disables the host (using {@link Host#disable(Connection)}) and shuts it down
      * using the {@link Host#shutdown(Connection)} method.
      */
-    private void disableAndShutdownHost(Connection conn, Host host) throws BadServerResponse, XenAPIException, XmlRpcException {
+    protected void disableAndShutdownHost(Connection conn, Host host) throws BadServerResponse, XenAPIException, XmlRpcException {
         host.disable(conn);
         host.shutdown(conn);
     }
@@ -124,7 +124,7 @@ public class XenHypervisor implements HypervisorHost {
      * host to be powered off is the master, it changes the master using
      * {@link #changePoolMasterHost(Connection, String)}.
      */
-    private void changeMasterIfNeeded(Connection conn, Host master, String hostUuid)
+    protected void changeMasterIfNeeded(Connection conn, Host master, String hostUuid)
             throws BadServerResponse, XenAPIException, XmlRpcException {
 
         if (hostUuid.equals(master.getUuid(conn)) && !isLastHostOnPool(conn)) {
@@ -136,14 +136,14 @@ public class XenHypervisor implements HypervisorHost {
     /**
      * Returns true if the pool has exactly one {@link Host}.
      */
-    private boolean isLastHostOnPool(Connection conn) throws BadServerResponse, XenAPIException, XmlRpcException {
+    protected boolean isLastHostOnPool(Connection conn) throws BadServerResponse, XenAPIException, XmlRpcException {
         return Host.getAll(conn).size() == 1;
     }
 
     /**
      * Returns the {@link Host} that is the current master of this pool.
      */
-    private Host getMasterHost(Connection conn) throws BadServerResponse,XenAPIException, XmlRpcException {
+    protected Host getMasterHost(Connection conn) throws BadServerResponse, XenAPIException, XmlRpcException {
         Iterator<Pool> poolIterator = Pool.getAll(conn).iterator();
         if (poolIterator.hasNext()) {
             return poolIterator.next().getMaster(conn);
@@ -154,7 +154,7 @@ public class XenHypervisor implements HypervisorHost {
     /**
      * The new master will be selected with no specific criteria.
      */
-    private void changePoolMasterHost(Connection conn, String hostUuid) throws BadServerResponse, XenAPIException, XmlRpcException {
+    protected void changePoolMasterHost(Connection conn, String hostUuid) throws BadServerResponse, XenAPIException, XmlRpcException {
         for (Host host : Host.getAll(conn)) {
             if (hostUuid.equals(host.getUuid(conn))) {
                 continue;
@@ -170,7 +170,7 @@ public class XenHypervisor implements HypervisorHost {
      * Waits until the master of the pool changes, given a total of 90 tries,
      * each taking 3 seconds of wait.
      */
-    private void waitChangePoolMasterHost(Host master, Connection conn, String hostUuid) throws BadServerResponse, XenAPIException, XmlRpcException {
+    protected void waitChangePoolMasterHost(Host master, Connection conn, String hostUuid) throws BadServerResponse, XenAPIException, XmlRpcException {
         int count = 0;
         while (hostUuid.equals(master.getUuid(conn))) {
             threadUtils.sleepThread(3);
@@ -186,29 +186,33 @@ public class XenHypervisor implements HypervisorHost {
      * {@link XenServerConnectionPool#getConnect(String, String, Queue)},
      * passing the host uuid, pool, ip, username, password and wait time.
      */
-    private Connection getConnection(HostVO host) {
+    protected Connection getConnection(HostVO host) {
         Map<String, String> params = host.getDetails();
         String username = getUsername(params);
-        Queue<String> password = getPasssword(params);
+        Queue<String> password = getPassword(params);
         return connPool.getConnect(host.getPrivateIpAddress(), username, password);
     }
 
     /**
      * Returns the host user name.
      */
-    private String getUsername(Map<String, String> params) {
+    protected String getUsername(Map<String, String> params) {
         return params.get("username");
     }
 
     /**
      * Returns the host password.
      */
-    private Queue<String> getPasssword(Map<String, String> params) {
+    protected Queue<String> getPassword(Map<String, String> params) {
         Queue<String> password = new LinkedList<>();
         password.add(params.get("password"));
         return password;
     }
 
+    /**
+     * It returns true if the given {@link com.cloud.hypervisor.Hypervisor.HypervisorType} is equals
+     * to {@link com.cloud.hypervisor.Hypervisor.HypervisorType#XenServer}.
+     */
     @Override
     public boolean supportsHypervisor(HypervisorType hypervisorType) {
         return HypervisorType.XenServer.equals(hypervisorType);

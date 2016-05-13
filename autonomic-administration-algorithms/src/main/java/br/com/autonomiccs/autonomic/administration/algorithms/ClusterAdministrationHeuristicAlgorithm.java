@@ -85,12 +85,8 @@ public interface ClusterAdministrationHeuristicAlgorithm {
     public boolean canPowerOffHost(HostResources hostToPowerOff, CloudResources cloudResources);
 
     /**
-     * Checks if the consolidation agent can disable others idle host in the
-     * given cluster.
-     *
-     * @param cluster
-     *            load (idle resource, total).
-     * @return true if can power off a host.
+     * This method checks if the administration agent can disable idle hosts given the whole cloud
+     * environment current state.
      */
     boolean canPowerOffAnotherHostInCloud(CloudResources cloudResources);
 
