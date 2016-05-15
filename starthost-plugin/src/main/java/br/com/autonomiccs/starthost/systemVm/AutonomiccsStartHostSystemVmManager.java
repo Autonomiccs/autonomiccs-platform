@@ -350,12 +350,18 @@ public class AutonomiccsStartHostSystemVmManager implements InitializingBean {
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        String cloudStackWebappLibFolder = getCloudStackWebappLibFolder();
-        String startHostApplicationFullQualifiedPath = cloudStackWebappLibFolder + "wakeonlan-service-" + wakeOnLanHostApplicationVersion;
-        startHostApplicationExecutable = createTempFileForStream(new FileInputStream(startHostApplicationFullQualifiedPath));
+        copyStartHostApplicationToTempFile();
         startHostApplicationConfiguration = createTempFileForResourceInJar("/application.yml");
         startHostApplicationInicializationScript = createTempFileForResourceInJar("/startup");
         startHostApplicationLogConfiguration = createTempFileForResourceInJar("/log4j.properties");
+    }
+
+    private void copyStartHostApplicationToTempFile() throws FileNotFoundException, IOException {
+        String cloudStackWebappLibFolder = getCloudStackWebappLibFolder();
+        String startHostApplicationFullQualifiedPath = cloudStackWebappLibFolder + "wakeonlan-service-" + wakeOnLanHostApplicationVersion;
+        FileInputStream startHostApplicationStream = new FileInputStream(startHostApplicationFullQualifiedPath);
+        startHostApplicationExecutable = createTempFileForStream(startHostApplicationStream);
+        IOUtils.closeQuietly(startHostApplicationStream);
     }
 
     private String getCloudStackWebappLibFolder() {
@@ -373,12 +379,18 @@ public class AutonomiccsStartHostSystemVmManager implements InitializingBean {
 
     private File createTempFileForResourceInJar(String resourceNameInClasspath) throws IOException {
         InputStream resourceAsStream = getClass().getResourceAsStream(resourceNameInClasspath);
-        return createTempFileForStream(resourceAsStream);
+        File tempFileForStream = createTempFileForStream(resourceAsStream);
+
+        IOUtils.closeQuietly(resourceAsStream);
+        return tempFileForStream;
     }
 
     private File createTempFileForStream(InputStream resourceAsStream) throws IOException, FileNotFoundException {
         File file = File.createTempFile(UUID.randomUUID().toString(), ".tmp");
-        IOUtils.copy(resourceAsStream, new FileOutputStream(file));
+        FileOutputStream tempFileStream = new FileOutputStream(file);
+
+        IOUtils.copy(resourceAsStream, tempFileStream);
+        IOUtils.closeQuietly(tempFileStream);
         return file;
     }
 }

@@ -172,7 +172,7 @@ public class AutonomiccsSystemVmDeploymentService implements InitializingBean {
 
         Account systemAcct = accountManager.getSystemAccount();
 
-        long id = autonomiccsSystemVmDao.getNextInSequence(Long.class, "id");
+        long id = getNextSystemVmId();
         String name = createAutonomiccsSystemVmNameForType(id, systemVmType, getVirtualMachineInstanceSuffix());
 
         long dataCenterId = host.getDataCenterId();
@@ -224,6 +224,14 @@ public class AutonomiccsSystemVmDeploymentService implements InitializingBean {
                     autonomiccsSystemVm.getId()));
         }
         return autonomiccsSystemVm;
+    }
+
+    private long getNextSystemVmId() {
+        Long id = autonomiccsSystemVmDao.getNextInSequence(Long.class, "id");
+        if(id == null){
+            throw new CloudRuntimeException("It was not possible to find an id to create a system VM.");
+        }
+        return id;
     }
 
     private NetworkVO getDefaultNetwork(long dataCenterId) {
