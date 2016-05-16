@@ -27,10 +27,10 @@ import java.util.List;
 
 import org.springframework.stereotype.Component;
 
-import br.com.autonomiccs.autonomic.algorithms.commons.resources.ClusterResources;
-import br.com.autonomiccs.autonomic.algorithms.commons.resources.ClusterResourcesAvailableToStart;
-import br.com.autonomiccs.autonomic.algorithms.commons.resources.ClusterResourcesUp;
-import br.com.autonomiccs.autonomic.algorithms.commons.resources.HostResources;
+import br.com.autonomiccs.autonomic.algorithms.commons.beans.ClusterResources;
+import br.com.autonomiccs.autonomic.algorithms.commons.beans.ClusterResourcesAvailableToStart;
+import br.com.autonomiccs.autonomic.algorithms.commons.beans.ClusterResourcesUp;
+import br.com.autonomiccs.autonomic.algorithms.commons.beans.HostResources;
 
 /**
  * This class manages operations over {@link ClusterResources} objects.

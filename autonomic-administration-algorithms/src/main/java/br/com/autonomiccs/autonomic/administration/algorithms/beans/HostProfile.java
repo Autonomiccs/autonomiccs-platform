@@ -20,7 +20,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package br.com.autonomiccs.autonomic.administration.algorithms.pojos;
+package br.com.autonomiccs.autonomic.administration.algorithms.beans;
 
 /**
  * Contains the host profile attributes (number of cpus, cpu speed and memory).

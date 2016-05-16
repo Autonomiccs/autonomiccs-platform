@@ -29,9 +29,9 @@ import java.util.List;
 
 import org.apache.commons.collections.ComparatorUtils;
 
-import br.com.autonomiccs.autonomic.algorithms.commons.resources.ClusterResources;
-import br.com.autonomiccs.autonomic.algorithms.commons.resources.ClusterResourcesAvailableToStart;
-import br.com.autonomiccs.autonomic.algorithms.commons.resources.HostResources;
+import br.com.autonomiccs.autonomic.algorithms.commons.beans.ClusterResources;
+import br.com.autonomiccs.autonomic.algorithms.commons.beans.ClusterResourcesAvailableToStart;
+import br.com.autonomiccs.autonomic.algorithms.commons.beans.HostResources;
 
 /**
  * This class provides heuristics for calculating priority in hosts and clusters VM allocation.

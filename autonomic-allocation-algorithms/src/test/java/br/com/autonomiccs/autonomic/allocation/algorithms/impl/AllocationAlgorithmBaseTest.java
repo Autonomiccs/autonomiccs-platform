@@ -33,9 +33,9 @@ import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import br.com.autonomiccs.autonomic.algorithms.commons.resources.CloudResources;
-import br.com.autonomiccs.autonomic.algorithms.commons.resources.ClusterResourcesAvailableToStart;
-import br.com.autonomiccs.autonomic.algorithms.commons.resources.HostResources;
+import br.com.autonomiccs.autonomic.algorithms.commons.beans.CloudResources;
+import br.com.autonomiccs.autonomic.algorithms.commons.beans.ClusterResourcesAvailableToStart;
+import br.com.autonomiccs.autonomic.algorithms.commons.beans.HostResources;
 import br.com.autonomiccs.autonomic.allocation.algorithms.AllocationAlgorithm;
 
 @RunWith(MockitoJUnitRunner.class)

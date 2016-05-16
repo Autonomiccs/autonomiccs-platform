@@ -44,9 +44,9 @@ import com.cloud.vm.VMInstanceVO;
 
 import br.com.autonomiccs.autonomic.administration.algorithms.ClusterAdministrationHeuristicAlgorithm;
 import br.com.autonomiccs.autonomic.administration.plugin.services.AutonomicClusterManagementService;
-import br.com.autonomiccs.autonomic.algorithms.commons.resources.CloudResources;
-import br.com.autonomiccs.autonomic.algorithms.commons.resources.ClusterResourcesUp;
-import br.com.autonomiccs.autonomic.algorithms.commons.resources.HostResources;
+import br.com.autonomiccs.autonomic.algorithms.commons.beans.CloudResources;
+import br.com.autonomiccs.autonomic.algorithms.commons.beans.ClusterResourcesUp;
+import br.com.autonomiccs.autonomic.algorithms.commons.beans.HostResources;
 import br.com.autonomiccs.autonomic.algorithms.commons.services.CloudResourcesService;
 import br.com.autonomiccs.autonomic.algorithms.commons.services.ClusterResourcesService;
 import br.com.autonomiccs.autonomic.algorithms.commons.services.HostResourcesService;

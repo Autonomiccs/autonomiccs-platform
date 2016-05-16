@@ -62,9 +62,9 @@ import com.cloud.utils.exception.CloudRuntimeException;
 import com.cloud.vm.NicProfile;
 import com.cloud.vm.VirtualMachineManager;
 
+import br.com.autonomiccs.autonomic.plugin.common.beans.AutonomiccsSystemVm;
 import br.com.autonomiccs.autonomic.plugin.common.daos.AutonomiccsSystemVmDao;
 import br.com.autonomiccs.autonomic.plugin.common.enums.SystemVmType;
-import br.com.autonomiccs.autonomic.plugin.common.pojos.AutonomiccsSystemVm;
 import br.com.autonomiccs.autonomic.plugin.common.utils.HostUtils;
 import br.com.autonomiccs.autonomic.plugin.common.utils.SshUtils;
 import br.com.autonomiccs.autonomic.plugin.common.utils.ThreadUtils;

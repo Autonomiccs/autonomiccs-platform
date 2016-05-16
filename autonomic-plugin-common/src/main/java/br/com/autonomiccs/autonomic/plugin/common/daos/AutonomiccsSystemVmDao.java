@@ -24,9 +24,9 @@ package br.com.autonomiccs.autonomic.plugin.common.daos;
 
 import org.springframework.stereotype.Component;
 
-import br.com.autonomiccs.autonomic.plugin.common.pojos.AutonomiccsSystemVm;
-
 import com.cloud.utils.db.GenericDaoBase;
+
+import br.com.autonomiccs.autonomic.plugin.common.beans.AutonomiccsSystemVm;
 
 /**
  * This DAO is meant to be used to execute a similar flow as the deployment of system VMs in CloudStack, to deploy Autonomiccs system VMs

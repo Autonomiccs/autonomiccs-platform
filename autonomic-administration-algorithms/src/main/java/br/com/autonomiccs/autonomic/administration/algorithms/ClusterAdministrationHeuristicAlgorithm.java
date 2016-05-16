@@ -25,8 +25,8 @@ package br.com.autonomiccs.autonomic.administration.algorithms;
 import java.util.List;
 import java.util.Map;
 
-import br.com.autonomiccs.autonomic.algorithms.commons.resources.CloudResources;
-import br.com.autonomiccs.autonomic.algorithms.commons.resources.HostResources;
+import br.com.autonomiccs.autonomic.algorithms.commons.beans.CloudResources;
+import br.com.autonomiccs.autonomic.algorithms.commons.beans.HostResources;
 
 /**
  * This interface provides the basic methods that are used by the consolidation

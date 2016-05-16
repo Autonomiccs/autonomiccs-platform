@@ -33,9 +33,9 @@ import org.mockito.InOrder;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import br.com.autonomiccs.autonomic.algorithms.commons.resources.CloudResources;
-import br.com.autonomiccs.autonomic.algorithms.commons.resources.HostResources;
-import br.com.autonomiccs.autonomic.algorithms.commons.resources.VmResources;
+import br.com.autonomiccs.autonomic.algorithms.commons.beans.CloudResources;
+import br.com.autonomiccs.autonomic.algorithms.commons.beans.HostResources;
+import br.com.autonomiccs.autonomic.algorithms.commons.beans.VmResources;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ConsolidationAlgorithmBaseTest extends ConsolidationAlgorithmsTest {

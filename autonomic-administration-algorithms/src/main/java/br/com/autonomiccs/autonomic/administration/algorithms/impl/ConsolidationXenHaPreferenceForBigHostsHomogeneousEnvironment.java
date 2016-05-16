@@ -27,8 +27,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import br.com.autonomiccs.autonomic.algorithms.commons.resources.HostResources;
-import br.com.autonomiccs.autonomic.algorithms.commons.resources.VmResources;
+import br.com.autonomiccs.autonomic.algorithms.commons.beans.HostResources;
+import br.com.autonomiccs.autonomic.algorithms.commons.beans.VmResources;
 
 /**
  * Extends the {@link ConsolidationScoredPreferenceForBigHosts} overriding

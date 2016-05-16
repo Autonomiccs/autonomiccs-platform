@@ -29,7 +29,7 @@ import java.util.List;
 
 import org.apache.commons.collections.ComparatorUtils;
 
-import br.com.autonomiccs.autonomic.algorithms.commons.resources.HostResources;
+import br.com.autonomiccs.autonomic.algorithms.commons.beans.HostResources;
 
 /**
  * This algorithm was designed for the LRG cloud environment. It gives priority to start hosts with

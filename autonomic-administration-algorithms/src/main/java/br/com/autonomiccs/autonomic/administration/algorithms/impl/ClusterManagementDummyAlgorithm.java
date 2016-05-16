@@ -31,9 +31,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import br.com.autonomiccs.autonomic.administration.algorithms.ClusterAdministrationHeuristicAlgorithm;
-import br.com.autonomiccs.autonomic.algorithms.commons.resources.CloudResources;
-import br.com.autonomiccs.autonomic.algorithms.commons.resources.HostResources;
-import br.com.autonomiccs.autonomic.algorithms.commons.resources.VmResources;
+import br.com.autonomiccs.autonomic.algorithms.commons.beans.CloudResources;
+import br.com.autonomiccs.autonomic.algorithms.commons.beans.HostResources;
+import br.com.autonomiccs.autonomic.algorithms.commons.beans.VmResources;
 
 public class ClusterManagementDummyAlgorithm implements ClusterAdministrationHeuristicAlgorithm {
 

@@ -21,7 +21,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package br.com.autonomiccs.autonomic.algorithms.commons.resources;
+package br.com.autonomiccs.autonomic.algorithms.commons.beans;
 
 import java.util.List;
 

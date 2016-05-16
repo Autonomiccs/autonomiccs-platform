@@ -30,10 +30,10 @@ import java.util.Random;
 import org.junit.Assert;
 import org.junit.Test;
 
-import br.com.autonomiccs.autonomic.algorithms.commons.resources.ClusterResources;
-import br.com.autonomiccs.autonomic.algorithms.commons.resources.ClusterResourcesAvailableToStart;
-import br.com.autonomiccs.autonomic.algorithms.commons.resources.ClusterResourcesUp;
-import br.com.autonomiccs.autonomic.algorithms.commons.resources.HostResources;
+import br.com.autonomiccs.autonomic.algorithms.commons.beans.ClusterResources;
+import br.com.autonomiccs.autonomic.algorithms.commons.beans.ClusterResourcesAvailableToStart;
+import br.com.autonomiccs.autonomic.algorithms.commons.beans.ClusterResourcesUp;
+import br.com.autonomiccs.autonomic.algorithms.commons.beans.HostResources;
 
 public class ClusterResourcesServiceTest {
 
