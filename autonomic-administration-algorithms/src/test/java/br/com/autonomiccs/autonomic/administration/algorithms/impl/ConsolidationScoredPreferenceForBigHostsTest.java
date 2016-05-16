@@ -29,7 +29,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
-import br.com.autonomiccs.autonomic.algorithms.commons.resources.HostResources;
+import br.com.autonomiccs.autonomic.algorithms.commons.beans.HostResources;
 
 public class ConsolidationScoredPreferenceForBigHostsTest {
 

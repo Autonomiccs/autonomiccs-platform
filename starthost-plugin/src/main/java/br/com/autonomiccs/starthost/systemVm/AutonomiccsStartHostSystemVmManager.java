@@ -60,10 +60,10 @@ import com.cloud.utils.exception.CloudRuntimeException;
 import com.cloud.vm.VMInstanceVO;
 import com.cloud.vm.VirtualMachineManager;
 
-import br.com.autonomiccs.autonomic.algorithms.commons.resources.HostResources;
+import br.com.autonomiccs.autonomic.algorithms.commons.beans.HostResources;
 import br.com.autonomiccs.autonomic.algorithms.commons.services.HostResourcesService;
+import br.com.autonomiccs.autonomic.plugin.common.beans.AutonomiccsSystemVm;
 import br.com.autonomiccs.autonomic.plugin.common.enums.SystemVmType;
-import br.com.autonomiccs.autonomic.plugin.common.pojos.AutonomiccsSystemVm;
 import br.com.autonomiccs.autonomic.plugin.common.services.AutonomicClusterManagementHeuristicService;
 import br.com.autonomiccs.autonomic.plugin.common.services.AutonomiccsServiceOfferingService;
 import br.com.autonomiccs.autonomic.plugin.common.services.AutonomiccsSystemVmDeploymentService;

@@ -27,8 +27,8 @@ import java.util.List;
 
 import org.springframework.stereotype.Component;
 
-import br.com.autonomiccs.autonomic.algorithms.commons.resources.CloudResources;
-import br.com.autonomiccs.autonomic.algorithms.commons.resources.ClusterResourcesUp;
+import br.com.autonomiccs.autonomic.algorithms.commons.beans.CloudResources;
+import br.com.autonomiccs.autonomic.algorithms.commons.beans.ClusterResourcesUp;
 
 /**
  * Provides operations over {@link CloudResources} objects.

@@ -28,10 +28,10 @@ import java.util.List;
 
 import org.apache.commons.collections.ComparatorUtils;
 
-import br.com.autonomiccs.autonomic.administration.algorithms.pojos.HostProfile;
+import br.com.autonomiccs.autonomic.administration.algorithms.beans.HostProfile;
 import br.com.autonomiccs.autonomic.administration.algorithms.profilers.HostProfiler;
-import br.com.autonomiccs.autonomic.algorithms.commons.resources.CloudResources;
-import br.com.autonomiccs.autonomic.algorithms.commons.resources.HostResources;
+import br.com.autonomiccs.autonomic.algorithms.commons.beans.CloudResources;
+import br.com.autonomiccs.autonomic.algorithms.commons.beans.HostResources;
 
 /**
  * This class provides heuristics for sorting priority in hosts to be powered off and decide if can

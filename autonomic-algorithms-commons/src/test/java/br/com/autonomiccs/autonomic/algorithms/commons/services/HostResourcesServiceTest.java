@@ -39,9 +39,6 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import br.com.autonomiccs.autonomic.algorithms.commons.resources.HostResources;
-import br.com.autonomiccs.autonomic.algorithms.commons.resources.VmResources;
-
 import com.cloud.host.HostVO;
 import com.cloud.hypervisor.Hypervisor.HypervisorType;
 import com.cloud.service.ServiceOfferingVO;
@@ -50,6 +47,9 @@ import com.cloud.storage.Storage.ProvisioningType;
 import com.cloud.vm.VMInstanceVO;
 import com.cloud.vm.VirtualMachine;
 import com.cloud.vm.dao.VMInstanceDao;
+
+import br.com.autonomiccs.autonomic.algorithms.commons.beans.HostResources;
+import br.com.autonomiccs.autonomic.algorithms.commons.beans.VmResources;
 
 @RunWith(MockitoJUnitRunner.class)
 public class HostResourcesServiceTest {

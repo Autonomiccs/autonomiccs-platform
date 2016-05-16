@@ -21,7 +21,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package br.com.autonomiccs.autonomic.algorithms.commons.resources;
+package br.com.autonomiccs.autonomic.algorithms.commons.beans;
 
 /**
  * Representation of cluster resources. This class does not considers the hosts in the cluster

@@ -24,7 +24,7 @@ package br.com.autonomiccs.autonomic.administration.algorithms.impl;
 
 import java.util.List;
 
-import br.com.autonomiccs.autonomic.algorithms.commons.resources.HostResources;
+import br.com.autonomiccs.autonomic.algorithms.commons.beans.HostResources;
 
 /**
  * Extends the {@link ConsolidationScoredPreferenceForSmallHosts} overriding {@link #sortHosts(List)}. This

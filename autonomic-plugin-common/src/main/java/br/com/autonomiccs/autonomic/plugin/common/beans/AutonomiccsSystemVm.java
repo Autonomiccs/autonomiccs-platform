@@ -20,7 +20,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package br.com.autonomiccs.autonomic.plugin.common.pojos;
+package br.com.autonomiccs.autonomic.plugin.common.beans;
 
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;

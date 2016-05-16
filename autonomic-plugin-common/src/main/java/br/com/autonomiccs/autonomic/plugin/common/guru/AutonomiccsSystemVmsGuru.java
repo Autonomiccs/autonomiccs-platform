@@ -50,8 +50,8 @@ import com.cloud.vm.VirtualMachineGuru;
 import com.cloud.vm.VirtualMachineManager;
 import com.cloud.vm.VirtualMachineProfile;
 
+import br.com.autonomiccs.autonomic.plugin.common.beans.AutonomiccsSystemVm;
 import br.com.autonomiccs.autonomic.plugin.common.daos.AutonomiccsSystemVmDao;
-import br.com.autonomiccs.autonomic.plugin.common.pojos.AutonomiccsSystemVm;
 
 @Component
 public class AutonomiccsSystemVmsGuru implements VirtualMachineGuru, InitializingBean {

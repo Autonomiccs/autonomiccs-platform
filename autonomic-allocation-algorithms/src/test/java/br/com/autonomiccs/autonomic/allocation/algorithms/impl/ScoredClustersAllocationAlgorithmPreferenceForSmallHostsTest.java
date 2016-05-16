@@ -34,9 +34,9 @@ import org.mockito.InOrder;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import br.com.autonomiccs.autonomic.algorithms.commons.resources.ClusterResources;
-import br.com.autonomiccs.autonomic.algorithms.commons.resources.ClusterResourcesAvailableToStart;
-import br.com.autonomiccs.autonomic.algorithms.commons.resources.HostResources;
+import br.com.autonomiccs.autonomic.algorithms.commons.beans.ClusterResources;
+import br.com.autonomiccs.autonomic.algorithms.commons.beans.ClusterResourcesAvailableToStart;
+import br.com.autonomiccs.autonomic.algorithms.commons.beans.HostResources;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ScoredClustersAllocationAlgorithmPreferenceForSmallHostsTest extends ScoredClustersAllocationAlgorithm {

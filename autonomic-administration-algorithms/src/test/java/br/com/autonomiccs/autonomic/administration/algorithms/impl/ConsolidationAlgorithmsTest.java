@@ -28,8 +28,8 @@ import java.util.Random;
 
 import org.apache.commons.lang3.ObjectUtils;
 
-import br.com.autonomiccs.autonomic.algorithms.commons.resources.HostResources;
-import br.com.autonomiccs.autonomic.algorithms.commons.resources.VmResources;
+import br.com.autonomiccs.autonomic.algorithms.commons.beans.HostResources;
+import br.com.autonomiccs.autonomic.algorithms.commons.beans.VmResources;
 
 public abstract class ConsolidationAlgorithmsTest {
 

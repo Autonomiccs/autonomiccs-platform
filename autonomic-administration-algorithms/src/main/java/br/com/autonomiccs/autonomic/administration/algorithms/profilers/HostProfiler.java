@@ -24,10 +24,10 @@ package br.com.autonomiccs.autonomic.administration.algorithms.profilers;
 
 import java.util.List;
 
-import br.com.autonomiccs.autonomic.administration.algorithms.pojos.ClusterVmProfile;
-import br.com.autonomiccs.autonomic.administration.algorithms.pojos.HostProfile;
-import br.com.autonomiccs.autonomic.algorithms.commons.resources.HostResources;
-import br.com.autonomiccs.autonomic.algorithms.commons.resources.VmResources;
+import br.com.autonomiccs.autonomic.administration.algorithms.beans.ClusterVmProfile;
+import br.com.autonomiccs.autonomic.administration.algorithms.beans.HostProfile;
+import br.com.autonomiccs.autonomic.algorithms.commons.beans.HostResources;
+import br.com.autonomiccs.autonomic.algorithms.commons.beans.VmResources;
 
 /**
  * This class calculates Hosts and VMs profiles from a cluster, those profiles are used by

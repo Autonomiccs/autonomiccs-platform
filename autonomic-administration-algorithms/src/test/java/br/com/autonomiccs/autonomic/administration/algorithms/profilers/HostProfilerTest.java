@@ -30,9 +30,9 @@ import org.mockito.InOrder;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import br.com.autonomiccs.autonomic.administration.algorithms.beans.ClusterVmProfile;
+import br.com.autonomiccs.autonomic.administration.algorithms.beans.HostProfile;
 import br.com.autonomiccs.autonomic.administration.algorithms.impl.ConsolidationAlgorithmsTest;
-import br.com.autonomiccs.autonomic.administration.algorithms.pojos.ClusterVmProfile;
-import br.com.autonomiccs.autonomic.administration.algorithms.pojos.HostProfile;
 
 @RunWith(MockitoJUnitRunner.class)
 public class HostProfilerTest extends ConsolidationAlgorithmsTest {

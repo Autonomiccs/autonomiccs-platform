@@ -29,8 +29,8 @@ import java.util.Random;
 
 import org.apache.commons.lang.ObjectUtils;
 
-import br.com.autonomiccs.autonomic.algorithms.commons.resources.HostResources;
-import br.com.autonomiccs.autonomic.algorithms.commons.resources.VmResources;
+import br.com.autonomiccs.autonomic.algorithms.commons.beans.HostResources;
+import br.com.autonomiccs.autonomic.algorithms.commons.beans.VmResources;
 
 public class HostResourcesTestUtils {
 

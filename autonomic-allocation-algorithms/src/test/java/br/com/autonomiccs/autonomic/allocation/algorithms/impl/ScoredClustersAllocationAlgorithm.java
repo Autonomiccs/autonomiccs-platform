@@ -26,8 +26,8 @@ package br.com.autonomiccs.autonomic.allocation.algorithms.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.autonomiccs.autonomic.algorithms.commons.resources.ClusterResourcesAvailableToStart;
-import br.com.autonomiccs.autonomic.algorithms.commons.resources.HostResources;
+import br.com.autonomiccs.autonomic.algorithms.commons.beans.ClusterResourcesAvailableToStart;
+import br.com.autonomiccs.autonomic.algorithms.commons.beans.HostResources;
 
 public abstract class ScoredClustersAllocationAlgorithm {
 

@@ -34,7 +34,7 @@ import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.powermock.api.mockito.PowerMockito;
 
-import br.com.autonomiccs.autonomic.algorithms.commons.resources.HostResources;
+import br.com.autonomiccs.autonomic.algorithms.commons.beans.HostResources;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ScoredClustersAllocationAlgorithmPreferenceForBigHostsTest extends ScoredClustersAllocationAlgorithm {
