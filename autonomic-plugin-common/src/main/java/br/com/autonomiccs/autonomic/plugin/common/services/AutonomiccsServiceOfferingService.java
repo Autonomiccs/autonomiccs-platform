@@ -51,7 +51,7 @@ public class AutonomiccsServiceOfferingService {
                 return so;
             }
         }
-        return null;
+        throw new CloudRuntimeException(String.format("Could not find Autonomiccs System VMs service offering using name [%s]", name));
     }
 
 

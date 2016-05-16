@@ -291,8 +291,10 @@ public class AutonomiccsSystemVmDeploymentService implements InitializingBean {
     }
 
     private void loadAutonomiccsSystemVmServiceOffering() {
-        autonomiccsSystemVmServiceOffering = autonomiccsServiceOfferingService.searchAutonomiccsServiceOffering();
-        if (autonomiccsSystemVmServiceOffering == null) {
+        try{
+            autonomiccsSystemVmServiceOffering = autonomiccsServiceOfferingService.searchAutonomiccsServiceOffering();
+        } catch (CloudRuntimeException ex) {
+            logger.debug("Autonomiccs system VMs service offerring not in database; we will create one.", ex);
             autonomiccsServiceOfferingService.createAutonomiccsServiceOffering();
             autonomiccsSystemVmServiceOffering = autonomiccsServiceOfferingService.searchAutonomiccsServiceOffering();
         }
