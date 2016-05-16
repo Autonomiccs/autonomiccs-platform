@@ -36,8 +36,10 @@ import org.springframework.stereotype.Component;
 
 import com.cloud.hypervisor.Hypervisor;
 import com.cloud.hypervisor.Hypervisor.HypervisorType;
+import com.cloud.storage.Storage.ImageFormat;
 import com.cloud.template.TemplateApiService;
 import com.cloud.user.AccountService;
+import com.cloud.utils.exception.CloudRuntimeException;
 
 import br.com.autonomiccs.autonomic.plugin.common.services.AutonomicClusterManagementHeuristicService;
 import br.com.autonomiccs.autonomic.plugin.common.services.AutonomiccsSystemVmTemplateService;
@@ -153,7 +155,11 @@ public class AutonomiccsSystemVirtualMachinesTemplateRegister implements Initial
      * @return Supported Image Format
      */
     private String getSupportedImageFormat(HypervisorType hypervisor) {
-        return Hypervisor.HypervisorType.getSupportedImageFormat(hypervisor).name();
+        ImageFormat supportedImageFormat = Hypervisor.HypervisorType.getSupportedImageFormat(hypervisor);
+        if (supportedImageFormat != null) {
+            return supportedImageFormat.name();
+        }
+        throw new CloudRuntimeException(String.format("Could not find a supported image format for hypervisor [%s]", hypervisor));
     }
 
     @Override

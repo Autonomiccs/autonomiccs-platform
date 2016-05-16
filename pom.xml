@@ -189,7 +189,7 @@
 						<exclude>**/.classpath</exclude>
 						<exclude>**/.project</exclude>
 						<exclude>**/.settings/*</exclude>
-						<exclude>**/target/**/*.*</exclude>
+						<exclude>**/target/**/*</exclude>
 						<exclude>**/*.ppk</exclude>
 						<exclude>**/id_rsa</exclude>
 						<exclude>**/README.md</exclude>
@@ -276,6 +276,21 @@
 						<artifactId>jacoco-maven-plugin</artifactId>
 						<version>${jacoco.version}</version>
 						<executions>
+							<execution>
+				            	<id>instrument</id>
+				            	<phase>process-classes</phase>
+				            		<goals>
+				              			<goal>instrument</goal>
+				            		</goals>	
+				          	</execution>
+				          	<execution>
+					            <id>restore</id>
+						         <phase>prepare-package</phase>
+				            	<goals>
+				              		<goal>restore-instrumented-classes</goal>
+				              		<goal>report</goal>
+				            	</goals>
+				          	</execution>
 							<!-- Prepares a variable, jacoco.agent.ut.arg, that contains the info 
 								to be passed to the JVM hosting the code being tested. -->
 							<execution>

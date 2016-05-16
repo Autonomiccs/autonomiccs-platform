@@ -246,7 +246,7 @@ public class AdministrationAgent implements InitializingBean {
         for (HostResources host : orderedHostsToPowerOff) {
             CloudResources cloudResources = cloudResourcesService.createCloudResources(createAllClustersResourcesUp());
             if (!administrationAlgorithm.canPowerOffAnotherHostInCloud(cloudResources)) {
-                logger.info(String.format("The agent cannot shut down more hosts given the result of canPowerOffAnotherHostInCloud[false]."));
+                logger.info("The agent cannot shut down more hosts given the result of canPowerOffAnotherHostInCloud[false].");
                 break;
             }
             long hostId = host.getHostId();
