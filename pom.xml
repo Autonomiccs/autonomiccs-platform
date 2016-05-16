@@ -366,7 +366,7 @@
 			<id>sonar</id>
 			<properties>
 				<sonar.host.url>http://sonar.autonomiccs.com.br</sonar.host.url>
-				<sonar.exclusions>br/com/autonomiccs/**/beans/*.java, br/com/autonomiccs/**/enums/*.java</sonar.exclusions>
+				<sonar.exclusions>**/br/com/autonomiccs/**/beans/*.java, **/br/com/autonomiccs/**/enums/*.java</sonar.exclusions>
 			</properties>
 			<build>
 				<plugins>
