@@ -25,6 +25,7 @@ package br.com.autonomiccs.autonomic.administration.plugin.services;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+
 import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -129,6 +130,7 @@ public class AutonomicClusterManagementService {
             Date lastAdministration = clusterDaoJdbc.getClusterLastAdminstration(clusterId);
             if (lastAdministration == null) {
                 markAdministrationStatusInClusterAsDone(clusterId);
+                continue;
             }
             Calendar cal = Calendar.getInstance();
             cal.setTime(lastAdministration);

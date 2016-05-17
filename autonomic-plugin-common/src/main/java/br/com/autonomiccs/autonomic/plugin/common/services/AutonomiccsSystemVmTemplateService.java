@@ -30,6 +30,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.cloud.hypervisor.Hypervisor.HypervisorType;
+import com.cloud.storage.Storage.ImageFormat;
 import com.cloud.storage.VMTemplateVO;
 import com.cloud.storage.dao.VMTemplateDao;
 import com.cloud.utils.exception.CloudRuntimeException;
@@ -103,16 +104,20 @@ public class AutonomiccsSystemVmTemplateService implements InitializingBean {
     }
 
     /**
-     * It constructs the System VMs template URL for download; to do that, it uses the {@link #autonomiccsSystemVmsTemplateUrlBase},
-     * {@link #getAutonomiccsSystemVmTemplateName(hypervisorType)}
-     * and the given hypervisor name
+     * It constructs the System VMs template URL for download.
+     * The pattern of the URL is: {@link #autonomiccsSystemVmsTemplateUrlBase}/{@link #getAutonomiccsSystemVmTemplateName(HypervisorType)}.hypervisorSupportedImageFormat
      *
-     * @param hypervisorType
+     * If we cannot determine a supported image format for the given hypervisor a {@link CloudRuntimeException} will be thrown.
+     *
      * @return SystemVms template URL
      */
     private String constructSystemVmTemplateUrl(HypervisorType hypervisorType) {
+        ImageFormat supportedImageFormat = HypervisorType.getSupportedImageFormat(hypervisorType);
+        if (supportedImageFormat == null) {
+            throw new CloudRuntimeException(String.format("Could not find a supported image format for hypervisor [%s]", hypervisorType));
+        }
         return String.format("%s/%s.%s", autonomiccsSystemVmsTemplateUrlBase, getAutonomiccsSystemVmTemplateName(hypervisorType),
-                HypervisorType.getSupportedImageFormat(hypervisorType).getFileExtension());
+                supportedImageFormat.getFileExtension());
     }
 
     /**
