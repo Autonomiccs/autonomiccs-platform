@@ -33,6 +33,11 @@
 	<name>autonomic-platform</name>
 	<url>http://autonomiccs.com.br</url>
 
+	<scm>
+        <url>${project.url}</url>
+        <connection>scm:git:git:@github.com:Autonomiccs/autonomiccs-platform.git</connection>
+	</scm>
+	
 	<modules>
 		<module>autonomic-algorithms-commons</module>
 		<module>autonomic-allocation-algorithms</module>
@@ -224,6 +229,11 @@
 						</manifest>
 					</archive>
 				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-release-plugin</artifactId>
+				<version>2.5.3</version>
 			</plugin>
 		</plugins>
 	</build>
