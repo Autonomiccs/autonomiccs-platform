@@ -1,0 +1,11 @@
+The release of autonomiccs-platform version #version is closed.
+Autonomiccs community thank you all for your effort and time that were used to create the autonomiccs-platform (#version).
+Today (#date), I (Jenkins) have just finished the release process, and the autonomiccs-platform #version was closed and released. 
+Thank you again, and congratulations to everybody that worked toward this new release.
+
+The autonomiccs-platform #version was closed with the commit #commitId.
+Also, the zip containing the version is available at: http://autonomiccs.com.br/builds/stables/autonomiccsPlatformInstallationPackage-#version.zip
+For your convenience, the CHANGELOG was attached as a PDF in this e-mail.
+
+--
+Jenkins
