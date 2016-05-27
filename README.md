@@ -72,7 +72,7 @@ The first user of this solution is the Network and Management Laboratory of the 
  
 ## Getting source repository
 
-The Autonomiccs Platform project uses Git and a mirror is hosted on GitHub. To access our master source code, click <a href="https://github.com/Autonomiccs/autonomiccs-platform">here</a>. The latest stable version of the Autonomiccs platform source code is: <a href="https://github.com/Autonomiccs/autonomiccs-platform/tree/1.0.0">1.0.0</a>.
+The Autonomiccs Platform project uses Git and a mirror is hosted on GitHub. To access our master source code, click <a href="https://github.com/Autonomiccs/autonomiccs-platform">here</a>. The latest stable version of the Autonomiccs platform source code is: <a href="https://github.com/Autonomiccs/autonomiccs-platform/tree/1.0.1">1.0.1</a>.
 
 The Github mirror allows users and developers to explore the code; contributions from the community may only be done via Github pull requests.
 
