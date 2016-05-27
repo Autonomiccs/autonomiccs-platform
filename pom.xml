@@ -198,6 +198,8 @@
 						<exclude>**/*.ppk</exclude>
 						<exclude>**/id_rsa</exclude>
 						<exclude>**/README.md</exclude>
+						<exclude>**/CHANGELOG.md</exclude>
+						<exclude>**/.github_changelog_generator</exclude>
 					</excludes>
 				</configuration>
 				<executions>
