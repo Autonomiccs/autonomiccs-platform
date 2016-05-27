@@ -28,10 +28,10 @@
 	<parent>
 		<groupId>br.com.autonomiccs</groupId>
 		<artifactId>autonomic-platform</artifactId>
-		<version>1.0.1-SNAPSHOT</version>
+		<version>1.0.1</version>
 	</parent>
 	<artifactId>autonomic-plugin-common</artifactId>
-	<version>1.0.1-SNAPSHOT</version>
+	<version>1.0.1</version>
 
 	<name>autonomic-plugin-common</name>
 	<description>This project contains the commons artifacts that can be used by autonomic plugins developed by Autonomiccs.</description>

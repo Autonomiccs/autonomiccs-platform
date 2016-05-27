@@ -28,10 +28,10 @@
 	<parent>
 		<groupId>br.com.autonomiccs</groupId>
 		<artifactId>autonomic-platform</artifactId>
-		<version>1.0.1-SNAPSHOT</version>
+		<version>1.0.1</version>
 	</parent>
 	<artifactId>autonomic-algorithms-commons</artifactId>
-	<version>1.0.1-SNAPSHOT</version>
+	<version>1.0.1</version>
 	
 	<name>autonomic-algorithms-commons</name>
 	<description>This project contains a set of utilities that can be used to create autonomic management algorithms to be used with Autonomiccs cloud computing management platform.</description>
