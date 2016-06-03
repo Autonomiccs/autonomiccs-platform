@@ -29,7 +29,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
-import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 import java.util.regex.Matcher;
@@ -46,7 +45,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import com.cloud.dc.ClusterVO;
 import com.cloud.dc.DataCenterVO;
 import com.cloud.dc.HostPodVO;
 import com.cloud.deploy.DataCenterDeployment;
@@ -55,20 +53,14 @@ import com.cloud.exception.InsufficientCapacityException;
 import com.cloud.exception.OperationTimedoutException;
 import com.cloud.exception.ResourceUnavailableException;
 import com.cloud.host.HostVO;
-import com.cloud.service.ServiceOfferingVO;
 import com.cloud.utils.exception.CloudRuntimeException;
 import com.cloud.vm.VMInstanceVO;
 import com.cloud.vm.VirtualMachineManager;
 
-import br.com.autonomiccs.autonomic.algorithms.commons.beans.HostResources;
-import br.com.autonomiccs.autonomic.algorithms.commons.services.HostResourcesService;
 import br.com.autonomiccs.autonomic.plugin.common.beans.AutonomiccsSystemVm;
 import br.com.autonomiccs.autonomic.plugin.common.enums.SystemVmType;
 import br.com.autonomiccs.autonomic.plugin.common.services.AutonomicClusterManagementHeuristicService;
-import br.com.autonomiccs.autonomic.plugin.common.services.AutonomiccsServiceOfferingService;
 import br.com.autonomiccs.autonomic.plugin.common.services.AutonomiccsSystemVmDeploymentService;
-import br.com.autonomiccs.autonomic.plugin.common.services.AutonomiccsSystemVmTemplateService;
-import br.com.autonomiccs.autonomic.plugin.common.services.ClusterService;
 import br.com.autonomiccs.autonomic.plugin.common.services.HostService;
 import br.com.autonomiccs.autonomic.plugin.common.services.PodService;
 import br.com.autonomiccs.autonomic.plugin.common.services.StartHostSystemVmService;
@@ -106,9 +98,6 @@ public class AutonomiccsStartHostSystemVmManager implements InitializingBean {
     private ZoneService zoneService;
 
     @Autowired
-    private ClusterService clusterService;
-
-    @Autowired
     private StartHostSystemVmService startHostSystemVmService;
 
     @Autowired
@@ -118,16 +107,7 @@ public class AutonomiccsStartHostSystemVmManager implements InitializingBean {
     private VirtualMachineService virtualMachineService;
 
     @Autowired
-    private HostResourcesService hostResourcesService;
-
-    @Autowired
-    private AutonomiccsServiceOfferingService autonomiccsServiceOfferingService;
-
-    @Autowired
     private AutonomicClusterManagementHeuristicService autonomicManagementHeuristicService;
-
-    @Autowired
-    private AutonomiccsSystemVmTemplateService autonomiccsSystemVmTemplateService;
 
     @Autowired
     @Qualifier("wakeOnLanHostApplicationVersion")
@@ -212,7 +192,7 @@ public class AutonomiccsStartHostSystemVmManager implements InitializingBean {
             Long startHostServiceVmIdFromPod = startHostSystemVmService.getStartHostServiceVmIdFromPod(podId);
             VMInstanceVO vmInstance = virtualMachineService.searchVmInstanceById(startHostServiceVmIdFromPod);
 
-            HostVO hostToStartVm = searchForAnotherHostToStartVm(vmInstance);
+            HostVO hostToStartVm = autonomiccsSystemVmDeploymentService.searchForAnotherRandomHostToStartSystemVm(vmInstance);
             if (hostToStartVm == null) {
                 //did not find any suitable hosts in cluster, so remove it and hope for the best next time
                 destroyCleverCloudSystemVm(vmInstance);
@@ -227,7 +207,7 @@ public class AutonomiccsStartHostSystemVmManager implements InitializingBean {
             }
             return;
         }
-        HostVO hostToDeployVm = searchForHostInPodToDeployTheCleverCloudSystemVm(pod);
+        HostVO hostToDeployVm = autonomiccsSystemVmDeploymentService.searchForRandomHostInPodToDeployAutonomiccsSystemVm(pod);
         if (hostToDeployVm != null) {
             AutonomiccsSystemVm vmInstace = autonomiccsSystemVmDeploymentService.deploySystemVmWithJAVA(hostToDeployVm.getId(), SystemVmType.ClusterManagerStartHostService);
             String vmIp = vmInstace.getManagementIpAddress();
@@ -273,23 +253,6 @@ public class AutonomiccsStartHostSystemVmManager implements InitializingBean {
         sshUtils.sendFileToHost(startHostApplicationInicializationScript, "startup", "/etc/init.d/", vmIp);
     }
 
-    private HostVO searchForHostInPodToDeployTheCleverCloudSystemVm(HostPodVO pod) {
-        List<ClusterVO> allClustersFromPod = clusterService.listAllClustersFromPod(pod.getId());
-        for (ClusterVO c : allClustersFromPod) {
-            List<HostVO> allHostsInCluster = hostService.listAllHostsInCluster(c);
-            for (HostVO h : allHostsInCluster) {
-                ServiceOfferingVO vmServiceOffering = autonomiccsServiceOfferingService.searchAutonomiccsServiceOffering();
-                HostResources hostResources = hostResourcesService.createHostResources(h);
-                if (canHostSupportVm(vmServiceOffering, hostResources) && autonomiccsSystemVmTemplateService.isTemplateRegisteredAndReadyForHypervisor(h.getHypervisorType())) {
-                    return h;
-                }
-            }
-
-        }
-        logger.info(String.format("Could not find any suitable hosts to deploy the system VM into pod [podId=%d, podName=%s]", pod.getId(), pod.getName()));
-        return null;
-    }
-
     private void destroyCleverCloudSystemVm(VMInstanceVO vmInstance) {
         try {
             virtualMachineManager.expunge(vmInstance.getUuid());
@@ -300,52 +263,6 @@ public class AutonomiccsStartHostSystemVmManager implements InitializingBean {
         } catch (Exception e) {
             logger.warn("Unable to expunge VM." + vmInstance, e);
         }
-    }
-
-    private HostVO searchForAnotherHostToStartVm(VMInstanceVO vmInstance) {
-        final Long hostId = vmInstance.getHostId();
-        if(hostId == null){
-            final Long podId = vmInstance.getPodIdToDeployIn();
-            return searchForHostInPodToDeployTheCleverCloudSystemVm(podService.findPodById(podId));
-        }
-        HostVO hostInWhichVmWasRunning = hostService.findHostById(hostId);
-        ClusterVO cluster = clusterService.findById(hostInWhichVmWasRunning.getClusterId());
-
-        List<HostVO> allHostsInCluster = hostService.listAllHostsInCluster(cluster);
-        Collections.shuffle(allHostsInCluster);
-
-        long serviceOfferingId = vmInstance.getServiceOfferingId();
-        ServiceOfferingVO vmServiceOffering = autonomiccsServiceOfferingService.searchServiceOfferingById(serviceOfferingId);
-
-        for (HostVO h : allHostsInCluster) {
-            if (h.getId() == hostInWhichVmWasRunning.getId()) {
-                continue;
-            }
-            HostResources hostResources = hostResourcesService.createHostResources(h);
-            if (canHostSupportVm(vmServiceOffering, hostResources)) {
-                return hostService.findHostById(h.getId());
-            }
-        }
-        logger.info(String.format("Could not find a suitable host to re-start the clever cloud system vms in cluster [id=%d]", hostInWhichVmWasRunning.getClusterId()));
-        return null;
-    }
-
-    private boolean canHostSupportVm(ServiceOfferingVO vmServiceOffering, HostResources hostResources) {
-        if (vmServiceOffering.getCpu() > hostResources.getCpus()) {
-            return false;
-        }
-        float hostTotalCpu = hostResources.getCpuOverprovisioning() * hostResources.getCpus() * hostResources.getSpeed();
-        float hostUsedCpu = hostResources.getUsedCpu();
-        if ((vmServiceOffering.getSpeed() * vmServiceOffering.getCpu()) > hostTotalCpu - hostUsedCpu) {
-            return false;
-        }
-
-        float hostTotalMemoryInMegaBytes = (hostResources.getMemoryOverprovisioning() * hostResources.getTotalMemoryInBytes()) / 1048576;
-        long usedMemoryInMegabytes = hostResources.getUsedMemoryInMegaBytes();
-        if (vmServiceOffering.getRamSize() > hostTotalMemoryInMegaBytes - usedMemoryInMegabytes) {
-            return false;
-        }
-        return true;
     }
 
     @Override
