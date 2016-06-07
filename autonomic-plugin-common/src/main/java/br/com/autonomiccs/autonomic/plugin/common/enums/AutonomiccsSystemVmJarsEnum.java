@@ -26,22 +26,22 @@ import java.io.File;
 
 /**
  * This class serves as an abstraction unit for the jars that are needed by
- * Autonomiccs to be sent to VMs.
+ * Autonomiccs platform in order to deploy and configure its system VM.
  */
 public enum AutonomiccsSystemVmJarsEnum {
 	JADE("jade/jade-plataform-agents.jar"), WAKEONLAN("wakeonlan/wakeonlan-service.jar");
 
-	private static final String baseFolder = "/var/lib/autonomiccs/jars/";
-	private final String filename;
+	private static final String AUTONOMICCS_JARS_BASE_FOLDER = "/var/lib/autonomiccs/jars/";
+	private final String fileName;
 
-	private AutonomiccsSystemVmJarsEnum(String afilename) {
-		filename = afilename;
+	private AutonomiccsSystemVmJarsEnum(String fileName) {
+		this.fileName = fileName;
 	}
 
 	/**
 	 * @return The jar file correspondent to the abstraction.
 	 */
-	public File getJar() {
-		return new File(baseFolder + filename);
+	public File getJarFile() {
+		return new File(AUTONOMICCS_JARS_BASE_FOLDER + fileName);
 	}
 }

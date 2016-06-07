@@ -257,7 +257,7 @@ public class AutonomiccsStartHostSystemVmManager implements InitializingBean {
 
     @Override
     public void afterPropertiesSet() throws Exception {
-    	startHostApplicationExecutable = AutonomiccsSystemVmJarsEnum.WAKEONLAN.getJar();
+    	startHostApplicationExecutable = AutonomiccsSystemVmJarsEnum.WAKEONLAN.getJarFile();
         startHostApplicationConfiguration = createTempFileForResourceInJar("/application.yml");
         startHostApplicationInicializationScript = createTempFileForResourceInJar("/startup");
         startHostApplicationLogConfiguration = createTempFileForResourceInJar("/log4j.properties");
