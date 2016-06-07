@@ -20,12 +20,9 @@
 # specific language governing permissions and limitations
 # under the License.
 
-CSSTATUS=$(service cloudstack-management status);
-if [[ $CSSTATUS == *"is running"* ]]; then
-  echo "CloudStack is running, please stop the CloudStack service before being able to uninstall Autonomiccs platform!";
-  echo "Uninstall aborted!"
-  exit 1;
-fi
+preffixParam1="CloudStack is running, please stop the CloudStack service before being able to uninstall Autonomiccs platform!";
+preffixParam2="Uninstall aborted!";
+./scriptPreffix.sh $preffixParam1 $preffixParam2 || exit 1; 
 
 echo "Uninstalling ...";
 echo "CloudStack jars files are in the default directory [/usr/share/cloudstack-management/webapps/client/WEB-INF/lib/]? (y/n)"

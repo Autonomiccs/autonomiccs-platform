@@ -23,25 +23,19 @@
 package br.com.autonomiccs.starthost.systemVm;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URL;
 import java.util.List;
 import java.util.UUID;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang.ObjectUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -53,11 +47,11 @@ import com.cloud.exception.InsufficientCapacityException;
 import com.cloud.exception.OperationTimedoutException;
 import com.cloud.exception.ResourceUnavailableException;
 import com.cloud.host.HostVO;
-import com.cloud.utils.exception.CloudRuntimeException;
 import com.cloud.vm.VMInstanceVO;
 import com.cloud.vm.VirtualMachineManager;
 
 import br.com.autonomiccs.autonomic.plugin.common.beans.AutonomiccsSystemVm;
+import br.com.autonomiccs.autonomic.plugin.common.enums.AutonomiccsSystemVmJarsEnum;
 import br.com.autonomiccs.autonomic.plugin.common.enums.SystemVmType;
 import br.com.autonomiccs.autonomic.plugin.common.services.AutonomicClusterManagementHeuristicService;
 import br.com.autonomiccs.autonomic.plugin.common.services.AutonomiccsSystemVmDeploymentService;
@@ -108,11 +102,7 @@ public class AutonomiccsStartHostSystemVmManager implements InitializingBean {
 
     @Autowired
     private AutonomicClusterManagementHeuristicService autonomicManagementHeuristicService;
-
-    @Autowired
-    @Qualifier("wakeOnLanHostApplicationVersion")
-    private String wakeOnLanHostApplicationVersion;
-
+    
     @Scheduled(initialDelay = ONE_MINUTE_IN_MILLISECONDS, fixedDelay = ONE_MINUTE_IN_MILLISECONDS * NUMBER_OF_MINUTES_BETWEEN_DESTROY_CHECKS)
     public void destroyStartHostSystemVmsThatAreNotNeeded() {
         List<DataCenterVO> zones = zoneService.listAllZonesEnabled();
@@ -267,31 +257,10 @@ public class AutonomiccsStartHostSystemVmManager implements InitializingBean {
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        copyStartHostApplicationToTempFile();
+    	startHostApplicationExecutable = AutonomiccsSystemVmJarsEnum.WAKEONLAN.getJar();
         startHostApplicationConfiguration = createTempFileForResourceInJar("/application.yml");
         startHostApplicationInicializationScript = createTempFileForResourceInJar("/startup");
         startHostApplicationLogConfiguration = createTempFileForResourceInJar("/log4j.properties");
-    }
-
-    private void copyStartHostApplicationToTempFile() throws FileNotFoundException, IOException {
-        String cloudStackWebappLibFolder = getCloudStackWebappLibFolder();
-        String startHostApplicationFullQualifiedPath = cloudStackWebappLibFolder + "wakeonlan-service-" + wakeOnLanHostApplicationVersion;
-        FileInputStream startHostApplicationStream = new FileInputStream(startHostApplicationFullQualifiedPath);
-        startHostApplicationExecutable = createTempFileForStream(startHostApplicationStream);
-        IOUtils.closeQuietly(startHostApplicationStream);
-    }
-
-    private String getCloudStackWebappLibFolder() {
-        String regexFindCloudStackLibFolder = "jar:file:(.+)\\/.*\\.jar.*";
-        Pattern patternFindCloudStackLibFolder = Pattern.compile(regexFindCloudStackLibFolder);
-
-        String fileUsedToUncoverCloudStackLibFolder = "/application.yml";
-        URL resource = getClass().getResource(fileUsedToUncoverCloudStackLibFolder);
-        Matcher matcher = patternFindCloudStackLibFolder.matcher(ObjectUtils.toString(resource));
-        if(matcher.find()){
-            return matcher.group(1) + "/";
-        }
-        throw new CloudRuntimeException("Could not find cloudstack lib folder.");
     }
 
     private File createTempFileForResourceInJar(String resourceNameInClasspath) throws IOException {
