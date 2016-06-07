@@ -24,12 +24,9 @@
 ## Be sure to export/install it properly before executing this script
 ##########################################################################################################
 
-CSSTATUS=$(service cloudstack-management status);
-if [[ $CSSTATUS == *"is running"* ]]; then
-  echo "CloudStack is running, please stop the CloudStack service before installing Autonomiccs platform!";
-  echo "Install aborted!"
-  exit 1;
-fi
+preffixParam1="CloudStack is running, please stop the CloudStack service before installing Autonomiccs platform!";
+preffixParam2="Install aborted!";
+./scriptPreffix.sh $preffixParam1 $preffixParam2 || exit 1;
 
 echo "Installing ...";
 
