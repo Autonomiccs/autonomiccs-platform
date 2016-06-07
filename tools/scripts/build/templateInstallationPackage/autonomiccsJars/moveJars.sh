@@ -6,7 +6,7 @@
 # Licensed to the Autonomiccs, Inc. under one
 # or more contributor license agreements.  See the NOTICE file
 # distributed with this work for additional information
-# regarding copyright ownership. The The Autonomiccs, Inc. licenses this file
+# regarding copyright ownership. The Autonomiccs, Inc. licenses this file
 # to you under the Apache License, Version 2.0 (the
 # "License"); you may not use this file except in compliance
 # with the License.  You may obtain a copy of the License at
@@ -23,10 +23,24 @@
 # Autonomiccs jars
 cp autonomiccsJars/autonomic*.jar /usr/share/cloudstack-management/webapps/client/WEB-INF/lib/
 cp autonomiccsJars/starthost-plugin*.jar /usr/share/cloudstack-management/webapps/client/WEB-INF/lib/
-# Do not change this line, we remove the '.jar' extension on purpose.
-wakeOnLanNewFileName=$(ls autonomiccsJars/wakeonlan-service-*.jar) && wakeOnLanNewFileName=${wakeOnLanNewFileName##*/} && wakeOnLanNewFileName=${wakeOnLanNewFileName::-4}
-cp autonomiccsJars/wakeonlan-service-*.jar "/usr/share/cloudstack-management/webapps/client/WEB-INF/lib/$wakeOnLanNewFileName";
 
 # Autonomiccs platform dependencies.
 cp autonomiccsJars/dependencies/*.jar /usr/share/cloudstack-management/webapps/client/WEB-INF/lib/
 
+# Creation of a folder to hold the jar files that needs to get transfered to VMs.
+baseAutonomiccsJarFolder="/var/lib/autonomiccs/jars/";
+
+jadeAgentsFolder="${baseAutonomiccsJarFolder}jade/";
+wakeOnLanFolder="${baseAutonomiccsJarFolder}wakeonlan/";
+
+wakeOnLanFileName="wakeonlan-service";
+jadeAgentsFileName="jade-plataform-agents";
+
+jadeAgentsRegex="autonomiccsJars/$jadeAgentsFileName-*.jar";
+wakeOnLanRegex="autonomiccsJars/$wakeOnLanFileName-*.jar"; 
+
+mkdir -p $jadeAgentsFolder;
+mkdir -p $wakeOnLanFolder;
+
+cp $wakeOnLanRegex "$wakeOnLanFolder$wakeOnLanNewFileName.jar";
+cp $jadeAgentsRegex "$jadeAgentsFolder$jadeAgentsNewFileName.jar";
