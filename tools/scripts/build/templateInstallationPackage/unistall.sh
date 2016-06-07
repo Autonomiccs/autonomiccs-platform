@@ -6,7 +6,7 @@
 # Licensed to the Autonomiccs, Inc. under one
 # or more contributor license agreements.  See the NOTICE file
 # distributed with this work for additional information
-# regarding copyright ownership. The The Autonomiccs, Inc. licenses this file
+# regarding copyright ownership. The Autonomiccs, Inc. licenses this file
 # to you under the Apache License, Version 2.0 (the
 # "License"); you may not use this file except in compliance
 # with the License.  You may obtain a copy of the License at
@@ -20,12 +20,9 @@
 # specific language governing permissions and limitations
 # under the License.
 
-CSSTATUS=$(service cloudstack-management status);
-if [[ $CSSTATUS == *"is running"* ]]; then
-  echo "CloudStack is running, please stop the CloudStack service before being able to uninstall Autonomiccs platform!";
-  echo "Uninstall aborted!"
-  exit 1;
-fi
+preffixParam1="CloudStack is running, please stop the CloudStack service before being able to uninstall Autonomiccs platform!";
+preffixParam2="Uninstall aborted!";
+./scriptPreffix.sh $preffixParam1 $preffixParam2 || exit 1; 
 
 echo "Uninstalling ...";
 echo "CloudStack jars files are in the default directory [/usr/share/cloudstack-management/webapps/client/WEB-INF/lib/]? (y/n)"

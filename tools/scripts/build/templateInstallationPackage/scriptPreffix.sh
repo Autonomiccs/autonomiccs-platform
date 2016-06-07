@@ -19,16 +19,15 @@
 # KIND, either express or implied.  See the License for the
 # specific language governing permissions and limitations
 # under the License.
+ 
+if [ "$EUID" -ne 0 ] then 
+  echo "Please run as root";
+  exit 1;
+fi
 
-# Removing Autonomiccs jars
-rm -f /usr/share/cloudstack-management/webapps/client/WEB-INF/lib/autonomic*.jar;
-rm -f /usr/share/cloudstack-management/webapps/client/WEB-INF/lib/starthost-plugin*.jar
-
-# Removing Autonomiccs dependencies
-rm -f /usr/share/cloudstack-management/webapps/client/WEB-INF/lib/commons-math3-3.6.jar
-rm -f /usr/share/cloudstack-management/webapps/client/WEB-INF/lib/spring-jdbc-3.2.12.RELEASE.jar;
-rm -f /usr/share/cloudstack-management/webapps/client/WEB-INF/lib/spring-integration-core-3.0.7.RELEASE.jar;
-rm -f /usr/share/cloudstack-management/webapps/client/WEB-INF/lib/spring-tx-3.2.12.RELEASE.jar;
-
-# Removing Autonomiccs jars that are sent to VMs
-rm -f /var/lib/autonomiccs
+CSSTATUS=$(service cloudstack-management status);
+if [[ $CSSTATUS == *"is running"* ]]; then
+  echo $1;
+  echo $2;
+  exit 1;
+fi
