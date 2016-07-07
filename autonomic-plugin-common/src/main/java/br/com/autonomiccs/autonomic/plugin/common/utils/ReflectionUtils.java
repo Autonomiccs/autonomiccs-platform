@@ -29,20 +29,36 @@ import org.springframework.stereotype.Component;
 
 import com.cloud.utils.exception.CloudRuntimeException;
 
+/**
+ * This class provides support for changing fields values with reflection.
+ */
 @Component
 public class ReflectionUtils {
 
-    public void setFieldIntoObject(Object registerTemplateCmd, String fieldName, Object value) {
-        Field declaredField = getDeclaredField(registerTemplateCmd, fieldName);
+    /**
+     * It sets the given field with value. If it fails to set a value of declared field and the
+     * {@link IllegalArgumentException} or {@link IllegalAccessException} are thrown, it throws
+     * {@link CloudRuntimeException}
+     *
+     * @throws CloudRuntimeException
+     */
+    public void setFieldIntoObject(Object object, String fieldName, Object value) {
+        Field declaredField = getDeclaredField(object, fieldName);
+        if (declaredField == null) {
+            throw new CloudRuntimeException(String.format("Field [fieldName=%s] does not exists into object [%s].", fieldName, object));
+        }
         declaredField.setAccessible(true);
         try {
-            declaredField.set(registerTemplateCmd, value);
+            declaredField.set(object, value);
         } catch (IllegalArgumentException | IllegalAccessException e) {
-            throw new CloudRuntimeException("Could not register Autonomiccs System VM templates.", e);
+            throw new CloudRuntimeException(String.format("Fail to set field [fieldName=%s] into object [%s] with the value [%s].", fieldName, object, value), e);
         }
     }
 
-    private Field getDeclaredField(Object o, String fieldName) {
+    /**
+     * It returns the object {@link Field} with the given field name.
+     */
+    protected Field getDeclaredField(Object o, String fieldName) {
         Field declaredField = ReflectionUtil.getDeclaredField(o.getClass(), fieldName);
         if (declaredField != null) {
             return declaredField;

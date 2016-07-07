@@ -33,6 +33,9 @@ import com.cloud.storage.Storage;
 import com.cloud.utils.exception.CloudRuntimeException;
 import com.cloud.vm.VirtualMachine;
 
+/**
+ * This class configures and manage the Autonomiccs system VM service offering.
+ */
 @Service
 public class AutonomiccsServiceOfferingService {
 
@@ -44,7 +47,11 @@ public class AutonomiccsServiceOfferingService {
     @Autowired
     private ServiceOfferingDao serviceOfferingDao;
 
-    private ServiceOfferingVO searchServiceOfferingByName(String name) {
+    /**
+     * It returns the service offering with the given name; if it fails to find a
+     * {@link ServiceOfferingVO} it throws a {@link CloudRuntimeException}.
+     */
+    protected ServiceOfferingVO searchServiceOfferingByName(String name) {
         List<ServiceOfferingVO> allServiceOffering = serviceOfferingDao.listAll();
         for(ServiceOfferingVO so : allServiceOffering){
             if (name.equals(so.getUniqueName())) {
@@ -54,15 +61,23 @@ public class AutonomiccsServiceOfferingService {
         throw new CloudRuntimeException(String.format("Could not find Autonomiccs System VMs service offering using name [%s]", name));
     }
 
-
+    /**
+     * It returns the Autonomiccs VM service offering ({@link ServiceOfferingVO}).
+     */
     public ServiceOfferingVO searchAutonomiccsServiceOffering() {
         return searchServiceOfferingByName(AUTONOMICCS_SYSTEM_VM_SERVICE_OFFERING_UNIQUE_NAME);
     }
 
+    /**
+     * It returns a {@link ServiceOfferingVO} with the given id.
+     */
     public ServiceOfferingVO searchServiceOfferingById(long id) {
         return serviceOfferingDao.findById(id);
     }
 
+    /**
+     * It creates a service offering with the necessary atributes of the Autonomiccs system VM.
+     */
     public void createAutonomiccsServiceOffering() {
         List<ServiceOfferingVO> offerings = serviceOfferingDao.createSystemServiceOfferings(AUTONOMICCS_SYSTEM_VM_SERVICE_OFFERING_NAME,
                 AUTONOMICCS_SYSTEM_VM_SERVICE_OFFERING_UNIQUE_NAME, 1, AUTONOMICCS_SYSTEM_VM_VM_RAMSIZE, AUTONOMICCS_SYSTEM_VM_CPUMHZ, 0, 0, false, null,

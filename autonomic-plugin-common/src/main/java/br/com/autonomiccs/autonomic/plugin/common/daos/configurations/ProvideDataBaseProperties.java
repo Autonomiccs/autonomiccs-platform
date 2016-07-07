@@ -35,6 +35,9 @@ import com.cloud.utils.db.DbProperties;
 @Configuration
 public class ProvideDataBaseProperties {
 
+    /**
+     * It exports "database.properties" object to the Autonomiccs plugins application context
+     */
     @Bean(name = "db.properties")
     public Properties getPropertiesFileFromApacheCloudStack() {
         return DbProperties.getDbProperties();

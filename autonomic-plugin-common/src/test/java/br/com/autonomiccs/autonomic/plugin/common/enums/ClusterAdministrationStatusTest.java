@@ -22,21 +22,23 @@
  */
 package br.com.autonomiccs.autonomic.plugin.common.enums;
 
-/**
- * This enumeration has all of the Autonomiccs system virtual machines types.
- */
-public enum SystemVmType {
+import org.junit.Assert;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.runners.MockitoJUnitRunner;
 
-    ClusterManagerAgent("CM-A"),
-    ClusterManagerStartHostService("CM-SHS");
+@RunWith(MockitoJUnitRunner.class)
+public class ClusterAdministrationStatusTest {
 
-    private String namePrefix;
-
-    private SystemVmType(String namePrefix) {
-        this.namePrefix = namePrefix;
+    @Test
+    public void isClusterBeingManagedTestInProgress() {
+        boolean result = ClusterAdministrationStatus.isClusterBeingManaged(ClusterAdministrationStatus.InProgress);
+        Assert.assertEquals(true,  result);
     }
 
-    public String getNamePrefix() {
-        return namePrefix;
+    @Test
+    public void isClusterBeingManagedTestDone() {
+        boolean result = ClusterAdministrationStatus.isClusterBeingManaged(ClusterAdministrationStatus.Done);
+        Assert.assertEquals(false, result);
     }
 }

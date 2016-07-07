@@ -76,19 +76,21 @@ public class StartHostSystemVmService {
         return autonomiccsSystemVmJdbcDao.getStartHostServiceVmIdFromPod(podId, SystemVmType.ClusterManagerStartHostService);
     }
 
+    /**
+     * It returns true if the start host system VM is running on the given Pod
+     */
     public boolean isStartHostServiceVmRunningOnPod(Long podId) {
-        Long startHostServiceVmId = getStartHostServiceVmIdFromPod(podId);
-        if(startHostServiceVmId == null){
-            return false;
-        }
-        NicVO nic = getInternalCommunicationNicFromVm(startHostServiceVmId);
+        NicVO nic = getNicToPing(podId);
         if (nic == null) {
             return false;
         }
         return hostUtils.isHostReachable(nic.getIPv4Address());
     }
 
-    private NicVO getInternalCommunicationNicFromVm(Long startHostServiceVmId) {
+    /**
+     * It looks for a NIC that is connected to the management network.
+     */
+    protected NicVO getInternalCommunicationNicFromVm(Long startHostServiceVmId) {
         List<NicVO> nicsOfVm = nicDao.listByVmId(startHostServiceVmId);
         for (NicVO nic : nicsOfVm) {
             if (RESERVER_NAME.equals(nic.getReserver())) {
@@ -99,16 +101,27 @@ public class StartHostSystemVmService {
         return null;
     }
 
+    /**
+     * This method checks if the start host system VM is ready to start deactivated hosts in the
+     * given Pod.
+     */
     public boolean isStartHostServiceVmReadyToStartHostOnPod(Long podId) {
-        Long startHostServiceVmId = getStartHostServiceVmIdFromPod(podId);
-        if (startHostServiceVmId == null) {
-            return false;
-        }
-        NicVO nic = getInternalCommunicationNicFromVm(startHostServiceVmId);
+        NicVO nic = getNicToPing(podId);
         if (nic == null) {
             return false;
         }
         return hostUtils.isHostReachableOnPort8080(nic.getIPv4Address());
+    }
+
+    /**
+     * This method will try to find a management NIC to be used in our checks.
+     */
+    protected NicVO getNicToPing(Long podId) {
+        Long startHostServiceVmId = getStartHostServiceVmIdFromPod(podId);
+        if (startHostServiceVmId == null) {
+            return null;
+        }
+        return getInternalCommunicationNicFromVm(startHostServiceVmId);
     }
 
 }

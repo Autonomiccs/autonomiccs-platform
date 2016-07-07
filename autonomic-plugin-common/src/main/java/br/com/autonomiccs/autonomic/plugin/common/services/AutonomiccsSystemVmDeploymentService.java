@@ -85,64 +85,64 @@ public class AutonomiccsSystemVmDeploymentService implements InitializingBean {
     private final String commandToInstallOpenJDK7 = "aptitude -y install openjdk-7-jdk";
     private final int ONE_MEGABYTE_IN_BYTES = 1048576;
 
-    private ServiceOfferingVO autonomiccsSystemVmServiceOffering;
+    protected ServiceOfferingVO autonomiccsSystemVmServiceOffering;
 
     @Autowired
-    private SshUtils sshUtils;
+    protected SshUtils sshUtils;
 
     @Autowired
-    private AutonomiccsSystemVmTemplateService autonomiccsSystemVmTemplateService;
+    protected AutonomiccsSystemVmTemplateService autonomiccsSystemVmTemplateService;
 
     @Autowired
-    private AutonomiccsSystemVmDao autonomiccsSystemVmDao;
+    protected AutonomiccsSystemVmDao autonomiccsSystemVmDao;
 
     @Autowired
-    private HostService hostService;
+    protected HostService hostService;
 
     @Autowired
-    private ConfigurationDao configurationDao;
+    protected ConfigurationDao configurationDao;
 
     @Autowired
-    private DataCenterDao dataCenterDao;
+    protected DataCenterDao dataCenterDao;
 
     @Autowired
-    private AccountManager accountManager;
+    protected AccountManager accountManager;
 
     @Autowired
-    private NetworkDao networkDao;
+    protected NetworkDao networkDao;
 
     @Autowired
-    private NetworkModel networkModel;
+    protected NetworkModel networkModel;
 
     @Autowired
-    private NetworkOfferingDao networkOfferingDao;
+    protected NetworkOfferingDao networkOfferingDao;
 
     @Autowired
-    private NetworkOrchestrationService networkManager;
+    protected NetworkOrchestrationService networkManager;
 
     @Autowired
-    private VirtualMachineManager virtualMachineManager;
+    protected VirtualMachineManager virtualMachineManager;
 
     @Autowired
-    private AutonomiccsServiceOfferingService autonomiccsServiceOfferingService;
+    protected AutonomiccsServiceOfferingService autonomiccsServiceOfferingService;
 
     @Autowired
-    private HostUtils hostUtils;
+    protected HostUtils hostUtils;
 
     @Autowired
-    private ThreadUtils threadUtils;
+    protected ThreadUtils threadUtils;
 
     @Autowired
-    private ClusterService clusterService;
+    protected ClusterService clusterService;
 
     @Autowired
-    private HostResourcesService hostResourcesService;
+    protected HostResourcesService hostResourcesService;
 
     @Autowired
-    private PodService podService;
+    protected PodService podService;
 
     @Autowired
-    private ZoneService zoneService;
+    protected ZoneService zoneService;
 
     /**
      * This method looks for a host in the whole cloud environment to deploy an Autonomiccs system VM.
@@ -169,7 +169,7 @@ public class AutonomiccsSystemVmDeploymentService implements InitializingBean {
      *
      * @return {@link HostVO} to deploy the system VM, it can also return null if no suitable hosts were found.
      */
-    private HostVO searchForRandomHostInZoneToDeployAutonomiccsSystemVm(DataCenterVO dataCenterVO) {
+    protected HostVO searchForRandomHostInZoneToDeployAutonomiccsSystemVm(DataCenterVO dataCenterVO) {
         List<HostPodVO> allPodsEnabledFromZone = podService.getAllPodsEnabledFromZone(dataCenterVO.getId());
         Collections.shuffle(allPodsEnabledFromZone);
         for (HostPodVO hostPodVO : allPodsEnabledFromZone) {
@@ -213,7 +213,7 @@ public class AutonomiccsSystemVmDeploymentService implements InitializingBean {
      * @param c cluster to look for a host to deploy a system VM
      * @return {@link HostVO} to deploy a system VM, it may return null if no suitable hosts have been found
      */
-    private HostVO searchForRandomHostInClusterToDeployAutonomiccsSystemVm(ClusterVO c) {
+    protected HostVO searchForRandomHostInClusterToDeployAutonomiccsSystemVm(ClusterVO c) {
         return searchForAnotherRandomHostInTheClusterToStartSystemVmExcludingHosts(c, new ArrayList<HostVO>());
     }
 
@@ -229,7 +229,7 @@ public class AutonomiccsSystemVmDeploymentService implements InitializingBean {
      * @param excludeHosts hosts to exclude from the search
      * @return {@link HostVO} to deploy a system VM, it may return null if no suitable hosts have been found
      */
-    private HostVO searchForAnotherRandomHostInTheClusterToStartSystemVmExcludingHosts(ClusterVO c, List<HostVO> excludeHosts) {
+    protected HostVO searchForAnotherRandomHostInTheClusterToStartSystemVmExcludingHosts(ClusterVO c, List<HostVO> excludeHosts) {
         List<HostVO> allHostsInCluster = hostService.listAllHostsInCluster(c);
         allHostsInCluster.removeAll(excludeHosts);
         Collections.shuffle(allHostsInCluster);
@@ -251,7 +251,7 @@ public class AutonomiccsSystemVmDeploymentService implements InitializingBean {
      * @param h host candidate to receive an Autonomiccs system VM
      * @return true if the host has enough resources to receive the VM and if its hypervisor type has an Autonomiccs system VM template installed
      */
-    private boolean canDeployAutonomiccsSystemVmOnHost(HostVO h) {
+    protected boolean canDeployAutonomiccsSystemVmOnHost(HostVO h) {
         ServiceOfferingVO vmServiceOffering = autonomiccsServiceOfferingService.searchAutonomiccsServiceOffering();
         HostResources hostResources = hostResourcesService.createHostResources(h);
         return canHostSupportVm(vmServiceOffering, hostResources) && autonomiccsSystemVmTemplateService.isTemplateRegisteredAndReadyForHypervisor(h.getHypervisorType());
@@ -269,17 +269,17 @@ public class AutonomiccsSystemVmDeploymentService implements InitializingBean {
      * @param hostResources POJO that facilitates our job while checking if the host can receive the VM with the given service offering
      * @return true if the host has enough resources to receive the VM
      */
-    private boolean canHostSupportVm(ServiceOfferingVO vmServiceOffering, HostResources hostResources) {
+    protected boolean canHostSupportVm(ServiceOfferingVO vmServiceOffering, HostResources hostResources) {
         if (vmServiceOffering.getCpu() > hostResources.getCpus()) {
             return false;
         }
-        float hostTotalCpu = hostResources.getCpuOverprovisioning() * hostResources.getCpus() * hostResources.getSpeed();
-        float hostUsedCpu = hostResources.getUsedCpu();
+        double hostTotalCpu = hostResources.getCpuOverprovisioning() * hostResources.getCpus() * hostResources.getSpeed();
+        double hostUsedCpu = hostResources.getUsedCpu();
         if ((vmServiceOffering.getSpeed() * vmServiceOffering.getCpu()) > hostTotalCpu - hostUsedCpu) {
             return false;
         }
 
-        float hostTotalMemoryInMegaBytes = (hostResources.getMemoryOverprovisioning() * hostResources.getTotalMemoryInBytes()) / ONE_MEGABYTE_IN_BYTES;
+        double hostTotalMemoryInMegaBytes = (hostResources.getMemoryOverprovisioning() * hostResources.getTotalMemoryInBytes()) / ONE_MEGABYTE_IN_BYTES;
         long usedMemoryInMegabytes = hostResources.getUsedMemoryInMegaBytes();
         if (vmServiceOffering.getRamSize() > hostTotalMemoryInMegaBytes - usedMemoryInMegabytes) {
             return false;
@@ -313,7 +313,7 @@ public class AutonomiccsSystemVmDeploymentService implements InitializingBean {
      * @param excludeHost hosts to be excluded from the search
      * @return a host to re-start an Autonomiccs system VM; if no suitable hosts were found this method returns null
      */
-    private HostVO searchForAnotherRandomHostInTheClusterToStartSystemVmExcludingHost(HostVO excludeHost) {
+    protected HostVO searchForAnotherRandomHostInTheClusterToStartSystemVmExcludingHost(HostVO excludeHost) {
         List<HostVO> hostToExclude = new ArrayList<>(1);
         hostToExclude.add(excludeHost);
 
@@ -336,7 +336,7 @@ public class AutonomiccsSystemVmDeploymentService implements InitializingBean {
      *            type of vm being deployed
      * @return {@link AutonomiccsSystemVm} that represents the deployed VM
      */
-    public AutonomiccsSystemVm deploySystemVmWithJAVA(Long hostId, SystemVmType systemVmType) {
+    public AutonomiccsSystemVm deploySystemVmWithJava(Long hostId, SystemVmType systemVmType) {
         AutonomiccsSystemVm vmInstance = deploySystemVm(hostId, systemVmType);
         String managementIp = vmInstance.getManagementIpAddress();
         sshUtils.executeCommandOnHostViaSsh(managementIp, "aptitude update");
@@ -355,7 +355,7 @@ public class AutonomiccsSystemVmDeploymentService implements InitializingBean {
      *            type of vm being deployed
      * @return {@link AutonomiccsSystemVm} that represents the deployed VM
      */
-    private AutonomiccsSystemVm deploySystemVm(Long hostId, SystemVmType systemVmType) {
+    protected AutonomiccsSystemVm deploySystemVm(Long hostId, SystemVmType systemVmType) {
         HostVO host = hostService.findHostById(hostId);
         validateParametersToDeployTheSystemVm(hostId, host);
         VMTemplateVO systemVmTemplate = getSystemVmTemplate(host);
@@ -377,7 +377,7 @@ public class AutonomiccsSystemVmDeploymentService implements InitializingBean {
      *  <p>This method tried to allocate the given Autonomiccs system vm on the environment. The method used to allocate it is {@link VirtualMachineManager#allocate(String, com.cloud.template.VirtualMachineTemplate, com.cloud.offering.ServiceOffering, LinkedHashMap, com.cloud.deploy.DeploymentPlan, com.cloud.hypervisor.Hypervisor.HypervisorType)}.
      *  After the VM is allocated, we try to start it using {@link VirtualMachineManager#advanceStart(String, Map, com.cloud.deploy.DeploymentPlanner)}.
      */
-    private AutonomiccsSystemVm allocateAndStartTheSystemVm(VMTemplateVO systemVmTemplate, DataCenterDeployment plan, LinkedHashMap<Network, List<? extends NicProfile>> networks,
+    protected AutonomiccsSystemVm allocateAndStartTheSystemVm(VMTemplateVO systemVmTemplate, DataCenterDeployment plan, LinkedHashMap<Network, List<? extends NicProfile>> networks,
             AutonomiccsSystemVm autonomiccsSystemVm) {
         try {
             virtualMachineManager.allocate(autonomiccsSystemVm.getInstanceName(), systemVmTemplate, autonomiccsSystemVmServiceOffering, networks, plan, null);
@@ -396,7 +396,7 @@ public class AutonomiccsSystemVmDeploymentService implements InitializingBean {
      *  The check is executed by the {@link HostUtils#isHostReachable(String)} method. If the host is not reachable we use the {@link ThreadUtils#sleepThread(int)} to sleep the thread for 5 seconds.
      *  We will execute 100 tests to check if the system VM is up and running, after that an exception is going to be raised.
      */
-    private void waitUntilTheAutonomiccsSystemVmIsUpAndRunning(AutonomiccsSystemVm autonomiccsSystemVm) {
+    protected void waitUntilTheAutonomiccsSystemVmIsUpAndRunning(AutonomiccsSystemVm autonomiccsSystemVm) {
         for (int i = 0; i < 100; i++) {
             logger.debug("Checking for the %d time(s) if the system VM [name=%s], [id=%d] is reachable ", i, autonomiccsSystemVm.getInstanceName(), autonomiccsSystemVm.getId());
             if (hostUtils.isHostReachable(autonomiccsSystemVm.getManagementIpAddress())) {
@@ -418,7 +418,7 @@ public class AutonomiccsSystemVmDeploymentService implements InitializingBean {
      *
      * @return an instance of an Autonomiccs system VM template
      */
-    private AutonomiccsSystemVm createTheAutonomiccsSystemVm(VMTemplateVO systemVmTemplate, Account systemAcct, long id, String name) {
+    protected AutonomiccsSystemVm createTheAutonomiccsSystemVm(VMTemplateVO systemVmTemplate, Account systemAcct, long id, String name) {
         AutonomiccsSystemVm autonomiccsSystemVm = new AutonomiccsSystemVm(id, autonomiccsSystemVmServiceOffering.getId(), name, systemVmTemplate.getId(),
                 systemVmTemplate.getHypervisorType(), systemVmTemplate.getGuestOSId(), systemAcct.getDomainId(), systemAcct.getId(),
                 accountManager.getSystemUser().getId(), autonomiccsSystemVmServiceOffering.getOfferHA());
@@ -427,7 +427,10 @@ public class AutonomiccsSystemVmDeploymentService implements InitializingBean {
         return autonomiccsSystemVm;
     }
 
-    private LinkedHashMap<Network, List<? extends NicProfile>> getSystemVmNetworks(HostVO host, DataCenterDeployment plan, Account systemAcct) {
+    /**
+     * It returns a LinkedHashMap that conntians the the Autonomiccs system VM networks.
+     */
+    protected LinkedHashMap<Network, List<? extends NicProfile>> getSystemVmNetworks(HostVO host, DataCenterDeployment plan, Account systemAcct) {
         LinkedHashMap<Network, List<? extends NicProfile>> networks = new LinkedHashMap<>();
         NicProfile defaultNic = createDefaultNic();
 
@@ -446,7 +449,7 @@ public class AutonomiccsSystemVmDeploymentService implements InitializingBean {
      * This method creates and return a {@link NicProfile}, it also sets the default NIC as true using {@link NicProfile#setDefaultNic(boolean)} and the device if as 2 using {@link NicProfile#setDeviceId(int)}
      * @return a NIC profile {@link NicProfile}
      */
-    private NicProfile createDefaultNic() {
+    protected NicProfile createDefaultNic() {
         NicProfile defaultNic = new NicProfile();
         defaultNic.setDefaultNic(true);
         defaultNic.setDeviceId(2);
@@ -457,7 +460,7 @@ public class AutonomiccsSystemVmDeploymentService implements InitializingBean {
      * This method looks for an autonomiccs system vm template for the hypervisor of the given host; if the template is not found, an exception is thrown.
      * @return {@link VMTemplateVO} of the Autonomiccs system vm template for the hypervisor type of the given host
      */
-    private VMTemplateVO getSystemVmTemplate(HostVO host) {
+    protected VMTemplateVO getSystemVmTemplate(HostVO host) {
         VMTemplateVO systemVmTemplate = autonomiccsSystemVmTemplateService.findAutonomiccsSystemVmTemplate(host.getHypervisorType());
         if (systemVmTemplate == null) {
             throw new CloudRuntimeException(String.format("Could not find a System VM template for the host hypervisors [%s]", host.getHypervisorType()));
@@ -471,7 +474,7 @@ public class AutonomiccsSystemVmDeploymentService implements InitializingBean {
      *
      * @param hostId to deploy the system VM
      */
-    private void validateParametersToDeployTheSystemVm(Long hostId, HostVO host) {
+    protected void validateParametersToDeployTheSystemVm(Long hostId, HostVO host) {
         if (host == null) {
             throw new CloudRuntimeException(String.format("Could not find a host with the provieded id [%d]", hostId));
         }
@@ -485,7 +488,7 @@ public class AutonomiccsSystemVmDeploymentService implements InitializingBean {
      * This method will generate the next system VM id using the method {@link AutonomiccsSystemVmDao#getNextInSequence(Class, String)}
      * @return the next system VM id
      */
-    private long getNextSystemVmId() {
+    protected long getNextSystemVmId() {
         Long id = autonomiccsSystemVmDao.getNextInSequence(Long.class, "id");
         if(id == null){
             throw new CloudRuntimeException("It was not possible to find an id to create a system VM.");
@@ -501,7 +504,7 @@ public class AutonomiccsSystemVmDeploymentService implements InitializingBean {
      * @param dataCenterId id of the zone
      * @return the default network of the given zone
      */
-    private NetworkVO getDefaultNetwork(long dataCenterId) {
+    protected NetworkVO getDefaultNetwork(long dataCenterId) {
         DataCenterVO dc = dataCenterDao.findById(dataCenterId);
         if (dc.getNetworkType() == NetworkType.Advanced && dc.isSecurityGroupEnabled()) {
             return getDefaultNetworkForAdvancedNetworkingWithSecurityGroupds(dataCenterId, dc);
@@ -519,7 +522,7 @@ public class AutonomiccsSystemVmDeploymentService implements InitializingBean {
      *
      * @param dc zone to look for the default network type
      */
-    private NetworkVO getDefaultNetwork(DataCenterVO dc) {
+    protected NetworkVO getDefaultNetwork(DataCenterVO dc) {
         TrafficType defaultTrafficType = TrafficType.Public;
         if (dc.getNetworkType() == NetworkType.Basic || dc.isSecurityGroupEnabled()) {
             defaultTrafficType = TrafficType.Guest;
@@ -540,7 +543,7 @@ public class AutonomiccsSystemVmDeploymentService implements InitializingBean {
      *
      * @param dc zone to look for the default network type
      */
-    private NetworkVO getDefaultNetworkForAdvancedNetworkingWithSecurityGroupds(long dataCenterId, DataCenterVO dc) {
+    protected NetworkVO getDefaultNetworkForAdvancedNetworkingWithSecurityGroupds(long dataCenterId, DataCenterVO dc) {
         List<NetworkVO> networks = networkDao.listByZoneSecurityGroup(dataCenterId);
         if (CollectionUtils.isEmpty(networks)) {
             throw new CloudRuntimeException("Can not found security enabled network in SG Zone " + dc);
@@ -553,7 +556,7 @@ public class AutonomiccsSystemVmDeploymentService implements InitializingBean {
      *
      * @return the instance name for Autonomiccs system VMs
      */
-    private String createAutonomiccsSystemVmNameForType(long id, SystemVmType systemVmType, String instanceSuffix) {
+    protected String createAutonomiccsSystemVmNameForType(long id, SystemVmType systemVmType, String instanceSuffix) {
         return String.format("%s-%d-%s", systemVmType.getNamePrefix(), id, instanceSuffix);
     }
 
@@ -562,7 +565,7 @@ public class AutonomiccsSystemVmDeploymentService implements InitializingBean {
      *
      * @return virtual machine instance suffix
      */
-    private String getVirtualMachineInstanceSuffix() {
+    protected String getVirtualMachineInstanceSuffix() {
         Map<String, String> configs = getConfigurationsFromDatabase();
         return configs.get("instance.name");
     }
@@ -570,7 +573,7 @@ public class AutonomiccsSystemVmDeploymentService implements InitializingBean {
     /**
      * @return all of the configurations at the "configuration" table in the cloud database
      */
-    private Map<String, String> getConfigurationsFromDatabase() {
+    protected Map<String, String> getConfigurationsFromDatabase() {
         return this.configurationDao.getConfiguration("management-server", new HashMap<String, Object>());
     }
 
@@ -589,7 +592,7 @@ public class AutonomiccsSystemVmDeploymentService implements InitializingBean {
      * <p>This method tries to load the default Autonomiccs system VM service offering; it uses the {@link AutonomiccsServiceOfferingService#searchAutonomiccsServiceOffering()} to search of the offering.
      * If a service offering is not found, it will create the service offering on the data base; the method used to create is {@link AutonomiccsServiceOfferingService#createAutonomiccsServiceOffering()}.
      */
-    private void loadAutonomiccsSystemVmServiceOffering() {
+    protected void loadAutonomiccsSystemVmServiceOffering() {
         try{
             autonomiccsSystemVmServiceOffering = autonomiccsServiceOfferingService.searchAutonomiccsServiceOffering();
         } catch (CloudRuntimeException ex) {

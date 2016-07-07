@@ -39,8 +39,7 @@ public class GuestOsService {
     /**
      * Retrieves from the database the Guest OS ID.
      *
-     * @param guestOsName
-     * @return guestOs ID
+     * @return guest OS ID
      */
     public Long getGuestOsUuid(String guestOsName) {
         return this.guestOsJdbcDao.getGuestOsUuid(guestOsName);

@@ -46,18 +46,23 @@ public class PodService {
 
     /**
      * List all Pods from a given zone.
-     *
-     * @param zoneId
      * @return {@link List<HostPodVo>} all pods of the given zone.
      */
     public List<HostPodVO> getAllPodsEnabledFromZone(long zoneId) {
         return hostPodDao.listByDataCenterId(zoneId);
     }
 
+    /**
+     * It returns a Pod ({@link HostPodVO}) with the given id.
+     */
     public HostPodVO findPodById(Long podId) {
         return hostPodDao.findById(podId);
     }
 
+    /**
+     * It returns true if there is at least one host deactivated by the Autonomiccs platform at the
+     * pod with the given id.
+     */
     public boolean isThereAnyHostOnPodDeactivatedByOurManager(long id) {
         return hostJdbcDao.isThereAnyHostOnPodDeactivatedByOurManager(id);
     }

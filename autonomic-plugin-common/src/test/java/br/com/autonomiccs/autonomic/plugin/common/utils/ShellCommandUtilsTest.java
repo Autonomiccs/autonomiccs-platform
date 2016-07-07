@@ -40,12 +40,12 @@ import org.slf4j.Logger;
 @PrepareForTest(ShellCommandUtils.class)
 public class ShellCommandUtilsTest {
 
-    private ShellCommandUtils shellCommandUtils;
+    private ShellCommandUtils spy;
     private String command = "test";
 
     @Before
     public void beforeTest(){
-        shellCommandUtils = new ShellCommandUtils();
+        spy = new ShellCommandUtils();
     }
 
     @Test
@@ -54,13 +54,13 @@ public class ShellCommandUtilsTest {
         Runtime runtimeMock = configureAndGetRuntimeMock();
 
         String commandOutput = "TEST";
-        InputStream input = IOUtils.toInputStream(commandOutput, "utf-8");
+        InputStream input = IOUtils.toInputStream(commandOutput, (String) null);
 
         Mockito.when(runtimeMock.exec(command)).thenReturn(processMock);
         Mockito.when(processMock.waitFor()).thenReturn(1);
         Mockito.when(processMock.getInputStream()).thenReturn(input);
 
-        String response = shellCommandUtils.executeCommand(command);
+        String response = spy.executeCommand(command);
         Assert.assertEquals(commandOutput, response);
         Mockito.verify(processMock).waitFor();
     }
@@ -68,12 +68,12 @@ public class ShellCommandUtilsTest {
     @Test
     @SuppressWarnings("unchecked")
     public void executeCommandTestDealingWithIoException() throws IOException, InterruptedException {
-        shellCommandUtils.logger = Mockito.mock(Logger.class);
+        spy.logger = Mockito.mock(Logger.class);
 
         Runtime runtimeMock = configureAndGetRuntimeMock();
         Mockito.when(runtimeMock.exec(command)).thenThrow(IOException.class);
 
-        String commandOutput = shellCommandUtils.executeCommand(command);
+        String commandOutput = spy.executeCommand(command);
 
         executeChecksForExceptionTests(commandOutput, IOException.class);
     }
@@ -81,21 +81,21 @@ public class ShellCommandUtilsTest {
     @Test
     @SuppressWarnings("unchecked")
     public void executeCommandTestDealingWithInterruptedException() throws IOException, InterruptedException {
-        shellCommandUtils.logger = Mockito.mock(Logger.class);
+        spy.logger = Mockito.mock(Logger.class);
 
         Process processMock = Mockito.mock(Process.class);
         Runtime runtimeMock = configureAndGetRuntimeMock();
         Mockito.when(runtimeMock.exec(command)).thenReturn(processMock);
         Mockito.when(processMock.waitFor()).thenThrow(InterruptedException.class);
 
-        String commandOutput = shellCommandUtils.executeCommand(command);
+        String commandOutput = spy.executeCommand(command);
 
         Mockito.verify(processMock).waitFor();
         executeChecksForExceptionTests(commandOutput, InterruptedException.class);
     }
 
     private void executeChecksForExceptionTests(String commandOutput, Class<? extends Exception> expectedException) {
-        Mockito.verify(shellCommandUtils.logger).error(Mockito.startsWith(String.format("An error happened while executing command[%s]", command)), Mockito.any(expectedException));
+        Mockito.verify(spy.logger).error(Mockito.startsWith(String.format("An error happened while executing command[%s]", command)), Mockito.any(expectedException));
         Assert.assertEquals("", commandOutput);
     }
 
