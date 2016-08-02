@@ -1,6 +1,6 @@
 [![Autonomiccs Platform](tools/project-logo/autonomiccs.png)](http://autonomiccs.com.br)
 
-###Project stats: [![Build Status](http://jenkins.autonomiccs.com.br/buildStatus/icon?job=Autonomiccs-platform)](http://jenkins.autonomiccs.com.br/job/Autonomiccs-platform/) <a href="https://scan.coverity.com/projects/autonomiccs-platform"><img alt="Coverity Scan Build Status" src="https://scan.coverity.com/projects/8610/badge.svg"/></a>
+###Project stats: [![Build Status](http://jenkinsbadge.autonomiccs.com.br/buildStatus/icon?job=Autonomiccs-platform)](http://jenkins.autonomiccs.com.br/job/Autonomiccs-platform/) <a href="https://scan.coverity.com/projects/autonomiccs-platform"><img alt="Coverity Scan Build Status" src="https://scan.coverity.com/projects/8610/badge.svg"/></a>
 
 In a nut shell, Autonomiccs is a distributed virtual machine scheduling (A.K.A distributed resource scheduling) for Apache CloudStack.
 
