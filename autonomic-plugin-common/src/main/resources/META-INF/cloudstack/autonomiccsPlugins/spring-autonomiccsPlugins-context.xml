@@ -95,7 +95,7 @@
     <bean class="br.com.autonomiccs.autonomic.plugin.common.daos.AutonomiccsSystemVmJdbcDao" parent="absctractDao"/>
     
 	<bean id="autonomiccsSystemVmsTemplateUrlBase" class="java.lang.String">
-		<constructor-arg value="http://autonomiccs.com.br/systemVmsTemplate" />
+		<constructor-arg value="http://templates.autonomiccs.com.br/systemVmsTemplate" />
 	</bean>
 	<bean id="systemVmTemplateVersion" class="java.lang.String">
 		<constructor-arg value="1.0" />
