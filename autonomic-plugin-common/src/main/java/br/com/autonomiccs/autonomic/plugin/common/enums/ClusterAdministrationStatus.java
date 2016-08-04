@@ -33,8 +33,6 @@ public enum ClusterAdministrationStatus {
     /**
      * Returns true if the cluster consolidation status is equals to
      * {@link #InProgress}.
-     *
-     * @param administrationStatus
      * @return true if the administrationStatus is {@link #InProgress}
      */
     public static boolean isClusterBeingManaged(ClusterAdministrationStatus administrationStatus) {

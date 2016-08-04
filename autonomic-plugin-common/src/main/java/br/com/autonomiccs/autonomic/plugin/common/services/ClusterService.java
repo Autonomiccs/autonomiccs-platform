@@ -30,24 +30,41 @@ import org.springframework.stereotype.Service;
 import com.cloud.dc.ClusterVO;
 import com.cloud.dc.dao.ClusterDao;
 
+/**
+ * This class is intended to execute clusters operations; that means, searching, a single clusters,
+ * a set of clusters, updating data in the database and others. To interact with the database this
+ * class will use DAOs objects to interact with tables such as the "cluster" table.
+ */
 @Service
 public class ClusterService {
 
     @Autowired
     private ClusterDao clusterDao;
 
+    /**
+     * It returns all clusters in the Pod with the given id.
+     */
     public List<ClusterVO> listAllClustersFromPod(long podId) {
         return clusterDao.listByPodId(podId);
     }
 
+    /**
+     * It returns the {@link ClusterVO} with the given id.
+     */
     public ClusterVO findById(long clusterId) {
         return clusterDao.findById(clusterId);
     }
 
+    /**
+     * It returns all clusters in the Zone with the given id.
+     */
     public List<ClusterVO> listAllClustersOnZone(Long zoneId) {
         return clusterDao.listClustersByDcId(zoneId);
     }
 
+    /**
+     * It returns all clusters in the cloud.
+     */
     public List<ClusterVO> listAllClusters() {
         return clusterDao.listAll();
     }

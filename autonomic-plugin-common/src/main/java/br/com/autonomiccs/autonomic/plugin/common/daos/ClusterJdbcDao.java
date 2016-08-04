@@ -28,6 +28,9 @@ import org.springframework.jdbc.core.support.JdbcDaoSupport;
 
 import br.com.autonomiccs.autonomic.plugin.common.enums.ClusterAdministrationStatus;
 
+/**
+ * This class deals with operations regarding the 'cluster' table.
+ */
 public class ClusterJdbcDao extends JdbcDaoSupport {
 
     private String sqlGetClusterAdministrationStatus = "SELECT administration_status FROM cluster WHERE id=?;";
@@ -37,10 +40,7 @@ public class ClusterJdbcDao extends JdbcDaoSupport {
     private String sqlSetClusterLastAdministration = "UPDATE cluster SET last_administration=? WHERE id=?;";
 
     /**
-     * Selects the 'last_administration' column from the 'cluster' table.
-     *
-     * @param clusterId
-     * @return
+     * It returns the 'last_administration' column of the 'cluster' table.
      */
     public ClusterAdministrationStatus getClusterAdministrationStatus(long clusterId) {
         String statusAsString = getJdbcTemplate().queryForObject(sqlGetClusterAdministrationStatus, String.class, clusterId);
@@ -51,10 +51,7 @@ public class ClusterJdbcDao extends JdbcDaoSupport {
     }
 
     /**
-     * Updates the 'last_administration' column from the 'cluster' table.
-     *
-     * @param clusterConsolidationStatus
-     * @param clusterId
+     * Updates the 'last_administration' column of the 'cluster' table.
      */
     public void setClusterAdministrationStatus(ClusterAdministrationStatus clusterConsolidationStatus, long clusterId) {
         Object[] args = {clusterConsolidationStatus.toString(), clusterId};
@@ -62,20 +59,14 @@ public class ClusterJdbcDao extends JdbcDaoSupport {
     }
 
     /**
-     * Selects the 'last_administration' column from the 'cluster' table.
-     *
-     * @param clusterId
-     * @return
+     * It returns the 'last_administration' column of the 'cluster' table.
      */
     public Date getClusterLastAdminstration(long clusterId) {
         return getJdbcTemplate().queryForObject(sqlGetClusterLastAdministration, Date.class, clusterId);
     }
 
     /**
-     * Updates the 'last_administration' column from the 'cluster' table.
-     *
-     * @param date
-     * @param clusterId
+     * Updates the 'last_administration' column of the 'cluster' table.
      */
     public void setClusterLastAdministration(Date date, long clusterId) {
         Object[] args = { date, clusterId };

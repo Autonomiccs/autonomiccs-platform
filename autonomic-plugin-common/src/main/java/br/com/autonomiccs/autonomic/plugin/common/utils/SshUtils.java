@@ -39,28 +39,27 @@ import com.trilead.ssh2.Connection;
 import com.trilead.ssh2.SCPClient;
 import com.trilead.ssh2.Session;
 
+/**
+ * This class provides methods to perform SSH connections.
+ */
 @Component
 public class SshUtils implements InitializingBean {
 
     private Logger logger = Logger.getLogger(this.getClass());
+    private int CONNECT_TIMEOUT = 60000;
 
     @Autowired
-    private ThreadUtils threadUtils;
+    protected ThreadUtils threadUtils;
 
     private File certificate;
 
     /**
-     * %TODO melhorar a doc.
-     *
-     * @param sshConnection
-     *            An SSH connection to which the session will be generated
-     * @return
-     *         A created session for the connection passed in param
-     * @throws IOException
+     * This method will create and authenticate a session using a public key method. The
+     * certificate that will be used is the Autonomiccs default certificated that is installed by
+     * default in the Autonomiccs system VM template
      */
-
-    private Session authenticateSshSessionWithPublicKey(Connection sshConnection) throws IOException {
-        sshConnection.connect(null, 60000, 60000);
+    protected Session authenticateSshSessionWithPublicKey(Connection sshConnection) throws IOException {
+        sshConnection.connect(null, CONNECT_TIMEOUT, CONNECT_TIMEOUT);
         if (!sshConnection.authenticateWithPublicKey("root", certificate, null)) {
             throw new CloudRuntimeException(String.format("Unable to authenticate to (%s)", sshConnection.getHostname()));
         }
@@ -71,19 +70,16 @@ public class SshUtils implements InitializingBean {
      * @param address
      *            The host Management IP address that the connection will be created
      * @return
-     *         An SSH connection with the specified host
+     *         An SSH connection with the specified host at the port 22
      */
-    private Connection getSshConnectionWithHost(String address) {
+    protected Connection getSshConnectionWithHost(String address) {
         return new Connection(address, 22);
     }
 
     /**
-     * Executes a given command to the host with a given IP address. Waits 15
+     * It executes a given command to the host with a given IP address. Waits 15
      * minutes after the command execution, avoiding to close the session before
      * it sends successfully the command.
-     *
-     * @param hostIp
-     * @param command
      */
     public void executeCommandOnHostViaSsh(String hostIp, String command) {
         Connection sshConnectionWithHost = getSshConnectionWithHost(hostIp);
@@ -94,12 +90,14 @@ public class SshUtils implements InitializingBean {
             sshSession.close();
         } catch (IOException e) {
             logger.info("Unable to execute command: " + command, e);
-
         }
         sshConnectionWithHost.close();
     }
 
-    private void waitUntilCommandFinishes(String hostIp, String command, Session sshSession) {
+    /**
+     * This method holds the execution until the SSH connection gives an exit status.
+     */
+    protected void waitUntilCommandFinishes(String hostIp, String command, Session sshSession) {
         Integer exitStatus = sshSession.getExitStatus();
         while (exitStatus == null) {
             exitStatus = sshSession.getExitStatus();
@@ -133,6 +131,9 @@ public class SshUtils implements InitializingBean {
         sshConnectionWithHost.close();
     }
 
+    /**
+     * It creates a temporary file and copy the RSA public key to this temporary file.
+     */
     @Override
     public void afterPropertiesSet() throws Exception {
         certificate = File.createTempFile(UUID.randomUUID().toString(), ".tmp");

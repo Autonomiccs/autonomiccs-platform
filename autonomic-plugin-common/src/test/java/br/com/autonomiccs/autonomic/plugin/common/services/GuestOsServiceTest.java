@@ -20,23 +20,37 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package br.com.autonomiccs.autonomic.plugin.common.enums;
+package br.com.autonomiccs.autonomic.plugin.common.services;
 
-/**
- * This enumeration has all of the Autonomiccs system virtual machines types.
- */
-public enum SystemVmType {
+import org.junit.Assert;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.Spy;
+import org.mockito.runners.MockitoJUnitRunner;
 
-    ClusterManagerAgent("CM-A"),
-    ClusterManagerStartHostService("CM-SHS");
+import br.com.autonomiccs.autonomic.plugin.common.daos.GuestOsJdbcDao;
 
-    private String namePrefix;
+@RunWith(MockitoJUnitRunner.class)
+public class GuestOsServiceTest {
 
-    private SystemVmType(String namePrefix) {
-        this.namePrefix = namePrefix;
+    @Spy
+    @InjectMocks
+    private GuestOsService spy;
+    @Mock
+    private GuestOsJdbcDao guestOsJdbcDao;
+
+    @Test
+    public void getGuestOsUuidTest() {
+        Mockito.doReturn(0l).when(guestOsJdbcDao).getGuestOsUuid(Mockito.anyString());
+
+        long result = spy.getGuestOsUuid("guestOsName");
+
+        Mockito.verify(guestOsJdbcDao).getGuestOsUuid(Mockito.anyString());
+        Assert.assertEquals(0l, result);
+
     }
 
-    public String getNamePrefix() {
-        return namePrefix;
-    }
 }

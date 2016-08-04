@@ -58,9 +58,11 @@ public class HttpUtils {
             logger.debug(String.format("Error while calling Wakeonlan service for host mac address[%s]", hostMac), e);
             return e.getMessage();
         }
-
     }
 
+    /**
+     * It executes the GET request to a given URL; the result of the request is returned as a String.
+     */
     public String executeHttpGetRequest(URL url) throws IOException {
         HttpURLConnection con = (HttpURLConnection)url.openConnection();
         con.setRequestMethod("GET");

@@ -96,6 +96,9 @@ public class StartHostService {
 
     private Logger logger = Logger.getLogger(StartHostService.class);
 
+    /**
+     * TODO
+     */
     @Transactional(readOnly = false)
     public HostVO startHost(VMEntityVO vmEntity, Exception e) throws Exception {
         List<HostResources> hostsToStart = getHostsToStart(vmEntity);
@@ -140,9 +143,6 @@ public class StartHostService {
 
     /**
      * Lists clusters compatible with the VM hypervisor
-     *
-     * @param vmEntity
-     * @return
      */
     private List<ClusterVO> getClustersByHypervisorType(VMEntityVO vmEntity) {
         String hypervisorType = vmEntity.getHypervisorType().name();
@@ -312,6 +312,9 @@ public class StartHostService {
         }
     }
 
+    /**
+     * TODO
+     */
     @Transactional(readOnly = false)
     public void prepareHostToReceiveVms(HostVO startedHost) {
         logger.debug(String.format("Starting to check host[%d] status up in database.", startedHost.getId()));

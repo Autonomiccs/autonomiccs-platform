@@ -30,6 +30,9 @@ import javax.persistence.PrimaryKeyJoinColumn;
 import com.cloud.hypervisor.Hypervisor.HypervisorType;
 import com.cloud.vm.VMInstanceVO;
 
+/**
+ * This class represents the table 'AutonomiccsSystemVm'.
+ */
 @Entity
 @SuppressWarnings("serial")
 @PrimaryKeyJoinColumn(name = "id")
@@ -51,18 +54,30 @@ public class AutonomiccsSystemVm extends VMInstanceVO {
     @Column(name = "management_ip_address", nullable = false)
     private String managementIpAddress;
 
+    /**
+     * @return a String that represents the column 'public_ip_address'
+     */
     public String getPublicIpAddress() {
         return publicIpAddress;
     }
 
+    /**
+     * It sets sets the public IP address at the column 'public_ip_address'
+     */
     public void setPublicIpAddress(String publicIpAddress) {
         this.publicIpAddress = publicIpAddress;
     }
 
+    /**
+     * @return a String that represents the column 'management_ip_address'
+     */
     public String getManagementIpAddress() {
         return managementIpAddress;
     }
 
+    /**
+     * It sets sets the management IP address at the column 'management_ip_address'
+     */
     public void setManagementIpAddress(String managementIpAddress) {
         this.managementIpAddress = managementIpAddress;
     }

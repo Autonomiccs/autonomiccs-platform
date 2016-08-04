@@ -34,6 +34,9 @@ public class AutonomiccsSystemVmJdbcDao extends JdbcDaoSupport {
 
     private String sqlGetStartHostServiceVmIdFromPod = "select id from vm_instance where removed is null and pod_id  = ? and account_id = 1 and instance_name like ? ";
 
+    /**
+     * It returns the id from the VM with the StartHost service.
+     */
     public Long getStartHostServiceVmIdFromPod(Long podId, SystemVmType systemVmType) {
         try {
             return getJdbcTemplate().queryForObject(sqlGetStartHostServiceVmIdFromPod, Long.class, podId, systemVmType.getNamePrefix() + "%");

@@ -27,6 +27,9 @@ import org.springframework.jdbc.core.support.JdbcDaoSupport;
 
 import com.cloud.utils.exception.CloudRuntimeException;
 
+/**
+ * This class deals with operations regarding the 'template_view' table.
+ */
 public class AutonomiccsSystemVmTemplateJdbcDao extends JdbcDaoSupport {
 
     private String sqlIsTemplateRegistered = "select count(id) from vm_template where removed is null and state <> 'Inactive' and name = ?";
@@ -43,7 +46,13 @@ public class AutonomiccsSystemVmTemplateJdbcDao extends JdbcDaoSupport {
         return executeTemplateQueryAndRetrieveBoolean(templateName, sqlIsTemplateRegistered);
     }
 
-    private boolean executeTemplateQueryAndRetrieveBoolean(String templateName, String sql) {
+    /**
+     * Given a template name and a sql query, it executes the sql query with the template name; the
+     * query returns the number of rows for the given query; if the number of rows is
+     * equals to zero (0) it returns false, if it is equals to one (1) it returns true; in case of
+     * more rows than one (1) it throws the {@link CloudRuntimeException}.
+     */
+    protected boolean executeTemplateQueryAndRetrieveBoolean(String templateName, String sql) {
         Integer numberOfRegister = getJdbcTemplate().queryForObject(sql, new Object[] {templateName}, Integer.class);
         if (numberOfRegister > 1) {
             throw new CloudRuntimeException(String.format("More than one template with name [%s]", templateName));
@@ -51,10 +60,16 @@ public class AutonomiccsSystemVmTemplateJdbcDao extends JdbcDaoSupport {
         return BooleanUtils.toBoolean(numberOfRegister);
     }
 
+    /**
+     * It returns 'true' if the template is registered and ready to be used.
+     */
     public boolean isTemplateRegisteredAndReady(String autonomiccsSystemVmTemplateName) {
         return executeTemplateQueryAndRetrieveBoolean(autonomiccsSystemVmTemplateName, sqlIsTemplateRegisteredAndReady);
     }
 
+    /**
+     * It returns the id of the Autonomiccs system vm template.
+     */
     public long searchAutonomiccsSystemVmTemplateIdForHypervisor(String autonomiccsSystemVmTemplateName) {
         return getJdbcTemplate().queryForObject(sqlSearchAutonomiccsSystemVmTemplateIdForHypervisor, Long.class, autonomiccsSystemVmTemplateName);
     }

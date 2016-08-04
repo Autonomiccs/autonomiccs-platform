@@ -46,7 +46,7 @@ public class AutonomiccsSystemVmTemplateService implements InitializingBean {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
-    private AutonomiccsSystemVmTemplateJdbcDao autonomiccsSystemVmTemplateJdbcDao;
+    protected AutonomiccsSystemVmTemplateJdbcDao autonomiccsSystemVmTemplateJdbcDao;
 
     @Autowired
     private VMTemplateDao templateDao;
@@ -56,39 +56,35 @@ public class AutonomiccsSystemVmTemplateService implements InitializingBean {
      */
     @Autowired
     @Qualifier("autonomiccsSystemVmsTemplateUrlBase")
-    private String autonomiccsSystemVmsTemplateUrlBase;
+    protected String autonomiccsSystemVmsTemplateUrlBase;
 
     /**
      * Version of the system VM that is being installed.
      */
     @Autowired
     @Qualifier("systemVmTemplateVersion")
-    private String systemVmTemplateVersion;
+    protected String systemVmTemplateVersion;
 
     /**
      * Display text used in the System VM.
      */
-    private String autonomiccsSystemVmTemplateDisplayText;
+    protected String autonomiccsSystemVmTemplateDisplayText;
 
     /**
      * The Autonomiccs system VM template unique name identifier.
      */
-    private String autonomiccsSystemVmTemplateName;
+    protected String autonomiccsSystemVmTemplateName;
 
     /**
      * Checks if the template is registered and active in the database.
-     *
-     * @param templateName
      * @return true if the template is already registered
      */
-    private boolean isTemplateRegistered(String templateName) {
+    protected boolean isTemplateRegistered(String templateName) {
         return autonomiccsSystemVmTemplateJdbcDao.isTemplateRegistered(templateName);
     }
 
     /**
      * Checks is there is a template registered for a given hypervisor
-     *
-     * @param hypervisorType
      * @return boolean indicating if there is a template registered for a given hypervisor
      */
     public boolean isTemplateRegisteredForHypervisor(HypervisorType hypervisorType) {
@@ -106,12 +102,10 @@ public class AutonomiccsSystemVmTemplateService implements InitializingBean {
     /**
      * It constructs the System VMs template URL for download.
      * The pattern of the URL is: {@link #autonomiccsSystemVmsTemplateUrlBase}/{@link #getAutonomiccsSystemVmTemplateName(HypervisorType)}.hypervisorSupportedImageFormat
-     *
      * If we cannot determine a supported image format for the given hypervisor a {@link CloudRuntimeException} will be thrown.
-     *
      * @return SystemVms template URL
      */
-    private String constructSystemVmTemplateUrl(HypervisorType hypervisorType) {
+    protected String constructSystemVmTemplateUrl(HypervisorType hypervisorType) {
         ImageFormat supportedImageFormat = HypervisorType.getSupportedImageFormat(hypervisorType);
         if (supportedImageFormat == null) {
             throw new CloudRuntimeException(String.format("Could not find a supported image format for hypervisor [%s]", hypervisorType));
@@ -123,8 +117,6 @@ public class AutonomiccsSystemVmTemplateService implements InitializingBean {
     /**
      * Retrieves the URL to download the System VM template for the given hypervisor type.
      * If the hypervisor type is not supported a {@link RuntimeException} will be thrown.
-     *
-     * @param hypervisor
      * @return URL to download the system VM
      */
     public String getSystemVmTemplateUrl(HypervisorType hypervisor) {
@@ -139,7 +131,6 @@ public class AutonomiccsSystemVmTemplateService implements InitializingBean {
 
     /**
      * It looks for the {@link VMTemplateVO} that represents the template of the system VM for the given hypervisor
-     *
      * @return {@link VMTemplateVO} that represents the Autonomiccs system VM for the given hypervisor
      */
     public VMTemplateVO findAutonomiccsSystemVmTemplate(HypervisorType hypervisor) {

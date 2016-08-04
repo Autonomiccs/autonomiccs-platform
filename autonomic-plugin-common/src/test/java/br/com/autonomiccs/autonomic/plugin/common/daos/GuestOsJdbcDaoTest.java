@@ -22,23 +22,37 @@
  */
 package br.com.autonomiccs.autonomic.plugin.common.daos;
 
-import org.springframework.jdbc.core.support.JdbcDaoSupport;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mockito;
+import org.mockito.runners.MockitoJUnitRunner;
+import org.powermock.api.mockito.PowerMockito;
+import org.springframework.jdbc.core.JdbcTemplate;
 
-/**
- * This class deals with the access to the "guest_os" data table
- */
-public class GuestOsJdbcDao extends JdbcDaoSupport {
+@RunWith(MockitoJUnitRunner.class)
+public class GuestOsJdbcDaoTest {
 
-    /**
-     * SQL to retrieve the Guest OS ID.
-     */
     private String sqlGetGuestOsId = "select id from guest_os where display_name = ?";
+    private GuestOsJdbcDao spy;
 
-    /**
-     * Retrieves the ID of a given Guest OS name
-     * @return guest OS ID
-     */
-    public Long getGuestOsUuid(String guestOsName) {
-        return getJdbcTemplate().queryForObject(sqlGetGuestOsId, Long.class, guestOsName);
+    @Before
+    public void setup() {
+        spy = PowerMockito.spy(new GuestOsJdbcDao());
     }
+
+    @Test
+    public void getGuestOsUuidTest() {
+        JdbcTemplate jdbcTemplate = Mockito.mock(JdbcTemplate.class);
+        spy.setJdbcTemplate(jdbcTemplate);
+
+        Mockito.doReturn(321l).when(jdbcTemplate).queryForObject(Mockito.eq(sqlGetGuestOsId), Mockito.eq(Long.class), Mockito.eq("guesOsName"));
+
+        long result = spy.getGuestOsUuid("guesOsName");
+
+        Mockito.verify(jdbcTemplate).queryForObject(Mockito.eq(sqlGetGuestOsId), Mockito.eq(Long.class), Mockito.eq("guesOsName"));
+        Assert.assertEquals(321l, result);
+    }
+
 }

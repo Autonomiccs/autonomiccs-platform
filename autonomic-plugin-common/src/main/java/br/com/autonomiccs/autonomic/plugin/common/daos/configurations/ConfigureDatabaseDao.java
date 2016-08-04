@@ -58,6 +58,11 @@ public class ConfigureDatabaseDao extends JdbcDaoSupport {
     private String sqlHasAutonomiccsSystemVmTable = "SHOW TABLES LIKE 'AutonomiccsSystemVm';";
     private String sqlCreateAutonomiccsSystemVmTable = "CREATE TABLE AutonomiccsSystemVm(id BIGINT(20) UNSIGNED, public_ip_address VARCHAR(40), management_ip_address VARCHAR(40));";
 
+    /**
+     * It configures the database, adding missing tables, columns, and rows, that are necessary for
+     * the execution of the Autonomiccs platform. Everytime that the Autonomiccs platform is
+     * started, it verifies the need of Database configurations.
+     */
     @Override
     protected void initDao() throws Exception {
         super.initDao();
@@ -82,97 +87,88 @@ public class ConfigureDatabaseDao extends JdbcDaoSupport {
     }
 
     /**
-     * TODO Documentation
-     *
-     * @return
+     * It returns true if there is the 'administration_status' column at the 'host' table
      */
-    private boolean hasHostConsolidationStatusColumn() {
+    protected boolean hasHostConsolidationStatusColumn() {
         return !getJdbcTemplate().queryForList(sqlHasHostAdministrationStatusColumn).isEmpty();
     }
 
     /**
-     * TODO Documentation
+     * It creates the 'administration_status' column at the 'host' table..
      */
-    private void createHostConsolidationStatusColumn() {
+    protected void createHostConsolidationStatusColumn() {
         getJdbcTemplate().execute(sqlCreateHostAdministrationStatusColumn);
     }
 
     /**
-     * TODO Documentation
-     *
-     * @return
+     * It returns true if there is a 'start_type' column at the 'host' table.
      */
-    private boolean hasHostStartTypeColumn() {
+    protected boolean hasHostStartTypeColumn() {
         return !getJdbcTemplate().queryForList(sqlHasHostStartTypeColumn).isEmpty();
     }
 
     /**
-     * TODO Documentation
+     * It creates the 'start_type' column at the 'host' table.
      */
-    private void createHostStartTypeColumn() {
+    protected void createHostStartTypeColumn() {
         getJdbcTemplate().execute(sqlCreateHostStartTypeColumn);
     }
 
     /**
-     * TODO Documentation
-     *
-     * @return
+     * It returns true if there is a column called 'administration_status' at the 'cluster' table.
      */
-    private boolean hasClusterConsolidationStatusColumn() {
+    protected boolean hasClusterConsolidationStatusColumn() {
         return !getJdbcTemplate().queryForList(sqlHasClusterAdministrationStatusColumn).isEmpty();
     }
 
     /**
-     * TODO Documentation
+     * It creates the 'administration_status' column at the 'cluster' table.
      */
-    private void createClusterConsolidationStatusColumn() {
+    protected void createClusterConsolidationStatusColumn() {
         getJdbcTemplate().execute(sqlCreateClusterAdministrationStatusColumn);
     }
 
     /**
-     * TODO Documentation
-     *
-     * @return
+     * It returns true if there is a 'last_administration' column at the 'cluster' table.
      */
-    private boolean hasClusterLastConsolidatedColumn() {
+    protected boolean hasClusterLastConsolidatedColumn() {
         return !getJdbcTemplate().queryForList(sqlHasClusterLastAdministrationColumn).isEmpty();
     }
 
     /**
-     * TODO Documentation
+     * It creates the 'last_administration' column at the 'cluster' table.
      */
-    private void createClusterLastConsolidatedColumn() {
+    protected void createClusterLastConsolidatedColumn() {
         getJdbcTemplate().execute(sqlCreateClusterLastAdministrationColumn);
     }
 
     /**
-     * TODO Documentation
-     *
-     * @return
+     * It returns true if it has a row with the 'autonomiccs.clustermanager.algorithm' at the table
+     * 'configuration'.
      */
-    private boolean hasClusterManagerAlgorithmsInConfiguration() {
+    protected boolean hasClusterManagerAlgorithmsInConfiguration() {
         return !getJdbcTemplate().queryForList(sqlHasClusterAdministrationAlgorithmsInConfiguration).isEmpty();
     }
 
     /**
-     * TODO
+     * It inserts a row with the Autonomiccs configuration ('autonomiccs.clustermanager.algorithm')
+     * at the table 'configuration'.
      */
-    private void insertClusterManagerAlgorithmsInConfiguration() {
+    protected void insertClusterManagerAlgorithmsInConfiguration() {
         getJdbcTemplate().execute(sqlInsertIntoConfigurationClusterAlgorithms);
     }
 
     /**
-     * TODO
-     * @return
+     * It returns true if there is a table called 'AutonomiccsSystemVm'.
      */
-    public boolean hasAutonomiccsSystemVmTable() {
+    protected boolean hasAutonomiccsSystemVmTable() {
         return !getJdbcTemplate().queryForList(sqlHasAutonomiccsSystemVmTable).isEmpty();
     }
 
     /**
-     * TODO
+     * It creates the table 'AutonomiccsSystemVm'.
      */
-    private void createAutonomiccsSystemVmTable() {
+    protected void createAutonomiccsSystemVmTable() {
         getJdbcTemplate().execute(sqlCreateAutonomiccsSystemVmTable);
     }
 

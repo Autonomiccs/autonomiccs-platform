@@ -35,19 +35,25 @@ import org.springframework.stereotype.Service;
 import br.com.autonomiccs.autonomic.administration.algorithms.ClusterAdministrationHeuristicAlgorithm;
 import br.com.autonomiccs.autonomic.administration.algorithms.impl.ClusterManagementDummyAlgorithm;
 
+/**
+ * This class manages the instantiation of cluster administration heuristics; those classes
+ * implement the interface {@link ClusterAdministrationHeuristicAlgorithm}.
+ */
 @Service("autonomicClusterManagementHeuristicService")
 public class AutonomicClusterManagementHeuristicService {
 
     public final static String CLUSTER_ADMINISTRATION_ALGORITHMS_IN_CONFIGURATION_KEY = "autonomiccs.clustermanager.algorithm";
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
-    private final Map<String, Class<? extends ClusterAdministrationHeuristicAlgorithm>> algorithmsMap = new HashMap<>();
+    protected final Map<String, Class<? extends ClusterAdministrationHeuristicAlgorithm>> algorithmsMap = new HashMap<>();
 
     @Autowired
-    private ConfigurationDao configurationDao;
+    protected ConfigurationDao configurationDao;
 
     /**
-     * TODO
+     * Returns the instance of the Administration algorithm configured by the system administrator;
+     * if it can not find the configured heuristic it returns the
+     * {@link ClusterManagementDummyAlgorithm}.
      */
     public ClusterAdministrationHeuristicAlgorithm getAdministrationAlgorithm() {
         String algorithmName = configurationDao.getValue(CLUSTER_ADMINISTRATION_ALGORITHMS_IN_CONFIGURATION_KEY);
@@ -57,7 +63,10 @@ public class AutonomicClusterManagementHeuristicService {
         return getInstanceOfClass(algorithmName);
     }
 
-    private ClusterAdministrationHeuristicAlgorithm getInstanceOfClass(String algorithmName) {
+    /**
+     * This method tries to instantiate a object with the given full qualified class name.
+     */
+    protected ClusterAdministrationHeuristicAlgorithm getInstanceOfClass(String algorithmName) {
         Class<? extends ClusterAdministrationHeuristicAlgorithm> clusterManagerHeuristicAlgorithmClass = algorithmsMap.get(algorithmName);
         if (clusterManagerHeuristicAlgorithmClass != null) {
             return getInstanceOfClass(clusterManagerHeuristicAlgorithmClass);
@@ -71,15 +80,24 @@ public class AutonomicClusterManagementHeuristicService {
         }
     }
 
+    /**
+     * It returns the algorithm class with the given class name; it also adds the class object into
+     * the map of algorithms ({@link AutonomicClusterManagementHeuristicService#algorithmsMap}).
+     */
     @SuppressWarnings("unchecked")
-    private Class<? extends ClusterAdministrationHeuristicAlgorithm> loadAlgorithmClass(String algorithmName) throws ClassNotFoundException {
+    protected Class<? extends ClusterAdministrationHeuristicAlgorithm> loadAlgorithmClass(String algorithmName) throws ClassNotFoundException {
         logger.info(String.format("Loading heuristics from algorithm [algorithm class name=%s]", algorithmName));
         Class<? extends ClusterAdministrationHeuristicAlgorithm> algorithmClass = (Class<? extends ClusterAdministrationHeuristicAlgorithm>)Class.forName(algorithmName.trim());
         algorithmsMap.put(algorithmName, algorithmClass);
         return algorithmClass;
     }
 
-    private ClusterAdministrationHeuristicAlgorithm getInstanceOfClass(Class<? extends ClusterAdministrationHeuristicAlgorithm> clusterManagerHeuristicAlgorithmClass) {
+    /**
+     * It creates an instance of the given algorithm class; if the instantiation throws an exception
+     * (InstantiationException or IllegalAccessException), it returns an instance of
+     * {@link ClusterManagementDummyAlgorithm}.
+     */
+    protected ClusterAdministrationHeuristicAlgorithm getInstanceOfClass(Class<? extends ClusterAdministrationHeuristicAlgorithm> clusterManagerHeuristicAlgorithmClass) {
         try {
             return clusterManagerHeuristicAlgorithmClass.newInstance();
         } catch (InstantiationException | IllegalAccessException e) {
@@ -88,7 +106,10 @@ public class AutonomicClusterManagementHeuristicService {
         }
     }
 
-    private ClusterAdministrationHeuristicAlgorithm getDummyClusterManagementHeuristc() {
+    /**
+     * It creates and returns one instance of the class {@link ClusterManagementDummyAlgorithm}.
+     */
+    protected ClusterAdministrationHeuristicAlgorithm getDummyClusterManagementHeuristc() {
         return getInstanceOfClass(ClusterManagementDummyAlgorithm.class);
     }
 }

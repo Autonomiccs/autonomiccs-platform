@@ -20,23 +20,40 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package br.com.autonomiccs.autonomic.plugin.common.enums;
+package br.com.autonomiccs.autonomic.plugin.common.services;
 
-/**
- * This enumeration has all of the Autonomiccs system virtual machines types.
- */
-public enum SystemVmType {
+import java.util.ArrayList;
+import java.util.List;
 
-    ClusterManagerAgent("CM-A"),
-    ClusterManagerStartHostService("CM-SHS");
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.Spy;
+import org.mockito.runners.MockitoJUnitRunner;
+import org.junit.Assert;
+import com.cloud.dc.DataCenterVO;
+import com.cloud.dc.dao.DataCenterDao;
 
-    private String namePrefix;
+@RunWith(MockitoJUnitRunner.class)
+public class ZoneServiceTest {
 
-    private SystemVmType(String namePrefix) {
-        this.namePrefix = namePrefix;
+    @Spy
+    @InjectMocks
+    private ZoneService spy;
+    @Mock
+    private DataCenterDao dataCenterDao;
+
+    @Test
+    public void listAllZonesEnabledTest() {
+        List<DataCenterVO> dataCenters = new ArrayList<>();
+        Mockito.doReturn(dataCenters).when(dataCenterDao).listEnabledZones();
+
+        List<DataCenterVO> result = spy.listAllZonesEnabled();
+
+        Mockito.verify(dataCenterDao).listEnabledZones();
+        Assert.assertEquals(dataCenters, result);
     }
 
-    public String getNamePrefix() {
-        return namePrefix;
-    }
 }

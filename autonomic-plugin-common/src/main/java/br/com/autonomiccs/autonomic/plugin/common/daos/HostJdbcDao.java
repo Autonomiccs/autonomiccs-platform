@@ -47,7 +47,13 @@ public class HostJdbcDao extends JdbcDaoSupport {
     private String sqlGetStartType = "SELECT start_type FROM host WHERE id=?;";
     private String sqlGetStatus = "SELECT status FROM host WHERE id=?;";
     private String sqlGetResourceState = "SELECT resource_state FROM host WHERE id=?;";
+    private String sqlSetAllHypervisorsTypeInCloud = "select hypervisor_type from host where removed is null and hypervisor_type is not null group by hypervisor_type";
+    private String sqlCheckIsThereAnyHostOnCloudDeactivatedByOurManager = "select id from host where removed is null and administration_status = 'ShutDownToConsolidate'";
+    private String sqlCheckIsThereAnyHostOnPodDeactivatedByOurManager = "select id from host where removed is null and administration_status = 'ShutDownToConsolidate' and pod_id = ?";
 
+    /**
+     * Selects the 'administration_status' column from the table 'host'
+     */
     public HostAdministrationStatus getAdministrationStatus(long hostId) {
         String hostAdministrationStatusAsAtring = getJdbcTemplate().queryForObject(sqlGetAdministrationStatus, String.class, hostId);
         if (StringUtils.isBlank(hostAdministrationStatusAsAtring)) {
@@ -85,8 +91,6 @@ public class HostJdbcDao extends JdbcDaoSupport {
         return ResourceState.valueOf(getJdbcTemplate().queryForObject(sqlGetResourceState, String.class, hostId));
     }
 
-    private String sqlSetAllHypervisorsTypeInCloud = "select hypervisor_type from host where removed is null and hypervisor_type is not null group by hypervisor_type";
-
     /**
      * It loads all of the hypervisors types in use in the whole cloud environment
      */
@@ -99,13 +103,19 @@ public class HostJdbcDao extends JdbcDaoSupport {
         return hypervisorTypes;
     }
 
-    private String sqlCheckIsThereAnyHostOnCloudDeactivatedByOurManager = "select id from host where removed is null and administration_status = 'ShutDownToConsolidate'";
+    /**
+     * It looks for deactivated hosts in the cloud; if there is at least one host deactivated by the
+     * Autonomiccs platform it returns true.
+     */
     public boolean isThereAnyHostOnCloudDeactivatedByOurManager() {
         List<Long> hostsIds = getJdbcTemplate().queryForList(sqlCheckIsThereAnyHostOnCloudDeactivatedByOurManager, Long.class);
         return CollectionUtils.isNotEmpty(hostsIds);
     }
 
-    private String sqlCheckIsThereAnyHostOnPodDeactivatedByOurManager = "select id from host where removed is null and administration_status = 'ShutDownToConsolidate' and pod_id = ?";
+    /**
+     * It searches for deactivated hosts in the pod with the given id; if it finds at least one host
+     * that was deactivated by the Autonomiccs platform it returns true.
+     */
     public boolean isThereAnyHostOnPodDeactivatedByOurManager(long id) {
         List<Long> hostsIds = getJdbcTemplate().queryForList(sqlCheckIsThereAnyHostOnPodDeactivatedByOurManager, Long.class, id);
         return CollectionUtils.isNotEmpty(hostsIds);

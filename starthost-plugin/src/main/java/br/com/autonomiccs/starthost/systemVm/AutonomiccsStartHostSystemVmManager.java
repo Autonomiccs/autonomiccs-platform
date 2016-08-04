@@ -199,7 +199,7 @@ public class AutonomiccsStartHostSystemVmManager implements InitializingBean {
         }
         HostVO hostToDeployVm = autonomiccsSystemVmDeploymentService.searchForRandomHostInPodToDeployAutonomiccsSystemVm(pod);
         if (hostToDeployVm != null) {
-            AutonomiccsSystemVm vmInstace = autonomiccsSystemVmDeploymentService.deploySystemVmWithJAVA(hostToDeployVm.getId(), SystemVmType.ClusterManagerStartHostService);
+            AutonomiccsSystemVm vmInstace = autonomiccsSystemVmDeploymentService.deploySystemVmWithJava(hostToDeployVm.getId(), SystemVmType.ClusterManagerStartHostService);
             String vmIp = vmInstace.getManagementIpAddress();
             uploadFilesFromClassPathToVM(vmIp);
             configureStartUpServiceOnVM(vmIp);

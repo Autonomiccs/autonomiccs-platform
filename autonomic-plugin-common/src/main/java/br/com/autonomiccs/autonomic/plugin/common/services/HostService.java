@@ -57,9 +57,6 @@ public class HostService {
 
     /**
      * Returns true if the host (with the given id) is 'Up' and 'Enabled'
-     *
-     * @param hostId
-     * @return
      */
     public boolean isHostUpAndEnabled(long hostId) {
         return Status.Up.equals(hostDaoJdbc.getStatus(hostId)) && ResourceState.Enabled.equals(hostDaoJdbc.getResourceState(hostId));
@@ -68,30 +65,22 @@ public class HostService {
     /**
      * Returns true if the host (with the given id) is in the Maintenance Error
      * state ({@link ResourceState#ErrorInMaintenance}).
-     *
-     * @param hostId
-     * @return
      */
     public boolean isHostInMaintenanceError(long hostId) {
-        return hostDaoJdbc.getResourceState(hostId) == ResourceState.ErrorInMaintenance;
+        return ResourceState.ErrorInMaintenance.equals(hostDaoJdbc.getResourceState(hostId));
     }
 
     /**
      * Returns true if the host (with the given id) is preparing for maintenance
      * state (({@link ResourceState#PrepareForMaintenance}).
-     *
-     * @param hostId
-     * @return
      */
     public boolean isHostInPreparedForMaintenance(long hostId) {
-        return hostDaoJdbc.getResourceState(hostId) == ResourceState.PrepareForMaintenance;
+        return ResourceState.PrepareForMaintenance.equals(hostDaoJdbc.getResourceState(hostId));
     }
 
     /**
      * Marks the host as shutdown to consolidated (
      * {@link HostAdministrationStatus#ShutDownToConsolidate}).
-     *
-     * @param id
      */
     @Transactional(readOnly = false)
     public void markHostAsShutdownByAdministrationAgent(long id) {
@@ -103,8 +92,7 @@ public class HostService {
      * that might need the host informations, such as host ip, username,
      * password or guest uuid; thus this method is the first method to be
      * executed in {@link #getConnection(HostVO)}, getConnection is the first
-     * method executed by {@link #shutdownHost(HostVO)}. TODO
-     * @param host
+     * method executed by {@link #shutdownHost(HostVO)}.
      */
     public void loadHostDetails(HostVO host) {
         hostDao.loadDetails(host);
@@ -120,33 +108,48 @@ public class HostService {
 
     /**
      * Searches a host with the given id
-     *
-     * @param hostId
      * @return {@link HostVO} that represents a host with the given id.
      */
     public HostVO findHostById(Long hostId) {
         return hostDao.findById(hostId);
     }
 
+    /**
+     * It returns a list of {@link HostVO} containing all hosts in the given {@link Cluster}.
+     */
     public List<HostVO> listAllHostsInCluster(Cluster cluster) {
         return hostDao.listAllUpAndEnabledNonHAHosts(Type.Routing, cluster.getId(), cluster.getPodId(), cluster.getDataCenterId(), null);
     }
 
+    /**
+     * It returns a list of {@link VMInstanceVO} containing all VMs of the host with the given id.
+     */
     public List<VMInstanceVO> listAllVmsFromHost(long hostId) {
         return vmInstanceDao.listByHostId(hostId);
     }
 
+    /**
+     * It updates the host private mac address.
+     */
     @Transactional(readOnly = false)
     public void updateHostPrivaceMacAddress(HostVO hostVo, String privateMacAddress) {
         hostVo.setPrivateMacAddress(privateMacAddress);
         hostDao.update(hostVo.getId(), hostVo);
     }
 
+    /**
+     * It returns true if the host administration status is not Up (
+     * {@link HostAdministrationStatus#Up}).
+     */
     public boolean isHostDown(long id) {
         HostAdministrationStatus hostConsolidationStatus = hostDaoJdbc.getAdministrationStatus(id);
         return hostConsolidationStatus != null && !HostAdministrationStatus.Up.equals(hostConsolidationStatus);
     }
 
+    /**
+     * It returns true if there is at least one host deactivated by the Autonomiccs platform in the
+     * whole environment.
+     */
     public boolean isThereAnyHostOnCloudDeactivatedByOurManager() {
         return hostDaoJdbc.isThereAnyHostOnCloudDeactivatedByOurManager();
     }

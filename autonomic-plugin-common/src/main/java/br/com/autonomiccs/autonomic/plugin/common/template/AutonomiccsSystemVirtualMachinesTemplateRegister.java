@@ -48,13 +48,14 @@ import br.com.autonomiccs.autonomic.plugin.common.services.HostService;
 import br.com.autonomiccs.autonomic.plugin.common.utils.ReflectionUtils;
 
 /**
- * This class is intended to manage the register of Autonomiccs' SystemVMs templates.
- * The template (or future updates to it) will be registered at boot time using the normal flow of ACS template register.
- * Additionally, this class will monitor the addition of clusters of new hypervisors and download new templates if needed.
- **/
+ * This class is intended to manage the register of Autonomiccs' System VMs templates. The template
+ * (or future updates to it) will be registered at boot time using the normal flow of ACS template
+ * register. Additionally, this class will monitor the addition of clusters of new hypervisors and
+ * download new templates if needed.
+ */
 @Component
 public class AutonomiccsSystemVirtualMachinesTemplateRegister implements InitializingBean {
-    private final Logger logger = LoggerFactory.getLogger(getClass());
+    protected Logger logger = LoggerFactory.getLogger(getClass());
 
     private static final long ONE_MINUTE_IN_MILLISECONDS = 60000;
     private static final int NUMBER_OF_MINUTES_BETWEEN_REGISTRATION_OF_TEMPLATES = 10;
@@ -93,23 +94,24 @@ public class AutonomiccsSystemVirtualMachinesTemplateRegister implements Initial
     private String guestOsName = "Debian GNU/Linux 7(64-bit)";
 
     /**
-     * This method constantly checks if there is the need to download a Autonomiccs system template for the current hypervisors of the environment.
-     * The initial delay is configure for 1 minute after the application startup.
-     * The interval between the execution of the {@link #registerTemplatesIfNeeded()}, that time is controlled by {@link #NUMBER_OF_MINUTES_BETWEEN_REGISTRATION_OF_TEMPLATES}
+     * This method constantly checks if there is the need to download an Autonomiccs system template
+     * for current hypervisors of the environment. The initial delay is configure for 1 minute after
+     * the application startup. The interval between the execution of the
+     * {@link #registerTemplatesIfNeeded()}, that time is controlled by
+     * {@link #NUMBER_OF_MINUTES_BETWEEN_REGISTRATION_OF_TEMPLATES}
      */
     @Scheduled(initialDelay = ONE_MINUTE_IN_MILLISECONDS, fixedDelay = ONE_MINUTE_IN_MILLISECONDS * NUMBER_OF_MINUTES_BETWEEN_REGISTRATION_OF_TEMPLATES)
     public void registerTemplatesIfNeeded() {
-        if (!autonomicManagementHeuristicService.getAdministrationAlgorithm().canHeuristicShutdownHosts() && !hostService.isThereAnyHostOnCloudDeactivatedByOurManager()) {
-            return;
-        }
-        List<HypervisorType> allHypervisorsTypeInCloud = hostService.getAllHypervisorsTypeInCloud();
-        for (HypervisorType hypervisorType : allHypervisorsTypeInCloud) {
-            if (!autonomiccsSystemVmTemplateService.isTemplateRegisteredForHypervisor(hypervisorType)) {
-                RegisterTemplateCmd templateCommandForHypervisor = createRegisterTemplateCommandForHypervisor(hypervisorType);
-                try {
-                    templateService.registerTemplate(templateCommandForHypervisor);
-                } catch (Exception e) {
-                    logger.error("Error while registering a Autonomiccs system vm. ", e);
+        if (autonomicManagementHeuristicService.getAdministrationAlgorithm().canHeuristicShutdownHosts() || hostService.isThereAnyHostOnCloudDeactivatedByOurManager()) {
+            List<HypervisorType> allHypervisorsTypeInCloud = hostService.getAllHypervisorsTypeInCloud();
+            for (HypervisorType hypervisorType : allHypervisorsTypeInCloud) {
+                if (!autonomiccsSystemVmTemplateService.isTemplateRegisteredForHypervisor(hypervisorType)) {
+                    RegisterTemplateCmd templateCommandForHypervisor = createRegisterTemplateCommandForHypervisor(hypervisorType);
+                    try {
+                        templateService.registerTemplate(templateCommandForHypervisor);
+                    } catch (Exception e) {
+                        logger.error("Error while registering a Autonomiccs system vm. ", e);
+                    }
                 }
             }
         }
@@ -120,7 +122,7 @@ public class AutonomiccsSystemVirtualMachinesTemplateRegister implements Initial
      * It will always register the template for all available zones, setting the {@link RegisterTemplateCmd#getZoneId()} attribute to {@link #allAvailableZoneMagicNumber}.
      * @return {@link RegisterTemplateCmd} to be used to register Autonomiccs system VMs template
      */
-    private RegisterTemplateCmd createRegisterTemplateCommandForHypervisor(HypervisorType hypervisor) {
+    protected RegisterTemplateCmd createRegisterTemplateCommandForHypervisor(HypervisorType hypervisor) {
         RegisterTemplateCmd registerTemplateCmd = new RegisterTemplateCmd();
         reflectionUtils.setFieldIntoObject(registerTemplateCmd, "displayText", autonomiccsSystemVmTemplateService.getAutonomiccsSystemVmTemplateDisplayText(hypervisor));
         reflectionUtils.setFieldIntoObject(registerTemplateCmd, "format", getSupportedImageFormat(hypervisor));
@@ -140,7 +142,11 @@ public class AutonomiccsSystemVirtualMachinesTemplateRegister implements Initial
 
     }
 
-    private Map<Object, Object> createTemplateDetails() {
+    /**
+     * This method creates the template details for XenServer hypervisors. The template has to add a
+     * property called "hypervisortoolsversion" with the value "xenserver56".
+     */
+    protected Map<Object, Object> createTemplateDetails() {
         Map<Object, Object> details = new HashMap<>();
         Map<Object, Object> innerMap = new HashMap<>();
         innerMap.put("hypervisortoolsversion", "xenserver56");
@@ -154,7 +160,7 @@ public class AutonomiccsSystemVirtualMachinesTemplateRegister implements Initial
      *
      * @return Supported Image Format
      */
-    private String getSupportedImageFormat(HypervisorType hypervisor) {
+    protected String getSupportedImageFormat(HypervisorType hypervisor) {
         ImageFormat supportedImageFormat = Hypervisor.HypervisorType.getSupportedImageFormat(hypervisor);
         if (supportedImageFormat != null) {
             return supportedImageFormat.name();
@@ -162,6 +168,9 @@ public class AutonomiccsSystemVirtualMachinesTemplateRegister implements Initial
         throw new CloudRuntimeException(String.format("Could not find a supported image format for hypervisor [%s]", hypervisor));
     }
 
+    /**
+     * This method is currently only used to log when the template register is initialized
+     */
     @Override
     public void afterPropertiesSet() throws Exception {
         logger.info("Autonomiccs system VMs templates register initialized.");
