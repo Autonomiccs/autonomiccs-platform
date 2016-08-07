@@ -1,5 +1,19 @@
 # Change Log
 
+## [1.0.2](https://github.com/Autonomiccs/autonomiccs-platform/tree/1.0.2) (2016-08-07)
+[Full Changelog](https://github.com/Autonomiccs/autonomiccs-platform/compare/1.0.1...1.0.2)
+
+**Merged pull requests:**
+
+- Fix the builds URL at the releaseNewVersion email template [\#30](https://github.com/Autonomiccs/autonomiccs-platform/pull/30) ([rafaelweingartner](https://github.com/rafaelweingartner))
+- Addition of Sonar project quality badges [\#29](https://github.com/Autonomiccs/autonomiccs-platform/pull/29) ([rafaelweingartner](https://github.com/rafaelweingartner))
+- Change ystemVms TemplateUrlBase and small fix on jenkins badge URL [\#28](https://github.com/Autonomiccs/autonomiccs-platform/pull/28) ([rafaelweingartner](https://github.com/rafaelweingartner))
+- Tests and documentation improvements at the autonomic-plugin-common project [\#27](https://github.com/Autonomiccs/autonomiccs-platform/pull/27) ([GabrielBrascher](https://github.com/GabrielBrascher))
+- Addition of methods to search for random hosts to deploy system VMs [\#24](https://github.com/Autonomiccs/autonomiccs-platform/pull/24) ([rafaelweingartner](https://github.com/rafaelweingartner))
+- Changed the way Autonomiccs load it's system VM's jar files. [\#23](https://github.com/Autonomiccs/autonomiccs-platform/pull/23) ([alexandrelimassantana](https://github.com/alexandrelimassantana))
+- improved READEME.md description [\#22](https://github.com/Autonomiccs/autonomiccs-platform/pull/22) ([rafaelweingartner](https://github.com/rafaelweingartner))
+- change latest stable version on README [\#21](https://github.com/Autonomiccs/autonomiccs-platform/pull/21) ([rafaelweingartner](https://github.com/rafaelweingartner))
+
 ## [1.0.1](https://github.com/Autonomiccs/autonomiccs-platform/tree/1.0.1) (2016-05-27)
 [Full Changelog](https://github.com/Autonomiccs/autonomiccs-platform/compare/1.0.0...1.0.1)
 
