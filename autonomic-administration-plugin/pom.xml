@@ -27,10 +27,10 @@
 	<parent>
 		<groupId>br.com.autonomiccs</groupId>
 		<artifactId>autonomic-platform</artifactId>
-		<version>1.0.2</version>
+		<version>1.0.3-SNAPSHOT</version>
 	</parent>
 	<artifactId>autonomic-administration-plugin</artifactId>
-	<version>1.0.2</version>
+	<version>1.0.3-SNAPSHOT</version>
 
 	<name>autonomic-administration-plugin</name>
 	<description>This project contains the agents that are responsible for the management phase of the Autonomiccs cloud computing management platform.</description>

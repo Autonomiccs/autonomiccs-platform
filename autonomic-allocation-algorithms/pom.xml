@@ -26,10 +26,10 @@
 	<parent>
 		<groupId>br.com.autonomiccs</groupId>
 		<artifactId>autonomic-platform</artifactId>
-		<version>1.0.2</version>
+		<version>1.0.3-SNAPSHOT</version>
 	</parent>
 	<artifactId>autonomic-allocation-algorithms</artifactId>
-	<version>1.0.2</version>
+	<version>1.0.3-SNAPSHOT</version>
 
 	<name>autonomic-allocation-algorithms</name>
 	<description>This project contains the allocation algorithms interface and a set of basic allocation algorithms that can be used with the Autonomiccs cloud computing management platform.</description>
