@@ -38,7 +38,6 @@ import org.powermock.api.mockito.PowerMockito;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import br.com.autonomiccs.autonomic.administration.algorithms.impl.ClusterManagementDummyAlgorithm;
-import br.com.autonomiccs.autonomic.administration.algorithms.impl.VmsDispersionAlgorithmForHomogeneousEnvironment;
 import br.com.autonomiccs.autonomic.plugin.common.services.AutonomicClusterManagementHeuristicService;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -60,7 +59,7 @@ public class ConfigureDatabaseDaoTest {
     private String sqlInsertIntoConfigurationClusterAlgorithms = String.format(
             "INSERT INTO configuration (category,instance,component,name,value,description,default_value,updated,scope,is_dynamic) VALUES ('Advanced','DEFAULT','autonomicClusterManager','%s','%s','Full qualified heuristic class name to be used to guide the agent during the cluster management process.','%s',null,null,0);",
             AutonomicClusterManagementHeuristicService.CLUSTER_ADMINISTRATION_ALGORITHMS_IN_CONFIGURATION_KEY,
-            VmsDispersionAlgorithmForHomogeneousEnvironment.class.getCanonicalName(), ClusterManagementDummyAlgorithm.class.getCanonicalName());
+            ClusterManagementDummyAlgorithm.class.getCanonicalName(), ClusterManagementDummyAlgorithm.class.getCanonicalName());
     private String sqlHasAutonomiccsSystemVmTable = "SHOW TABLES LIKE 'AutonomiccsSystemVm';";
     private String sqlCreateAutonomiccsSystemVmTable = "CREATE TABLE AutonomiccsSystemVm(id BIGINT(20) UNSIGNED, public_ip_address VARCHAR(40), management_ip_address VARCHAR(40));";
 
