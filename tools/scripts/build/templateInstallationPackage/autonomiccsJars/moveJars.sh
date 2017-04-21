@@ -30,17 +30,12 @@ cp autonomiccsJars/dependencies/*.jar /usr/share/cloudstack-management/webapps/c
 # Creation of a folder to hold the jar files that needs to get transfered to VMs.
 baseAutonomiccsJarFolder="/var/lib/autonomiccs/jars/";
 
-jadeAgentsFolder="${baseAutonomiccsJarFolder}jade/";
 wakeOnLanFolder="${baseAutonomiccsJarFolder}wakeonlan/";
 
 wakeOnLanFileName="wakeonlan-service";
-jadeAgentsFileName="jade-plataform-agents";
 
-jadeAgentsRegex="autonomiccsJars/$jadeAgentsFileName-*.jar";
 wakeOnLanRegex="autonomiccsJars/$wakeOnLanFileName-*.jar"; 
 
-mkdir -p $jadeAgentsFolder;
 mkdir -p $wakeOnLanFolder;
 
 cp $wakeOnLanRegex "$wakeOnLanFolder$wakeOnLanNewFileName.jar";
-cp $jadeAgentsRegex "$jadeAgentsFolder$jadeAgentsNewFileName.jar";
