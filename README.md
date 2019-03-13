@@ -1,7 +1,6 @@
 [![Autonomiccs Platform](tools/project-logo/autonomiccs.png)](http://autonomiccs.com.br)
 
-### Project status: [![Build Status](http://jenkinsbadge.autonomiccs.com.br/buildStatus/icon?job=Autonomiccs-platform)](http://jenkins.autonomiccs.com.br/job/Autonomiccs-platform/)
- 
+
 The <a href="http://autonomiccs.com.br">Autonomiccs platform</a> is an open source distributed virtual machine scheduler (A.K.A distributed resource scheduling); developed as a plugin to <a href="https://github.com/apache/cloudstack">Apache CloudStack</a>, Autonomiccs platform is capable of managing and optimizing an IaaS cloud computing environment autonomously.
 
 The plugin works with CloudStack 4.6 and beyond, and was designed to have a smooth installation and upgrade process. Currently, all algorithms that do not shut down idle hosts are working with every type of hypervisor supported by CloudStack; whereas, the consolidation algorithms are available only for XenServer and XCP (it is a matter of time and resources to implement our platform for all hypervisors supported by ACS).
